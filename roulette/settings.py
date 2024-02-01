@@ -32,7 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '8000-simasjakube-movieroulet-29rihd0wtq5.ws-eu107.gitpod.io',
-    'movie-roulette@herokuapp.com'
+    'movie-roulette-828048507284.herokuapp.com'
 ]
 
 
