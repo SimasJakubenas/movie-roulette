@@ -381,3 +381,39 @@ Can be accessed by pressing on a movie in all pages that display movie posters.
 ![Wireframes for a Watch Now Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/d04f89b1-867e-4b29-95de-891260d81253)
 
 </details>
+
+## The Surface Plane
+
+### Typography
+
+As there's a lot of imagery on the site my main criteria for the fonts were: simplicity and readability. I've chosen sans serif fonts named bellow.
+
+#### Headings
+
+For headings accross the website **Be Vietnam Pro** was selected. I feel it stands out well amongs all the imagery that's present on the site and is clear to read.
+
+(Insert Image)
+
+#### Other Text
+
+For any other text **Montserrat** font was selected. This font gives great seperation between headings and regular text with thinner letter without sacrificing readibility for the user.
+
+(Insert Image)
+
+### Colour Scheme
+
+It's a no brainer to go for a dark theme when building a website of similar nature as is an industry standart and it sets the tone for a 'movie night'. The colour scheme for this website consists of range of different shades of gray and 2 highlight colours.
+
+![Colour scheme for the website](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/10a17331-c1ce-4923-ad4a-0fe067fac5dc)
+
+Background colours:
+* dark-grey (54,54,54) user for background on all pages
+* darker-gray (44, 42, 42, 0.94) user for overlay background
+* highlight-blue (108, 229, 232, 0.1) user to highlight content background
+* highlight-blue (108, 229, 232) used to highlight most button backgrounds
+* highlight-red (232, 115, 108) used to highlight background of buttons with significant inpack on user experience
+
+Text colours:
+* off-white (250, 250, 250) for most text
+* off-white (250, 250, 250, 0.85) for unselected menu items
+* highlight-blue (108, 229, 232) user to highlight selected main menu item
