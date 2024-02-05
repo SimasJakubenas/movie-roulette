@@ -234,3 +234,150 @@ the following ERD depicts relationships between database tables.
 </details>
 
 ### Database Models
+
+## The Skeleton Plane
+
+The following wireframes demonstrate the intended design for the website for both mobile and desktop.
+
+The website is split into two sections:
+* Pre-authenticated User Experience (part of the website that can be accessed without logging in)
+* Authenticated User Experience (unique to each user and can only be accessed by logging in)
+
+### Pre-authenticated User Experience
+
+This section consist of 4 pages and one modal each sharing the same header, footer and background.
+
+<details>
+<summary>
+Landing Page
+</summary>
+
+Accessed by visiting main URL and pressing on the website logo in the top left corner.
+
+![Wireframes for a Landing Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/9897a46e-4be4-4452-9907-3814f394a428)
+
+</details>
+
+<details>
+<summary>
+Sign In Page
+</summary>
+
+Accessed through menu on a button on the landing page.
+
+![Wireframes for a Sign In Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/ebcf2ade-1449-42c7-8480-bc2c575465a8)
+
+</details>
+
+<details>
+<summary>
+Sign Up Page
+</summary>
+
+Accessed through menu.
+
+![Wireframes for a Sign Up Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/583514a9-d674-47d6-ad86-07b55e05a0d3)
+
+<details>
+<summary>
+Contact Page
+</summary>
+
+Accessed through menu on a link in the sign in page.
+
+![Wireframes for a Contact Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/924688b5-c18f-4dfb-bf73-60150f44dee8)
+
+</details>
+
+### Authenticated User Experience
+
+This section consists of 7 pages and 2 overlays each sharing the same header, footer and background.
+
+<details>
+<summary>
+Movies Page
+</summary>
+
+Is navigated to once signed in. Can be accessed via the menu.
+
+![Wireframes for a Movies Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/3165de47-1b94-488e-95eb-50f2a0739633)
+
+</details>
+
+<details>
+<summary>
+TV Shows Page
+</summary>
+
+Can be accessed via the menu.
+
+![Wireframes for a TV Shows Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/80054b40-ea57-4a23-9d7b-91f78294d903)
+</details>
+
+<details>
+<summary>
+Roulette Page
+</summary>
+
+Can be accessed via the menu.
+
+![Wireframes for a Roulette Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/eb63da99-8621-4a38-8606-9753c4ff3789)
+
+</details>
+
+</details>
+
+<details>
+<summary>
+My Lists Page
+</summary>
+
+Can be accessed via the menu.
+
+![Wireframes for a My Lists Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/0b06a80d-4540-4912-bd82-3d7a71136810)
+
+</details>
+
+<details>
+<summary>
+About Page
+</summary>
+
+Can be accessed via the menu.
+
+![Wireframes for a About Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/60ce2732-6328-4200-aaf1-98cd7d0a163d)
+
+</details>
+
+<details>
+<summary>
+Search Page
+</summary>
+
+Can be accessed via the menu.
+
+![Wireframes for a Search Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/d18a782a-6080-430a-b23c-791add117ba4)
+
+</details>
+
+<details>
+<summary>
+Profile Page
+</summary>
+
+Can be accessed via the menu for mobile or a link in the right top corner for desktop.
+
+![Wireframes for a Profile Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/9171fd9e-60f8-40c1-93c5-8efac5dc0731)
+
+</details>
+
+<details>
+<summary>
+Watch Now Page
+</summary>
+
+Can be accessed by pressing on a movie in all pages that display movie posters.
+
+![Wireframes for a Watch Now Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/d04f89b1-867e-4b29-95de-891260d81253)
+
+</details>
