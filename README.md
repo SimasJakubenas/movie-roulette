@@ -199,3 +199,38 @@ As a **signed in user** I can **delete profile** so that I can **stop using this
 As the **site admin** I can **delete accounts** so that I can **remove users if a need for it arises**.
 
 </details>
+
+## The Structure Plane
+
+the following diagrams depicts the information flow of the website.
+
+<details>
+<summary>
+FlowChart
+</summary>
+
+![FlowChart for websites information flow](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/a1c245d8-8dfa-470c-ac10-a3053987843b)
+
+</details>
+
+<details>
+<summary>
+FlowChart Keys
+</summary>
+
+![flowchart keys](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/7aba63e5-01f0-4670-b514-8b192e8878a3)
+
+</details>
+
+<details>
+<summary>
+FlowChart
+</summary>
+
+the following ERD depicts relationships between database tables.
+
+![ERD diagram](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/3018a969-6cbe-483b-a4d8-3aadb779beaa)
+
+</details>
+
+### Database Models
