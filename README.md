@@ -229,7 +229,7 @@ FlowChart
 
 the following ERD depicts relationships between database tables.
 
-![ERD diagram](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/3018a969-6cbe-483b-a4d8-3aadb779beaa)
+![ERD diagram](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/3973a2a4-8da2-4852-af4f-546b28bbdd21)
 
 </details>
 
