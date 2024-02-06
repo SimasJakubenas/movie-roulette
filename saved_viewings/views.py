@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views import generic
+from .models import MovieOrShow
 
 # Create your views here.
-
-def viewings(request):
-    return HttpResponse("Hello, Blog!")
+class TitleList(generic.ListView):
+    queryset = MovieOrShow.objects.all()
+    
