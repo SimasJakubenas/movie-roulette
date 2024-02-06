@@ -1,0 +1,7 @@
+.carousel {
+    perspective: 500px;
+}
+
+.carousel .carousel-item {
+    width: 150px;
+}

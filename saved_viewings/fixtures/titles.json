@@ -1,0 +1,17 @@
+[
+    {
+        "model": "saved_viewings.movieOrShow",
+        "pk": null,
+        "fields": {
+            "title_id": 123,
+            "title": "Mask",
+            "description": "One uppon a time",
+            "tmdb_rating": 8.3,
+            "type": 0,
+            "age_limit": "pg-13",
+            "poster_link": "https://media.movieofthenight.com/services/netflix/logo-light-theme.svg",
+            "backdrop_link": "https://media.movieofthenight.com/services/netflix/logo-light-theme.svg",
+            "user_id": 1
+        }
+    }
+]
