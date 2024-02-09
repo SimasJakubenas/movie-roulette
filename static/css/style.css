@@ -65,6 +65,29 @@ select {
     border: none;
 }
 
+/* Button style */
+
+button.btn {
+    border-radius: 0.5em;
+    box-shadow: 0 0 10px 5px #000000;
+    box-shadow: 0 0 10px 5px #000000 inset;
+    color: #000000;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+}
+
+.btn-red {
+    background-color: var(--highlight-red);
+}
+
+.btn-blue {
+    background-color: rgba(108, 229, 232, 0.7);
+}
+
+.btn-blue-bright {
+    background-color: rgba(108, 229, 232, 1);
+}
+
 .carousel {
     perspective: 500px;
     height: 300px;
