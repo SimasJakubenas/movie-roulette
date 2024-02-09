@@ -31,6 +31,14 @@ body {
     background-color: var(--darker-grey);
 }
 
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
 .header-padding {
     padding: 3vh 2vw;
     margin: 0;
@@ -91,8 +99,10 @@ button.btn {
 .carousel {
     perspective: 500px;
     height: 300px;
+    max-width: 620px !important;
 }
 
 .carousel .carousel-item {
     width: 150px;
+    opacity: 1 !important;
 }

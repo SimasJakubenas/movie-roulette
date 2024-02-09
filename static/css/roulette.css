@@ -1,0 +1,239 @@
+/* Roulette background image */
+
+.roulette-image {
+    color: rgba(0, 0, 0, 0.5);
+    height: 200px;
+    background-color: var(--darker-grey);
+    width: 80%;
+    border-radius: 60%;
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    z-index: -1;
+    box-shadow:
+        0 0 55px,
+        0 -22px inset,
+        0 -34px 10px inset,
+        0 55px 10px 10px;
+}
+
+.roulette-image-over {
+    background-color: var(--off-white);
+    height: 170px;
+    border-radius: 60%;
+    width: 90%;
+    margin: 1% 5% 0;
+    border: 0.5em solid rgba(0, 0, 0, 0.5);
+    border-top: 0.25em solid rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 44px 55px inset,
+        0 -22px 35px inset,
+        0 -12px 25px inset,
+        0 22px 22px;
+}
+
+.roulette-image-big-hole1,
+.roulette-image-big-hole2,
+.roulette-image-big-hole3,
+.roulette-image-big-hole4,
+.roulette-image-big-hole5 {
+    background-color: #000000;
+    border-radius: 60%;
+    overflow: hidden;
+}
+
+.roulette-image-big-hole1 {
+    height: 30%;
+    width: 32%;
+    left: 34%;
+    top: 60%;
+}
+
+.roulette-image-big-hole1-shadow,
+.roulette-image-big-hole2-shadow,
+.roulette-image-big-hole3-shadow,
+.roulette-image-big-hole4-shadow,
+.roulette-image-big-hole5-shadow {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 60%;
+    border: 0.15em solid rgba(0, 0, 0, 0.3)
+}
+
+.roulette-image-big-hole1-shadow {
+    height: 37%;
+    width: 34%;
+    left: 33%;
+    top: 53%;
+}
+
+.roulette-image-big-hole2,
+.roulette-image-big-hole3 {
+    height: 26%;
+    width: 28%;
+    top: 38%;
+}
+
+.roulette-image-big-hole2 {
+    right: 7%;
+}
+
+.roulette-image-big-hole2-shadow,
+.roulette-image-big-hole3-shadow {
+    height: 28%;
+    width: 30%;
+    top: 34%;
+}
+
+.roulette-image-big-hole2-shadow {
+    left: 6%;
+}
+
+.roulette-image-big-hole3-shadow {
+    right: 6%;
+    top: 34%;
+}
+
+.roulette-image-big-hole3 {
+    left: 7%;
+}
+
+
+
+.roulette-image-big-hole4,
+.roulette-image-big-hole5 {
+    height: 17%;
+    width: 20%;
+    top: 10%;
+}
+
+.roulette-image-big-hole4 {
+    left: 24%;
+}
+
+.roulette-image-big-hole4-shadow,
+.roulette-image-big-hole5-shadow {
+    height: 20%;
+    width: 22%;
+    top: 7%;
+}
+
+.roulette-image-big-hole4-shadow {
+    left: 23%;
+}
+
+.roulette-image-big-hole5-shadow {
+    right: 23%;
+}
+
+.roulette-image-big-hole5 {
+    right: 24%;
+}
+
+.roulette-image-big-hole1-background,
+.roulette-image-big-hole2-background,
+.roulette-image-big-hole3-background,
+.roulette-image-big-hole4-background,
+.roulette-image-big-hole5-background {
+    background-color: #2c2a2a;
+    border-radius: 60%;
+}
+
+.roulette-image-big-hole1-background {
+    width: 200%;
+    height: 210%;
+    bottom: 135%;
+    right: 50%;
+}
+
+.roulette-image-big-hole2-background,
+.roulette-image-big-hole3-background {
+    width: 230%;
+    height: 236%;
+    bottom: 69%;
+}
+
+.roulette-image-big-hole2-background {
+    right: 168%;
+}
+
+.roulette-image-big-hole3-background {
+    left: 39%;
+}
+
+.roulette-image-big-hole4-background,
+.roulette-image-big-hole5-background {
+    width: 322%;
+    height: 332%;
+    top: 57%;
+}
+
+.roulette-image-big-hole4-background {
+    left: -30%;
+}
+
+.roulette-image-big-hole5-background {
+    right: -33%;
+}
+
+.roulette-image-big-hole1-shadow::after,
+.roulette-image-big-hole2-shadow::after,
+.roulette-image-big-hole3-shadow::after,
+.roulette-image-big-hole4-shadow::after,
+.roulette-image-big-hole5-shadow::after {
+    content: "";
+    display: block;
+    position: relative;
+    background-color: var(--darker-grey);
+    border-radius: 60%;
+}
+
+.roulette-image-big-hole1-shadow::after {
+    bottom: 66%;
+    left: 34%;
+    width: 33%;
+    height: 35%;
+    background-color: #000000;
+}
+
+.roulette-image-big-hole1-shadow::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 137%;
+    left: 33%;
+    width: 35%;
+    height: 40%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 60%;
+    border: 0.15em solid rgba(0, 0, 0, 0.3)
+}
+
+.roulette-image-big-hole2-shadow::after,
+.roulette-image-big-hole3-shadow::after {
+    top: 30%;
+    width: 20%;
+    height: 25%;
+}
+
+.roulette-image-big-hole2-shadow::after {
+    left: 165%;
+}
+
+.roulette-image-big-hole3-shadow::after {
+    right: 84%;
+}
+
+.roulette-image-big-hole4-shadow::after,
+.roulette-image-big-hole5-shadow::after {
+    top: 105%;
+    width: 20%;
+    height: 30%;
+}
+
+.roulette-image-big-hole4-shadow::after {
+    left: 76%;
+}
+
+.roulette-image-big-hole5-shadow::after {
+    left: 2%;
+}
