@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 TYPE = ((0, "Movie"), (1, "TV-Show"))
 
+
 # Create your models here.
 class MovieOrShow(models.Model):
     title_id = models.IntegerField(primary_key=True)
@@ -19,3 +20,4 @@ class MovieOrShow(models.Model):
     age_limit = models.CharField(max_length=30)
     poster_link = models.URLField(max_length=200)
     backdrop_link = models.URLField(max_length=200)
+

@@ -18,15 +18,19 @@
             <h2>Movie Roulette</h2>
         </div>
         <div class="row">
-            <div class="col xl5 m6 s12">
-                Source
-            </div>
-            <div class="col xl4 m6 s12">
-                Type
-            </div>
-            <div class="col xl3 m12">
-                <button class="btn col xl12 m4 push-m4">Load Roulette</button>
-            </div>
+            <form method="post">
+                {% for field in source %}
+                <div class="col xl4 m6 s12">
+                    <div class="row">
+                        <label class="col xl3 push-xl2 m11 push-m1" for="{{ field.auto_id }}">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col xl4 l12 m12 s12">
+                    <button class="btn col xl8 push-xl2 m4 push-m4 s8 push-s2">Load Roulette</button>
+                </div>
+            </form>
         </div>
         <div class="carousel row">
             <div class="carousel-item">
