@@ -1,3 +1,70 @@
+/* Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500&family=Montserrat:wght@300&display=swap');
+
+/* --------- Colour scheme */
+
+:root {
+    --off-white: #FAFAFA;
+    --dark-grey: #363636;
+    --darker-grey: #2c2a2a;
+    --highlight-blue: #6CE5E8;
+    --highlight-red: #E8736C;
+}
+
+/* --------- Global style */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    scroll-behavior: smooth;
+    box-shadow: inset 0 0 150px 50px #000000;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    background-color: var(--darker-grey);
+}
+
+.header-padding {
+    padding: 3vh 2vw;
+    margin: 0;
+}
+
+.container {
+    background-color: rgba(108, 229, 232, 0.1);
+    padding: 0 5vw 1vh;
+    border: rgba(108, 229, 232, 0.51) solid 0.1em;
+    border-radius: 1vh;
+}
+
+h1,
+h2,
+h3,
+label {
+    color: var(--off-white);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+}
+
+.container label {
+    font-size: 1.3em;
+}
+
+select {
+    color: var(--off-white);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    height: 30px;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+}
+
 .carousel {
     perspective: 500px;
     height: 300px;
