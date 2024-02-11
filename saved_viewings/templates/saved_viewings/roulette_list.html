@@ -18,7 +18,8 @@
         <h2 class="header-padding">Movie Roulette</h2>
         <div class="row">
             <form method="post">
-                {% for field in source %}
+                {% csrf_token %}
+                {% for field in source_form %}
                 <div class="col xl4 m6 s12">
                     <div class="row">
                         <label class="col xl3 push-xl2 m11 push-m1" for="{{ field.auto_id }}">{{ field.label }}</label>
@@ -33,7 +34,7 @@
         </div>
         <div class="carousel row">
             <div class="carousel-item">
-                <img src="{% static 'images/mask.jpg' %}" alt="The Mask">
+                <img src="{{ poster_img }}" alt="The Mask">
             </div>
             <div class="carousel-item">
                 <img src="{% static 'images/mask.jpg' %}" alt="The Mask">
