@@ -1,8 +1,9 @@
 import os
 import requests
 import random
-from django.shortcuts import render
+from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
+from django.http import HttpResponseRedirect
 from .forms import RouletteSourceForm
 from .models import MovieOrShow
 
@@ -80,6 +81,16 @@ def roulette_load(request, result, loop, source_form):
             'POSTER_PATH': POSTER_PATH,
             'in_roulette_list': in_roulette_list
         })
+
+def roulette_clear(request):
+    """
+    View to empty roulette content
+    """
+    if request.method == 'POST':
+        clear_list = MovieOrShow.objects.filter(is_in_roulette=True).delete()
+        return HttpResponseRedirect(reverse('roulette_list'))
+
+    return HttpResponseRedirect(reverse('roulette_list'))
 
 def add_title_instance(request, result_pick):
     """
