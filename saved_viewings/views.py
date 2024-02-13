@@ -109,3 +109,13 @@ def add_title_instance(request, result_pick):
         is_in_roulette=True
     )
     new_entry.save()
+
+def clear_one_title(request, title_id):
+    if request.method == 'POST':
+        queryset = MovieOrShow.objects.filter(is_in_roulette=True)
+        one_clicked = get_object_or_404(queryset, pk=title_id)
+        print(one_clicked)
+        one_clicked.delete()
+        return HttpResponseRedirect(reverse('roulette_list'))
+
+    return HttpResponseRedirect(reverse('post_detail', args=[title_id]))

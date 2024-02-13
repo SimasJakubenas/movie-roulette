@@ -10,7 +10,6 @@ $(document).ready(function () {
     });
     
     spinRoulette()
-
 });
 
 /**
@@ -39,3 +38,4 @@ function spinRoulette() {
         }
     })
 }
+
