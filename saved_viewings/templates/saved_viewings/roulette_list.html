@@ -32,7 +32,7 @@
                 </div>
             </form>
         </div>
-        <div class="carousel row">
+        <div class="carousel row" id="carousel">
             {% for list_item in in_roulette_list %}
             <div class="carousel-item">
                 <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="The Mask">
@@ -91,7 +91,9 @@
                 
             </div>
             <div class="col s6">
-                <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12">Spin It!!!</button>
+                <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12" id="spin-it">
+                    Spin It!!!
+                </button>
             </div>
         </div>
     </div>
@@ -100,6 +102,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <!-- Import Local JavaScript -->
     <script type="text/javascript" src="{% static 'js/materialize.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </body>
 
 </html>
