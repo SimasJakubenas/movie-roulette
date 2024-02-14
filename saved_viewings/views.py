@@ -25,14 +25,17 @@ def roulette_list(request):
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
 
     if request.method == "POST":
+        url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
+        headers = {
+            "accept": "application/json",
+        }
+        response = requests.get(url, headers=headers)
+        result = response.json()['results']
         if source_form.is_valid():
-            url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
-            headers = {
-                "accept": "application/json",
-            }
-            response = requests.get(url, headers=headers)
-            result = response.json()['results']
             roulette_load(request, result, loop, source_form)
+        else:
+            add_one_title(request, result, loop, source_form)
+            
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
     return render(
         request,
@@ -111,11 +114,34 @@ def add_title_instance(request, result_pick):
     new_entry.save()
 
 def clear_one_title(request, title_id):
+    """
+    Removes a single title to the  roulette carousel
+    """
     if request.method == 'POST':
         queryset = MovieOrShow.objects.filter(is_in_roulette=True)
         one_clicked = get_object_or_404(queryset, pk=title_id)
-        print(one_clicked)
         one_clicked.delete()
         return HttpResponseRedirect(reverse('roulette_list'))
 
-    return HttpResponseRedirect(reverse('post_detail', args=[title_id]))
+    return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
+
+def add_one_title(request, result, loop, source_form):
+    """
+    Adds a single title to the  roulette carousel
+    """
+    while loop:
+        random_number = random.randint(1, len(result)-1)
+        result_pick = result[random_number]
+        in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+        if len(in_roulette_list) == 0:
+            add_title_instance(request, result_pick)
+        for title in in_roulette_list:
+            if result_pick['id'] not in title:
+                add_title_instance(request, result_pick)
+                loop = False
+            else:
+                pass
+        loop = False
+    in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+
+    return HttpResponseRedirect(reverse('roulette_list'))

@@ -107,25 +107,38 @@ button.btn {
     opacity: 1 !important;
 }
 
-.remove-one-title {
-    bottom: -25%;
-    right: 67%;
+.remove-one-title,
+.add-one-title {
     opacity: 0.7;
     border-radius: 50%;
     border: none;
     background-color: rgba(0, 0, 0, 0);
 }
 
-.remove-one-title i {
+.remove-one-title {
+    bottom: -25%;
+    right: 67%;
+}
+
+.add-one-title {
+    bottom: 42%;
+    left: 41%;
+}
+
+.remove-one-title i,
+.add-one-title i {
     font-size: 2.5em;
     color: var(--off-white);
 }
 
-.remove-one-title:hover {
+.remove-one-title:hover,
+.add-one-title:hover {
     opacity: 1;
     cursor: pointer;
 }
 
-.inline {
-   float:left ; 
+.empty-carousel-item {
+    background-color: #000000;
+    color: #ffffff;
+    height: 77% !important;
 }
