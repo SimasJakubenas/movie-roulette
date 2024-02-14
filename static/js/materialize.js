@@ -8,7 +8,12 @@ $(document).ready(function () {
         dist: -50,
         padding: 60,
     });
-    
+    $('.movie-poster').on('click', function() {
+        $('#overlay').css('display', 'unset');
+    });
+    $('.close-button').on('click', function() {
+        $('#overlay').css('display', 'none');
+    });
     spinRoulette()
 });
 

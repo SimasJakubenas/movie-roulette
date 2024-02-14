@@ -96,6 +96,8 @@ button.btn {
     background-color: rgba(108, 229, 232, 1);
 }
 
+/* Roulette carousel style */
+
 .carousel {
     perspective: 500px;
     height: 300px;
@@ -108,7 +110,8 @@ button.btn {
 }
 
 .remove-one-title,
-.add-one-title {
+.add-one-title,
+.close-button {
     opacity: 0.7;
     border-radius: 50%;
     border: none;
@@ -126,13 +129,15 @@ button.btn {
 }
 
 .remove-one-title i,
-.add-one-title i {
+.add-one-title i,
+.close-button i {
     font-size: 2.5em;
     color: var(--off-white);
 }
 
 .remove-one-title:hover,
-.add-one-title:hover {
+.add-one-title:hover,
+.close-button:hover {
     opacity: 1;
     cursor: pointer;
 }
@@ -141,4 +146,29 @@ button.btn {
     background-color: #000000;
     color: #ffffff;
     height: 77% !important;
+}
+
+.movie-poster {
+    cursor: pointer;
+}
+
+#overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(44, 42, 42, 0.94);
+    color: var(--off-white);
+    display: none;
+}
+
+.overlay-heading {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    padding-bottom: 7%;
+}
+
+.close-button {
+    right: 0;
 }
