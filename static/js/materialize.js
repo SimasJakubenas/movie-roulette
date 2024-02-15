@@ -8,11 +8,17 @@ $(document).ready(function () {
         dist: -50,
         padding: 60,
     });
-    $('.movie-poster').on('click', function() {
-        $('#overlay').css('display', 'unset');
+    // Reveals overlay based on the clicked carousels item
+    $('.carousel-item img').on('click', function() {
+        let carouselIteNr = $('img').index($(this))
+        let openOverlay = function (el) {
+            $('.overlay').eq(el).css('display', 'unset')
+        }
+        openOverlay(carouselIteNr)
     });
+    // Closes the overlay
     $('.close-button').on('click', function() {
-        $('#overlay').css('display', 'none');
+        $(this).parent().parent().css('display', 'none')
     });
     spinRoulette()
 });

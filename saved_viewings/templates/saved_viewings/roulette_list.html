@@ -35,10 +35,10 @@
         </div>
         <div class="carousel row" id="carousel">
             {% for list_item in in_roulette_list reversed %}
-            <div class="carousel-item relative">
+            <div class="carousel-item">
                 <form action="{% url 'delete' list_item.title_id %}" method="post">
                     {% csrf_token %}
-                    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="The Mask" class="movie-poster">
+                    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{title}} movie poster" class="movie-poster">
                     <button type="submit" value="" class="remove-one-title absolute">
                         <i class="far fa-times-circle"></i>
                     </button>
@@ -140,7 +140,8 @@
             </div>
         </div>
     </div>
-    <div id="overlay">
+    {% for list_item in in_roulette_list reversed %}
+    <div class="overlay absolute">
         <div class="container relative">
             <button class="close-button absolute">
                 <i class="far fa-times-circle"></i>
@@ -148,21 +149,20 @@
             <div class="row">
                 <div class="col xl4 m4 s12">
                     <div class="row">
-                        <div class="col s12">roulette-image</div>
-                        <button class="btn btn-blue col s12">
-                        Watch Trailer
-                    </button>
+                        <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" class="col s10 push-s1 overlay-img">
+                        <button class="btn btn-blue col m12 s10 push-s1">
+                            <i class="far fa-play-circle"></i>
+                            Watch Trailer
+                        </button>
                     </div>
                 </div>
                 <div class="col xl7 push-xl1 m8 s12">
-                    <h3 class="overlay-heading">The Mask</h3>
-                    <p>Year <span>1994</span>  Runtime  <span>101m</span></p><br>
-                    <p><span>tmdb</span> star 9.9  <span>pg-13</span></p><br>
-                    <p>Comedy, Romance</p><br>                       
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui iure, ratione itaque culpa mollitia 
-                        unde voluptatem eum reiciendis nostrum saepe! Beatae id dignissimos nobis excepturi?
-                    </p>
+                    <h3 class="overlay-heading">{{ list_item.title }}</h3>
+                    <p>Year <span>{{ list_item.date }}</span> Runtime <span>{{ list_item.runtime }}</span>
+                    </p><br>
+                    <p><span>tmdb</span> star {{ list_item.tmdb_rating }} <span>pg-13</span></p><br>
+                    <p>Comedy, Romance</p><br>
+                    <p>{{ list_item.description }}</p>
                     <br>
                     <div class="row">
                         <div class="col xl3 m5 s6">
@@ -192,6 +192,7 @@
             </div>
         </div>
     </div>
+    {% endfor %}
     <!-- Import Fontawesome script -->
     <script src="https://kit.fontawesome.com/b83175b9a4.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
