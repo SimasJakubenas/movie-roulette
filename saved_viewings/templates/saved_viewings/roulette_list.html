@@ -157,7 +157,15 @@
                     </div>
                 </div>
                 <div class="col xl7 push-xl1 m8 s12">
-                    <h3 class="overlay-heading">{{ list_item.title }}</h3>
+                    <h3 class="overlay-heading inline">
+                        {{ list_item.title }}
+                    </h3>
+                    <form action="{% url 'add_title' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" value="" class="movie-reel-button relative">
+                            <img src="/static/images/NeoneFTon (9).png" alt="Image of movie reel">
+                        </button>
+                    </form>
                     <p>Year <span>{{ list_item.date }}</span> Runtime <span>{{ list_item.runtime }}</span>
                     </p><br>
                     <p><span>tmdb</span> star {{ list_item.tmdb_rating }} <span>pg-13</span></p><br>
