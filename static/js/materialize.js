@@ -21,7 +21,13 @@ $(document).ready(function () {
         $(this).parent().parent().css('display', 'none')
     });
     spinRoulette()
+    // Confirmation modal to clear all button
+    $('.btn-red').on('click', function () {
+        let confirmClearAll = confirm('Are you sure you want to clear the roulette?')
+        if (confirmClearAll == false) event.preventDefault()
+    });
 });
+
 
 /**
  * Picks a random number and sets the carousel in motion
