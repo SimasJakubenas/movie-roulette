@@ -21,6 +21,21 @@ POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
 
 
 def roulette_list(request):
+    """
+    Main view that controls loadind the roulette
+    **Context**
+
+    ``source_form``
+        Instance of roulette restriction fields
+    ``POSTER_PATH``
+        URL path for posters
+    ``in_roulette_list``
+        List of title instances in the roullete
+
+    **Template**
+        
+    :saved_viewings/roulette_list.html`
+    """
     source_form = RouletteSourceForm(data=request.POST)
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
 
@@ -28,22 +43,25 @@ def roulette_list(request):
         if source_form.is_valid():
             source = source_form.cleaned_data["source"]
             type = source_form.cleaned_data["type"]
-
-            if ( type == 'Movie'):
-                url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
+            if ( source == 'Random'):
+                if ( type == 'Movie'):
+                    url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
+                else:
+                    url = f"{BASE_URL}{ENDPOINT_POPULAR_SHOW}&api_key={API_KEY}"
+                headers = {
+                    "accept": "application/json",
+                }
+                response = requests.get(url, headers=headers)
+                result = response.json()['results']
+            elif (type =='Favourites'):
+                result = list(MovieOrShow.objects.filter(is_in_favourites=True).values()) 
+            elif (type =='Watchlist'):
+                result = list(MovieOrShow.objects.filter(is_in_watchlist=True).values()) 
             else:
-                url = f"{BASE_URL}{ENDPOINT_POPULAR_SHOW}&api_key={API_KEY}"
-            headers = {
-                "accept": "application/json",
-            }
-            response = requests.get(url, headers=headers)
-            result = response.json()['results']
-
-            
+                result = list(MovieOrShow.objects.filter(is_in_seen_it=True).values()) 
             roulette_load(request, result, source_form, source, type)
         else:
             add_one_title(request, result, source_form)
-            
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
     return render(
         request,
@@ -63,24 +81,28 @@ def roulette_load(request, result, source_form, source, type):
         Instance of roulette restriction fields
     ``POSTER_PATH``
         URL path for posters
-        
-    **in_roulette_list:**
+    ``in_roulette_list``
         List of title instances in the roullete
 
+    **Template**
+        
     :saved_viewings/roulette_list.html`
     """
     while True:
-        random_number = random.randint(1, len(result)-1)
-        result_pick = result[random_number]
-        in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
-        if len(in_roulette_list) == 0:
-            add_title_instance(request, result_pick, source, type)
-        if len(in_roulette_list) < 5:
-            for title in in_roulette_list:
-                if result_pick['id'] in title:
-                    pass
-                else:
-                    add_title_instance(request, result_pick, source, type)
+        if (len(result) > 0):
+            random_number = random.randint(1, len(result))
+            result_pick = result[random_number]
+            in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+            if len(in_roulette_list) == 0:
+                add_title_instance(request, result_pick, source, type)
+            if len(in_roulette_list) < 5:
+                for title in in_roulette_list:
+                    if result_pick['id'] in title:
+                        pass
+                    else:
+                        add_title_instance(request, result_pick, source, type)
+            else:
+                return False
         else:
             return False
 
