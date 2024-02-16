@@ -14,6 +14,7 @@ from .models import MovieOrShow
 API_KEY = os.environ.get('API_KEY')
 BASE_URL = 'https://api.themoviedb.org/3'
 ENDPOINT_POPULAR_MOVIE = '/movie/popular?language=en-US&page=1'
+ENDPOINT_POPULAR_SHOW = '/tv/popular?language=en-US&page=1'
 POSTER_BASE_URL = 'https://image.tmdb.org/t/p/'
 POSTER_SIZE = 'w154/'
 POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
@@ -25,14 +26,21 @@ def roulette_list(request):
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
 
     if request.method == "POST":
-        url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
-        headers = {
-            "accept": "application/json",
-        }
-        response = requests.get(url, headers=headers)
-        result = response.json()['results']
         if source_form.is_valid():
-            roulette_load(request, result, loop, source_form)
+            type = source_form.cleaned_data["type"]
+
+            if ( type == 'Movie'):
+                url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
+            else:
+                url = f"{BASE_URL}{ENDPOINT_POPULAR_SHOW}&api_key={API_KEY}"
+            headers = {
+                "accept": "application/json",
+            }
+            response = requests.get(url, headers=headers)
+            result = response.json()['results']
+
+            
+            roulette_load(request, result, loop, source_form, type)
         else:
             add_one_title(request, result, loop, source_form)
             
@@ -46,7 +54,7 @@ def roulette_list(request):
             'in_roulette_list': in_roulette_list
         })
 
-def roulette_load(request, result, loop, source_form):
+def roulette_load(request, result, loop, source_form, type):
     """
     Loads MovieOrShow entity with titles if there's less that 5 titles in the roulette
     **Context**
@@ -66,13 +74,13 @@ def roulette_load(request, result, loop, source_form):
         result_pick = result[random_number]
         in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
         if len(in_roulette_list) == 0:
-            add_title_instance(request, result_pick)
+            add_title_instance(request, result_pick, type)
         if len(in_roulette_list) < 5:
             for title in in_roulette_list:
                 if result_pick['id'] in title:
                     pass
                 else:
-                    add_title_instance(request, result_pick)
+                    add_title_instance(request, result_pick, type)
         else:
             loop = False
 
@@ -95,22 +103,27 @@ def roulette_clear(request):
 
     return HttpResponseRedirect(reverse('roulette_list'))
 
-def add_title_instance(request, result_pick):
+def add_title_instance(request, result_pick, type):
     """
     Addan instanceto the MovieOrShow entity
     """
     new_entry = MovieOrShow(
         title_id=result_pick['id'],
         user_id=request.user,
-        title=result_pick['title'],
         description=result_pick['overview'],
         tmdb_rating=result_pick['vote_average'],
-        type=0,
-        date=result_pick['release_date'],
         poster_link=result_pick['poster_path'],
         backdrop_link=result_pick['backdrop_path'],
         is_in_roulette=True
     )
+    if ( type == 'Movie'):
+        new_entry.title=  result_pick['title']
+        new_entry.type = 0
+        new_entry.date = result_pick['release_date']
+    else:
+        new_entry.title = result_pick['name']
+        new_entry.type = 1
+        new_entry.date = result_pick['first_air_date']
     new_entry.save()
 
 def clear_one_title(request, title_id):
@@ -134,10 +147,10 @@ def add_one_title(request, result, loop, source_form):
         result_pick = result[random_number]
         in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
         if len(in_roulette_list) == 0:
-            add_title_instance(request, result_pick)
+            add_title_instance(request, result_pick, type)
         for title in in_roulette_list:
             if result_pick['id'] not in title:
-                add_title_instance(request, result_pick)
+                add_title_instance(request, result_pick, type)
                 loop = False
             else:
                 pass
