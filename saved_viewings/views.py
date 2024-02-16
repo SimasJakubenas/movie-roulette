@@ -19,6 +19,18 @@ POSTER_BASE_URL = 'https://image.tmdb.org/t/p/'
 POSTER_SIZE = 'w154/'
 POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
 
+def tmdb_api_connect(request, type):
+    if ( type == 'Movie'):
+        url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
+    else:
+        url = f"{BASE_URL}{ENDPOINT_POPULAR_SHOW}&api_key={API_KEY}"
+    headers = {
+        "accept": "application/json",
+    }
+    response = requests.get(url, headers=headers)
+    result = response.json()['results']
+
+    return result
 
 def roulette_list(request):
     """
@@ -44,15 +56,7 @@ def roulette_list(request):
             source = source_form.cleaned_data["source"]
             type = source_form.cleaned_data["type"]
             if ( source == 'Random'):
-                if ( type == 'Movie'):
-                    url = f"{BASE_URL}{ENDPOINT_POPULAR_MOVIE}&api_key={API_KEY}"
-                else:
-                    url = f"{BASE_URL}{ENDPOINT_POPULAR_SHOW}&api_key={API_KEY}"
-                headers = {
-                    "accept": "application/json",
-                }
-                response = requests.get(url, headers=headers)
-                result = response.json()['results']
+                result = tmdb_api_connect(request, type)
             elif (type =='Favourites'):
                 result = list(MovieOrShow.objects.filter(is_in_favourites=True).values()) 
             elif (type =='Watchlist'):
@@ -61,6 +65,7 @@ def roulette_list(request):
                 result = list(MovieOrShow.objects.filter(is_in_seen_it=True).values()) 
             roulette_load(request, result, source_form, source, type)
         else:
+            result = tmdb_api_connect(request, type)
             add_one_title(request, result, source_form)
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
     return render(
