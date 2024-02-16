@@ -21,12 +21,12 @@ POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
 
 
 def roulette_list(request):
-    loop = True
     source_form = RouletteSourceForm(data=request.POST)
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
 
     if request.method == "POST":
         if source_form.is_valid():
+            source = source_form.cleaned_data["source"]
             type = source_form.cleaned_data["type"]
 
             if ( type == 'Movie'):
@@ -40,9 +40,9 @@ def roulette_list(request):
             result = response.json()['results']
 
             
-            roulette_load(request, result, loop, source_form, type)
+            roulette_load(request, result, source_form, source, type)
         else:
-            add_one_title(request, result, loop, source_form)
+            add_one_title(request, result, source_form)
             
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
     return render(
@@ -54,7 +54,7 @@ def roulette_list(request):
             'in_roulette_list': in_roulette_list
         })
 
-def roulette_load(request, result, loop, source_form, type):
+def roulette_load(request, result, source_form, source, type):
     """
     Loads MovieOrShow entity with titles if there's less that 5 titles in the roulette
     **Context**
@@ -69,20 +69,20 @@ def roulette_load(request, result, loop, source_form, type):
 
     :saved_viewings/roulette_list.html`
     """
-    while loop:
+    while True:
         random_number = random.randint(1, len(result)-1)
         result_pick = result[random_number]
         in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
         if len(in_roulette_list) == 0:
-            add_title_instance(request, result_pick, type)
+            add_title_instance(request, result_pick, source, type)
         if len(in_roulette_list) < 5:
             for title in in_roulette_list:
                 if result_pick['id'] in title:
                     pass
                 else:
-                    add_title_instance(request, result_pick, type)
+                    add_title_instance(request, result_pick, source, type)
         else:
-            loop = False
+            return False
 
     return in_roulette_list, render(
         request,
@@ -103,7 +103,7 @@ def roulette_clear(request):
 
     return HttpResponseRedirect(reverse('roulette_list'))
 
-def add_title_instance(request, result_pick, type):
+def add_title_instance(request, result_pick, source, type):
     """
     Addan instanceto the MovieOrShow entity
     """
@@ -138,23 +138,23 @@ def clear_one_title(request, title_id):
 
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
 
-def add_one_title(request, result, loop, source_form):
+def add_one_title(request, result, source_form):
     """
     Adds a single title to the  roulette carousel
     """
-    while loop:
+    while true:
         random_number = random.randint(1, len(result)-1)
         result_pick = result[random_number]
         in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
         if len(in_roulette_list) == 0:
-            add_title_instance(request, result_pick, type)
+            add_title_instance(request, result_pick, source, type)
         for title in in_roulette_list:
             if result_pick['id'] not in title:
-                add_title_instance(request, result_pick, type)
-                loop = False
+                add_title_instance(request, result_pick, source, type)
+                return False
             else:
                 pass
-        loop = False
+        return False
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
 
     return HttpResponseRedirect(reverse('roulette_list'))
