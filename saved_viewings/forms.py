@@ -14,6 +14,7 @@ class RouletteSourceForm(forms.Form):
         ('Movie', 'Movie'),
         ('TV_Show', 'TV_Show')
     }
+
     source = forms.CharField(
         widget=forms.Select(
             choices=SOURCE_CHOICES,
@@ -24,4 +25,5 @@ class RouletteSourceForm(forms.Form):
             choices=TYPE_CHOICES,
             attrs={'class': 'browser-default col xl6 push-xl3 m10 push-m1'}),
     )
-    # source = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=CHOICES)
+    load_all = forms.BooleanField(required=False)
+

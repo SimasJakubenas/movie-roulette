@@ -6,5 +6,5 @@ urlpatterns = [
     path('', views.roulette_list, name='roulette_list'),
     path('clearall/', views.roulette_clear, name='clear_list'),
     path('delete/<int:title_id>', views.clear_one_title, name='delete'),
-    path('add_title', views.roulette_list, name='add_title')
+    path('', views.roulette_list, name='add_title'),
 ]

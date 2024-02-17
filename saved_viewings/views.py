@@ -55,18 +55,18 @@ def roulette_list(request):
         if source_form.is_valid():
             source = source_form.cleaned_data["source"]
             type = source_form.cleaned_data["type"]
-            if ( source == 'Random'):
+            load_all = source_form.cleaned_data["load_all"]
+            if (source == 'Random'):
                 result = tmdb_api_connect(request, type)
-            elif (type =='Favourites'):
+            elif (source =='Favourites'):
                 result = list(MovieOrShow.objects.filter(is_in_favourites=True).values()) 
-            elif (type =='Watchlist'):
+            elif (source =='Watchlist'):
                 result = list(MovieOrShow.objects.filter(is_in_watchlist=True).values()) 
             else:
                 result = list(MovieOrShow.objects.filter(is_in_seen_it=True).values()) 
-            roulette_load(request, result, source_form, source, type)
-        else:
-            result = tmdb_api_connect(request, type)
-            add_one_title(request, result, source_form)
+            roulette_load(request, result, source_form, source, type, load_all)
+        
+            
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
     return render(
         request,
@@ -77,9 +77,11 @@ def roulette_list(request):
             'in_roulette_list': in_roulette_list
         })
 
-def roulette_load(request, result, source_form, source, type):
+def roulette_load(request, result, source_form, source, type, load_all):
     """
     Loads MovieOrShow entity with titles if there's less that 5 titles in the roulette
+    Uses source_form boolean field to determine weather to load all roulette items
+    or just one.
     **Context**
 
     ``source_form``
@@ -95,18 +97,25 @@ def roulette_load(request, result, source_form, source, type):
     """
     while True:
         if (len(result) > 0):
-            random_number = random.randint(1, len(result))
+            if ( source == 'Random'):
+                random_number = random.randint(1, len(result)-1)
+            else:
+                random_number = random.randint(1, len(result))
             result_pick = result[random_number]
             in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
-            if len(in_roulette_list) == 0:
-                add_title_instance(request, result_pick, source, type)
-            if len(in_roulette_list) < 5:
-                for title in in_roulette_list:
-                    if result_pick['id'] in title:
-                        pass
-                    else:
-                        add_title_instance(request, result_pick, source, type)
+            if (load_all == True):
+                if len(in_roulette_list) == 0:
+                    add_title_instance(request, result_pick, source, type)
+                if len(in_roulette_list) < 5:
+                    for title in in_roulette_list:
+                        if result_pick['id'] in title:
+                            pass
+                        else:
+                            add_title_instance(request, result_pick, source, type)
+                else:
+                    return False
             else:
+                add_title_instance(request, result_pick, source, type)
                 return False
         else:
             return False
@@ -165,23 +174,3 @@ def clear_one_title(request, title_id):
 
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
 
-def add_one_title(request, result, source_form):
-    """
-    Adds a single title to the  roulette carousel
-    """
-    while true:
-        random_number = random.randint(1, len(result)-1)
-        result_pick = result[random_number]
-        in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
-        if len(in_roulette_list) == 0:
-            add_title_instance(request, result_pick, source, type)
-        for title in in_roulette_list:
-            if result_pick['id'] not in title:
-                add_title_instance(request, result_pick, source, type)
-                return False
-            else:
-                pass
-        return False
-    in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
-
-    return HttpResponseRedirect(reverse('roulette_list'))

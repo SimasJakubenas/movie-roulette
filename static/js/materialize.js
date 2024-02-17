@@ -26,8 +26,12 @@ $(document).ready(function () {
         let confirmClearAll = confirm('Are you sure you want to clear the roulette?')
         if (confirmClearAll == false) event.preventDefault()
     });
+    // Add classes to form imputs for responsivness
+    $('.individual-select').children('select').removeClass('col xl6 push-xl3 m10 push-m1')
+    // This is used to change forms boolean logic
+    // It allows for differentiation of actions in one view (load one title/load many titles)
+    $('.main-select:last').children('input:last').attr('checked', 'checked')
 });
-
 
 /**
  * Picks a random number and sets the carousel in motion
