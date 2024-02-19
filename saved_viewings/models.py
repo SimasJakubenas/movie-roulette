@@ -26,3 +26,11 @@ class MovieOrShow(models.Model):
     is_in_dont_show = models.BooleanField(default=False)
     is_in_roulette = models.BooleanField(default=False)
 
+
+class Genre(models.Model):
+    genre_id = models.IntegerField(primary_key=True, unique=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+

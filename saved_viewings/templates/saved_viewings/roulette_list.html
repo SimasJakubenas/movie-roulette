@@ -22,13 +22,15 @@
                 {% csrf_token %}
                 <div class="col xl4 m6 s12">
                     <div class="row main-select">
-                        <label class="col xl3 push-xl2 m11 push-m1" for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
+                        <label class="col xl3 push-xl2 m11 push-m1"
+                            for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
                         {{ source_form.source}}
                     </div>
                 </div>
                 <div class="col xl4 m6 s12">
                     <div class="row main-select">
-                        <label class="col xl3 push-xl2 m11 push-m1" for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
+                        <label class="col xl3 push-xl2 m11 push-m1"
+                            for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
                         {{ source_form.type}}
                         {{ source_form.load_all}}
                     </div>
@@ -43,8 +45,10 @@
             <div class="carousel-item">
                 <form action="{% url 'delete' list_item.title_id %}" method="post">
                     {% csrf_token %}
-                    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{title}} movie poster"
-                        class="movie-poster">
+                    <a href="#info/{{list_item.title_id}}">
+                        <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
+                            class="movie-poster">
+                    </a>
                     <button type="submit" value="" class="remove-one-title absolute">
                         <i class="far fa-times-circle"></i>
                     </button>

@@ -4,12 +4,15 @@
  * https://materializecss.com/carousel.html
  */
 $(document).ready(function () {
+    $('.carousel-item').on('click', function (e) {
+        e.stopPropagation()
+    })
     $('.carousel').carousel({
         dist: -50,
-        padding: 60,
+        padding: 60
     });
     // Reveals overlay based on the clicked carousels item
-    $('.carousel-item img').on('click', function() {
+    $('.carousel-item img').on('click', function () {
         let carouselIteNr = $('img').index($(this))
         let openOverlay = function (el) {
             $('.overlay').eq(el).css('display', 'unset')
