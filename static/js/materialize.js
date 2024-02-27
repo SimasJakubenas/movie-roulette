@@ -13,6 +13,9 @@ $(document).ready(function () {
     });
     // Reveals overlay based on the clicked carousels item
     $('.carousel-item img').on('click', function () {
+        let titleID = $(this).attr('data-titleID')
+        // Sends ID of the selected title to backend
+        sendTitleID(titleID)
         let carouselIteNr = $('img').index($(this))
         let openOverlay = function (el) {
             $('.overlay').eq(el).css('display', 'unset')
@@ -20,7 +23,7 @@ $(document).ready(function () {
         openOverlay(carouselIteNr)
     });
     // Closes the overlay
-    $('.close-button').on('click', function() {
+    $('.close-button').on('click', function () {
         $(this).parent().parent().css('display', 'none')
     });
     spinRoulette()
@@ -42,13 +45,13 @@ $(document).ready(function () {
  * Selects the carousel item
  */
 function spinRoulette() {
-    $('#spin-it').on('click', function(e) {
+    $('#spin-it').on('click', function (e) {
         let totalSlides = 0;
         let oneSlide = setInterval(individualSpin, 300);
         let randomPick = Math.floor(Math.random() * 10) + 5
         $("#spin-it").attr("disabled", 'disabled')
         $('#spin-it').html('In Motion!');
-        
+
         // Traverses through carousel items and stops it based on random number
         function individualSpin() {
             $('.carousel').carousel('prev');
@@ -63,3 +66,43 @@ function spinRoulette() {
     })
 }
 
+/**
+ * Sends POST request with ajax
+ * Transfers data (title ID) from frontend to backend
+ * Taken and altered to suit the need from
+ * https://copyprogramming.com/howto/pass-array-to-backend-using-ajax-django
+ */
+function sendTitleID(titleID) {
+    $.ajax({
+        url: 'info/',
+        type: 'POST',
+        data: {
+            'titleID': titleID
+        },
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+        error: (error) => {
+            console.log(error);
+        }
+    });
+}
+
+/**
+ * Function used to get csrf token value when a post request is send without a form element
+ * Taken from django documentation https://docs.djangoproject.com/en/3.0/ref/csrf/#ajax
+ */
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

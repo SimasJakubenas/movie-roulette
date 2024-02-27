@@ -67,8 +67,6 @@ def roulette_list(request):
             else:
                 result = list(MovieOrShow.objects.filter(is_in_seen_it=True).values()) 
             roulette_load(request, result, source_form, source, type, load_all)
-    if request.method == 'GET':
-        title_info(request)
             
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
     return render(
@@ -178,6 +176,9 @@ def clear_one_title(request, title_id):
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
 
 def title_info(request):
+    if request.method == 'POST':
+        titleID = request.POST.get('titleID')
+        print(titleID)
     genre_data = []
     url = f"{BASE_URL}{ENDPOINT_MOVIE_GENRES}?api_key={API_KEY}"
     headers = {
@@ -186,7 +187,6 @@ def title_info(request):
     response = requests.get(url, headers=headers)
     result = response.json()
     genress = result['genres']
-    print(genress)
     for genre in genress:
         all_genres = Genre(
             genre_id = genre['id'],
@@ -194,7 +194,6 @@ def title_info(request):
         )
         all_genres.save()
     genre_data = list(Genre.objects.all().values())
-    print(genre_data)
 
     return render(
         request,
