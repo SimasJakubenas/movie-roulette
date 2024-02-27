@@ -14,8 +14,9 @@ $(document).ready(function () {
     // Reveals overlay based on the clicked carousels item
     $('.carousel-item img').on('click', function () {
         let titleID = $(this).attr('data-titleID')
+        let titleType = $(this).attr('data-titleType')
         // Sends ID of the selected title to backend
-        sendTitleID(titleID)
+        sendTitleInfo(titleID, titleType)
         let carouselIteNr = $('img').index($(this))
         let openOverlay = function (el) {
             $('.overlay').eq(el).css('display', 'unset')
@@ -72,12 +73,13 @@ function spinRoulette() {
  * Taken and altered to suit the need from
  * https://copyprogramming.com/howto/pass-array-to-backend-using-ajax-django
  */
-function sendTitleID(titleID) {
+function sendTitleInfo(titleID, titleType) {
     $.ajax({
         url: 'info/',
         type: 'POST',
         data: {
-            'titleID': titleID
+            'titleID': titleID,
+            'titleType': titleType
         },
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),

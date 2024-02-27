@@ -176,28 +176,17 @@ def clear_one_title(request, title_id):
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
 
 def title_info(request):
+    """
+    Receives data from user input and uses that data to call to an API to fetch 
+    detailed information about the title
+    """
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
+        titleType = request.POST.get('titleType')
         print(titleID)
-    genre_data = []
-    url = f"{BASE_URL}{ENDPOINT_MOVIE_GENRES}?api_key={API_KEY}"
-    headers = {
-        "accept": "application/json",
-    }
-    response = requests.get(url, headers=headers)
-    result = response.json()
-    genress = result['genres']
-    for genre in genress:
-        all_genres = Genre(
-            genre_id = genre['id'],
-            name = genre['name']
-        )
-        all_genres.save()
-    genre_data = list(Genre.objects.all().values())
+        print(titleType)
 
     return render(
         request,
-        'saved_viewings/roulette_list.html',
-        {
-            'genre_data': genre_data
-        })
+        'saved_viewings/roulette_list.html'
+        )

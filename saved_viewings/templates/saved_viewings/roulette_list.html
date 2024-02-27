@@ -46,7 +46,7 @@
                 <form action="{% url 'delete' list_item.title_id %}" method="post">
                     {% csrf_token %}
                     <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
-                        class="movie-poster" data-titleID="{{list_item.title_id}}">
+                        class="movie-poster" data-titleID="{{ list_item.title_id }}" data-titleType="{{ list_item.type }}">
                     <button type="submit" value="" class="remove-one-title absolute">
                         <i class="far fa-times-circle"></i>
                     </button>
