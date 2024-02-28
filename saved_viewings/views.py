@@ -156,11 +156,15 @@ def add_title_instance(request, result_pick, source, type):
     if ( type == 'Movie'):
         new_entry.title=  result_pick['title']
         new_entry.type = 0
-        new_entry.date = result_pick['release_date']
+        slice_date = slice(4)
+        new_entry.date = result_pick['release_date'][slice(4)]
+        new_entry.save()
     else:
         new_entry.title = result_pick['name']
         new_entry.type = 1
-        new_entry.date = result_pick['first_air_date']
+        slice_date = slice(4)
+        new_entry.date = result_pick['first_air_date'][slice(4)]
+        new_entry.save()
     new_entry.save()
 
 def clear_one_title(request, title_id):
@@ -183,8 +187,24 @@ def title_info(request):
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         titleType = request.POST.get('titleType')
-        print(titleID)
-        print(titleType)
+        if ( titleType == '0' ):
+            url = f'{BASE_URL}/movie/{titleID}?api_key={API_KEY}&append_to_response=casts,videos,releases'
+        else:
+            url = f'{BASE_URL}/tv/{titleID}?api_key={API_KEY}&append_to_response=credits,videos,releases'
+        headers = {
+            "accept": "application/json",
+        }
+        response = requests.get(url, headers=headers)
+        title_details = response.json()
+        get_title = MovieOrShow.objects.get(title_id=titleID)
+        if ( titleType == '0' ):
+            get_title.runtime = title_details['runtime']
+            get_title.age_limit = title_details['releases']['countries'][0]['certification']
+            get_title.save()
+        else:
+            get_title.seasons = title_details['last_episode_to_air']['season_number']
+            get_title.age_limit = title_details['status']
+            get_title.save()
 
     return render(
         request,

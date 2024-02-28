@@ -179,9 +179,19 @@
                             </button>
                         </form>
                     </h3>
-                    <p>Year <span>{{ list_item.date }}</span> Runtime <span>{{ list_item.runtime }}</span>
+                    <p>
+                        {% if list_item.type == 0 %}
+                        Release Year <span>{{ list_item.date }}</span>
+                        Runtime <span>{{ list_item.runtime }}</span>
+                        {% else %}
+                        First Aired <span>{{ list_item.date }}</span>
+                        Seasons <span>{{ list_item.seasons }}</span>
+                        {% endif %}
                     </p><br>
-                    <p><span>tmdb</span> star {{ list_item.tmdb_rating }} <span>pg-13</span></p><br>
+                    <p>
+                        <span>tmdb</span> star <span>{{ list_item.tmdb_rating }}</span>
+                        <span>{{ list_item.age_limit }}</span>
+                    </p><br>
                     <p>Comedy, Romance</p><br>
                     <p>{{ list_item.description }}</p>
                     <br>
