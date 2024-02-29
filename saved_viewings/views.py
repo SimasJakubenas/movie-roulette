@@ -3,7 +3,7 @@ import requests
 import random
 from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from .forms import RouletteSourceForm
 from .models import MovieOrShow, Genre
 
@@ -206,7 +206,4 @@ def title_info(request):
             get_title.age_limit = title_details['status']
             get_title.save()
 
-    return render(
-        request,
-        'saved_viewings/roulette_list.html'
-        )
+        return HttpResponse(response)

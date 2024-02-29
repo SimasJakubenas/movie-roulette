@@ -16,12 +16,8 @@ $(document).ready(function () {
         let titleID = $(this).attr('data-titleID')
         let titleType = $(this).attr('data-titleType')
         // Sends ID of the selected title to backend
-        sendTitleInfo(titleID, titleType)
         let carouselIteNr = $('img').index($(this))
-        let openOverlay = function (el) {
-            $('.overlay').eq(el).css('display', 'unset')
-        }
-        openOverlay(carouselIteNr)
+        sendTitleInfo(titleID, titleType, carouselIteNr)
     });
     // Closes the overlay
     $('.close-button').on('click', function () {
@@ -72,8 +68,9 @@ function spinRoulette() {
  * Transfers data (title ID) from frontend to backend
  * Taken and altered to suit the need from
  * https://copyprogramming.com/howto/pass-array-to-backend-using-ajax-django
+ * Returns data from the backend and fills in required title info
  */
-function sendTitleInfo(titleID, titleType) {
+function sendTitleInfo(titleID, titleType, carouselIteNr) {
     $.ajax({
         url: 'info/',
         type: 'POST',
@@ -83,6 +80,21 @@ function sendTitleInfo(titleID, titleType) {
         },
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),
+        },
+        success: function (get_title) {
+            let openOverlay = function (el, get_title) {
+                $('.overlay').eq(el).css('display', 'unset');
+                var obj = JSON.parse(get_title)
+                if (titleType == 0) {
+                    $('.runtime').eq(el).html(`${obj.runtime}`)
+                    $('.age-limit').eq(el).html(`${obj.releases.countries[0].certification}`)
+                }
+                else {
+                    $('.seasons').eq(el).html(`${obj.last_episode_to_air.season_number}`)
+                    $('.status').eq(el).html(`${obj.status}`)
+                }
+            }
+            openOverlay(carouselIteNr, get_title)
         },
         error: (error) => {
             console.log(error);

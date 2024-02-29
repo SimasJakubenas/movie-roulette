@@ -182,15 +182,19 @@
                     <p>
                         {% if list_item.type == 0 %}
                         Release Year <span>{{ list_item.date }}</span>
-                        Runtime <span>{{ list_item.runtime }}</span>
+                        Runtime <span class="runtime">{{ list_item.runtime }}</span>
                         {% else %}
                         First Aired <span>{{ list_item.date }}</span>
-                        Seasons <span>{{ list_item.seasons }}</span>
+                        Seasons <span class="seasons"></span>
                         {% endif %}
                     </p><br>
                     <p>
                         <span>tmdb</span> star <span>{{ list_item.tmdb_rating }}</span>
-                        <span>{{ list_item.age_limit }}</span>
+                        {% if list_item.type == 0 %}
+                        <span class="age-limit"></span>
+                        {% else %}
+                        <span class="status"></span>
+                        {% endif %}
                     </p><br>
                     <p>Comedy, Romance</p><br>
                     <p>{{ list_item.description }}</p>
