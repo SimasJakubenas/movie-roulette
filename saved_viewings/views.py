@@ -197,6 +197,14 @@ def title_info(request):
         response = requests.get(url, headers=headers)
         title_details = response.json()
         get_title = MovieOrShow.objects.get(title_id=titleID)
+        for each_genre in title_details['genres']:
+            genre, created  = Genre.objects.get_or_create(
+                genre_id=each_genre['id'],
+                defaults={
+                    'name': each_genre['name'],
+                    }
+            )
+            get_title.genres.add(genre)
         get_title.status = title_details['status']
         if ( titleType == '0' ):
             get_title.runtime = title_details['runtime']
@@ -205,5 +213,5 @@ def title_info(request):
         else:
             get_title.seasons = title_details['last_episode_to_air']['season_number']
             get_title.save()
-
+       
         return HttpResponse(response)

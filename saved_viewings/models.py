@@ -31,15 +31,10 @@ class MovieOrShow(models.Model):
 class Genre(models.Model):
     genre_id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, null=True, blank=True)
+    titles =  models.ManyToManyField(
+        MovieOrShow, related_name="genres"
+    )
 
     def __str__(self):
         return self.name
 
-
-class TitleGenre(models.Model):
-    title_id =  models.ForeignKey(
-        MovieOrShow, on_delete=models.CASCADE, related_name="title_genre"
-    )
-    genre_id =  models.ForeignKey(
-        Genre, on_delete=models.CASCADE, related_name="genre"
-    )
