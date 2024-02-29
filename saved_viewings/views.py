@@ -247,6 +247,9 @@ def get_all_movie_people(title_details):
             )
 
 def new_person_instance(each_person):
+    """
+    Creates a new attribute in the Person entity
+    """
     person, created  = Person.objects.get_or_create(
         person_id=each_person['id'],
         defaults={

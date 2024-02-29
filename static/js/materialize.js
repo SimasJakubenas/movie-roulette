@@ -86,6 +86,8 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
                 $('.overlay').eq(el).css('display', 'unset');
                 let obj = JSON.parse(get_title)
                 let genreList = []
+                let castList = []
+                let directorList = []
                 $.each(obj.genres, function(key, value) {
                     genreList.push(value.name)
                 });
@@ -93,6 +95,16 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
                 if (titleType == 0) {
                     $('.runtime').eq(el).html(`${obj.runtime}`)
                     $('.age-limit').eq(el).html(`${obj.releases.countries[0].certification}`)
+                    $.each(obj.casts.cast, function(key, value) {
+                        castList.push(value.name)
+                    });
+                    $('.cast').eq(el).html(`${castList.join(', ')}`)
+                    $(obj.casts.crew).each(function () {
+                        if ($(this)[0].job === 'Director') {
+                            directorList.push($(this)[0].name)
+                        } 
+                    });
+                    $('.director').eq(el).html(`${directorList.join(', ')}`)
                 }
                 else {
                     $('.seasons').eq(el).html(`${obj.last_episode_to_air.season_number}`)
