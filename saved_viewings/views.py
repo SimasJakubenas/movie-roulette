@@ -5,7 +5,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
 from .forms import RouletteSourceForm
-from .models import MovieOrShow, Genre
+from .models import MovieOrShow, Genre, Person, Actor, Director, Creator
 
 # Create your views here.
 # class TitleList(generic.ListView):
@@ -207,6 +207,7 @@ def title_info(request):
             get_title.genres.add(genre)
         get_title.status = title_details['status']
         if ( titleType == '0' ):
+            get_all_movie_people(title_details)
             get_title.runtime = title_details['runtime']
             get_title.age_limit = title_details['releases']['countries'][0]['certification']
             get_title.save()
@@ -215,3 +216,47 @@ def title_info(request):
             get_title.save()
        
         return HttpResponse(response)
+
+def get_all_movie_people(title_details):
+    """
+    Loops through 'cast' array in the API responce and creates new Person instances
+    Limited to 5 actors per title as It was slowing down loading times significantlt
+    Loops through crew array, checks for 'Director' and creates new Person instances
+    """
+    if len(title_details['casts']['cast']) < 5:
+        for each_person in title_details['casts']['cast']:
+            person, created  = Person.objects.get_or_create(
+                person_id=each_person['id'],
+                defaults={
+                    'full_name': each_person['name'],
+                }
+            )
+            actor, created  = Actor.objects.get_or_create(
+                actor_id=each_person['credit_id'],
+                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+            )
+    else:
+        for each_person in title_details['casts']['cast'][:5]:
+            person, created  = Person.objects.get_or_create(
+                person_id=each_person['id'],
+                defaults={
+                    'full_name': each_person['name'],
+                }
+            )
+            actor, created  = Actor.objects.get_or_create(
+                actor_id=each_person['credit_id'],
+                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+            )
+
+    for each_person in title_details['casts']['crew']:
+        if each_person['job'] == 'Director':
+            person, created  = Person.objects.get_or_create(
+                person_id=each_person['id'],
+                defaults={
+                    'full_name': each_person['name'],
+                }
+            )
+            director, created  = Director.objects.get_or_create(
+                director_id=each_person['credit_id'],
+                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+            )

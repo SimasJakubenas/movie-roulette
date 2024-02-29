@@ -45,24 +45,24 @@ class Person(models.Model):
 
 
 class Actor(models.Model):
-    actor_id = models.IntegerField(primary_key=True, unique=True)
-    people = models.ForeignKey(Person, on_delete=models.CASCADE)
+    actor_id = models.CharField(primary_key=True, unique=True, max_length=50)
+    person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     titles =  models.ManyToManyField(
         MovieOrShow, related_name="actors"
     )
 
 
 class Director(models.Model):
-    director_id = models.IntegerField(primary_key=True, unique=True)
-    people = models.ForeignKey(Person, on_delete=models.CASCADE)
+    director_id = models.CharField(primary_key=True, unique=True, max_length=50)
+    person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     titles =  models.ManyToManyField(
         MovieOrShow, related_name="directors"
     )
 
 
 class Creator(models.Model):
-    creator_id = models.IntegerField(primary_key=True, unique=True)
-    people = models.ForeignKey(Person, on_delete=models.CASCADE)
+    creator_id = models.CharField(primary_key=True, unique=True, max_length=50)
+    perso_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     titles =  models.ManyToManyField(
         MovieOrShow, related_name="creators"
     )
