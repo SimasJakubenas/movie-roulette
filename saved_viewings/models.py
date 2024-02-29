@@ -38,3 +38,31 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+
+class Person(models.Model):
+    person_id = models.IntegerField(primary_key=True, unique=True)
+    full_name = models.CharField(max_length=200, null=True, blank=True)
+
+
+class Actor(models.Model):
+    actor_id = models.IntegerField(primary_key=True, unique=True)
+    people = models.ForeignKey(Person, on_delete=models.CASCADE)
+    titles =  models.ManyToManyField(
+        MovieOrShow, related_name="actors"
+    )
+
+
+class Director(models.Model):
+    director_id = models.IntegerField(primary_key=True, unique=True)
+    people = models.ForeignKey(Person, on_delete=models.CASCADE)
+    titles =  models.ManyToManyField(
+        MovieOrShow, related_name="directors"
+    )
+
+
+class Creator(models.Model):
+    creator_id = models.IntegerField(primary_key=True, unique=True)
+    people = models.ForeignKey(Person, on_delete=models.CASCADE)
+    titles =  models.ManyToManyField(
+        MovieOrShow, related_name="creators"
+    )
