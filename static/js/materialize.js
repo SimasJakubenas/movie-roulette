@@ -84,7 +84,12 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
         success: function (get_title) {
             let openOverlay = function (el, get_title) {
                 $('.overlay').eq(el).css('display', 'unset');
-                var obj = JSON.parse(get_title)
+                let obj = JSON.parse(get_title)
+                let genreList = []
+                $.each(obj.genres, function(key, value) {
+                    genreList.push(value.name)
+                });
+                $('.genres').eq(el).html(`${genreList.join(', ')}`)
                 if (titleType == 0) {
                     $('.runtime').eq(el).html(`${obj.runtime}`)
                     $('.age-limit').eq(el).html(`${obj.releases.countries[0].certification}`)
