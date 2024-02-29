@@ -35,3 +35,11 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+
+class TitleGenre(models.Model):
+    title_id =  models.ForeignKey(
+        MovieOrShow, on_delete=models.CASCADE, related_name="title_genre"
+    )
+    genre_id =  models.ForeignKey(
+        Genre, on_delete=models.CASCADE, related_name="genre"
+    )
