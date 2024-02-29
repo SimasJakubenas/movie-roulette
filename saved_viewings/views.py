@@ -225,24 +225,14 @@ def get_all_movie_people(title_details):
     """
     if len(title_details['casts']['cast']) < 5:
         for each_person in title_details['casts']['cast']:
-            person, created  = Person.objects.get_or_create(
-                person_id=each_person['id'],
-                defaults={
-                    'full_name': each_person['name'],
-                }
-            )
+            new_person_instance(each_person)
             actor, created  = Actor.objects.get_or_create(
                 actor_id=each_person['credit_id'],
                 person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
             )
     else:
         for each_person in title_details['casts']['cast'][:5]:
-            person, created  = Person.objects.get_or_create(
-                person_id=each_person['id'],
-                defaults={
-                    'full_name': each_person['name'],
-                }
-            )
+            new_person_instance(each_person)
             actor, created  = Actor.objects.get_or_create(
                 actor_id=each_person['credit_id'],
                 person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
@@ -250,13 +240,16 @@ def get_all_movie_people(title_details):
 
     for each_person in title_details['casts']['crew']:
         if each_person['job'] == 'Director':
-            person, created  = Person.objects.get_or_create(
-                person_id=each_person['id'],
-                defaults={
-                    'full_name': each_person['name'],
-                }
-            )
+            new_person_instance(each_person)
             director, created  = Director.objects.get_or_create(
                 director_id=each_person['credit_id'],
                 person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
             )
+
+def new_person_instance(each_person):
+    person, created  = Person.objects.get_or_create(
+        person_id=each_person['id'],
+        defaults={
+            'full_name': each_person['name'],
+        }
+    )
