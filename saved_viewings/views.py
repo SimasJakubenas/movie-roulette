@@ -197,13 +197,13 @@ def title_info(request):
         response = requests.get(url, headers=headers)
         title_details = response.json()
         get_title = MovieOrShow.objects.get(title_id=titleID)
+        get_title.status = title_details['status']
         if ( titleType == '0' ):
             get_title.runtime = title_details['runtime']
             get_title.age_limit = title_details['releases']['countries'][0]['certification']
             get_title.save()
         else:
             get_title.seasons = title_details['last_episode_to_air']['season_number']
-            get_title.age_limit = title_details['status']
             get_title.save()
 
         return HttpResponse(response)

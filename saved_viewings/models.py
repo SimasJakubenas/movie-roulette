@@ -18,6 +18,7 @@ class MovieOrShow(models.Model):
     runtime = models.IntegerField(null=True, blank=True)
     seasons = models.IntegerField(null=True, blank=True)
     age_limit = models.CharField(max_length=30, null=True, blank=True)
+    status = models.CharField(max_length=30, null=True, blank=True)
     poster_link = models.CharField(max_length=200, null=True, blank=True)
     backdrop_link = models.CharField(max_length=200, null=True, blank=True)
     is_in_favourites = models.BooleanField(default=False)
