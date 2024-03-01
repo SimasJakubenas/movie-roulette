@@ -62,7 +62,7 @@ class Director(models.Model):
 
 class Creator(models.Model):
     creator_id = models.CharField(primary_key=True, unique=True, max_length=50)
-    perso_id = models.ForeignKey(Person, on_delete=models.CASCADE)
+    person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     titles =  models.ManyToManyField(
         MovieOrShow, related_name="creators"
     )

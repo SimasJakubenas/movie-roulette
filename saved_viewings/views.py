@@ -207,17 +207,18 @@ def title_info(request):
             get_title.genres.add(genre)
         get_title.status = title_details['status']
         if ( titleType == '0' ):
-            get_all_movie_people(title_details)
+            get_all_movie_people(title_details, get_title)
             get_title.runtime = title_details['runtime']
             get_title.age_limit = title_details['releases']['countries'][0]['certification']
             get_title.save()
         else:
+            get_all_tv_people(title_details, get_title)
             get_title.seasons = title_details['last_episode_to_air']['season_number']
             get_title.save()
        
         return HttpResponse(response)
 
-def get_all_movie_people(title_details):
+def get_all_movie_people(title_details, get_title):
     """
     Loops through 'cast' array in the API responce and creates new Person instances
     Limited to 5 actors per title as It was slowing down loading times significantlt
@@ -230,6 +231,7 @@ def get_all_movie_people(title_details):
                 actor_id=each_person['credit_id'],
                 person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
             )
+            get_title.actors.add(actor)
     else:
         for each_person in title_details['casts']['cast'][:5]:
             new_person_instance(each_person)
@@ -237,6 +239,7 @@ def get_all_movie_people(title_details):
                 actor_id=each_person['credit_id'],
                 person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
             )
+            get_title.actors.add(actor)
 
     for each_person in title_details['casts']['crew']:
         if each_person['job'] == 'Director':
@@ -245,6 +248,40 @@ def get_all_movie_people(title_details):
                 director_id=each_person['credit_id'],
                 person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
             )
+            get_title.directors.add(director)
+
+def get_all_tv_people(title_details, get_title):
+    """
+    Loops through 'cast' array in the API responce and creates new Person instances
+    Limited to 5 actors per title as It was slowing down loading times significantlt
+    Loops through created_by array creates new Person instances
+    
+    """
+    if len(title_details['credits']['cast']) < 5:
+        for each_person in title_details['credits']['cast']:
+            new_person_instance(each_person)
+            actor, created  = Actor.objects.get_or_create(
+                actor_id=each_person['credit_id'],
+                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+            )
+            get_title.actors.add(actor)
+    else:
+        for each_person in title_details['credits']['cast'][:5]:
+            new_person_instance(each_person)
+            actor, created  = Actor.objects.get_or_create(
+                actor_id=each_person['credit_id'],
+                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+            )
+            get_title.actors.add(actor)
+
+    for each_person in title_details['created_by']:
+        new_person_instance(each_person)
+        creator, created  = Creator.objects.get_or_create(
+            creator_id=each_person['credit_id'],
+            person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+        )
+        get_title.creators.add(creator)
+
 
 def new_person_instance(each_person):
     """
