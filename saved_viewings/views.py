@@ -227,19 +227,11 @@ def get_all_movie_people(title_details, get_title):
     if len(title_details['casts']['cast']) < 5:
         for each_person in title_details['casts']['cast']:
             new_person_instance(each_person)
-            actor, created  = Actor.objects.get_or_create(
-                actor_id=each_person['credit_id'],
-                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
-            )
-            get_title.actors.add(actor)
+            new_actor_instance(each_person, get_title)
     else:
         for each_person in title_details['casts']['cast'][:5]:
             new_person_instance(each_person)
-            actor, created  = Actor.objects.get_or_create(
-                actor_id=each_person['credit_id'],
-                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
-            )
-            get_title.actors.add(actor)
+            new_actor_instance(each_person, get_title)
 
     for each_person in title_details['casts']['crew']:
         if each_person['job'] == 'Director':
@@ -255,24 +247,16 @@ def get_all_tv_people(title_details, get_title):
     Loops through 'cast' array in the API responce and creates new Person instances
     Limited to 5 actors per title as It was slowing down loading times significantlt
     Loops through created_by array creates new Person instances
-    
+
     """
     if len(title_details['credits']['cast']) < 5:
         for each_person in title_details['credits']['cast']:
             new_person_instance(each_person)
-            actor, created  = Actor.objects.get_or_create(
-                actor_id=each_person['credit_id'],
-                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
-            )
-            get_title.actors.add(actor)
+            new_actor_instance(each_person, get_title)
     else:
         for each_person in title_details['credits']['cast'][:5]:
             new_person_instance(each_person)
-            actor, created  = Actor.objects.get_or_create(
-                actor_id=each_person['credit_id'],
-                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
-            )
-            get_title.actors.add(actor)
+            new_actor_instance(each_person, get_title)
 
     for each_person in title_details['created_by']:
         new_person_instance(each_person)
@@ -293,3 +277,13 @@ def new_person_instance(each_person):
             'full_name': each_person['name'],
         }
     )
+
+def new_actor_instance(each_person, get_title):
+    """
+    Creates a new attribute in the Actor entity
+    """
+    actor, created  = Actor.objects.get_or_create(
+        actor_id=each_person['credit_id'],
+        person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+    )
+    get_title.actors.add(actor)
