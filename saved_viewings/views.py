@@ -188,13 +188,17 @@ def title_info(request):
         titleType = request.POST.get('titleType')
         if ( titleType == '0' ):
             url = f'{BASE_URL}/movie/{titleID}?api_key={API_KEY}&append_to_response=casts,videos,releases'
+            stream_url = f'{BASE_URL}/movie/{titleID}/watch/providers?api_key={API_KEY}'
         else:
             url = f'{BASE_URL}/tv/{titleID}?api_key={API_KEY}&append_to_response=credits,videos,releases'
+            stream_url = f'{BASE_URL}/tv/{titleID}/watch/providers?api_key={API_KEY}'
         headers = {
             "accept": "application/json",
         }
         response = requests.get(url, headers=headers)
         title_details = response.json()
+        stream_response = requests.get(stream_url, headers=headers)
+        available_stream_list = stream_response.json()
         get_title = MovieOrShow.objects.get(title_id=titleID)
         for each_genre in title_details['genres']:
             genre, created  = Genre.objects.get_or_create(
@@ -205,7 +209,7 @@ def title_info(request):
             )
             get_title.genres.add(genre)
 
-        get_title_providers(titleType, titleID, get_title)
+        get_title_providers(titleType, titleID, get_title, available_stream_list)
        
         get_title.status = title_details['status']
         if ( titleType == '0' ):
@@ -217,8 +221,10 @@ def title_info(request):
             get_all_tv_people(title_details, get_title)
             get_title.seasons = title_details['last_episode_to_air']['season_number']
             get_title.save()
+        
+        # title_streams = StreamingService.objects.filter(of_title__title_id=titleID)
 
-        return HttpResponse(response)
+        return HttpResponse(response, stream_response)
 
 def get_all_movie_people(title_details, get_title):
     """
@@ -268,22 +274,12 @@ def get_all_tv_people(title_details, get_title):
         )
         get_title.creators.add(creator)
 
-def get_title_providers(titleType, titleID, get_title):
+def get_title_providers(titleType, titleID, get_title, available_stream_list):
     """
     Connects to an API end point for streaming providers
     Loops through different areas of the response and updates StreamingServices model
 
     """
-    if ( titleType == '0' ):
-        stream_url = f'{BASE_URL}/movie/{titleID}/watch/providers?api_key={API_KEY}'
-    else:
-        stream_url = f'{BASE_URL}/tv/{titleID}/watch/providers?api_key={API_KEY}'
-    headers = {
-        "accept": "application/json",
-    }
-    stream_response = requests.get(stream_url, headers=headers)
-    available_stream_list = stream_response.json()
-
     if 'flatrate' in available_stream_list['results']['IE']:
         for each_stream in available_stream_list['results']['IE']['flatrate']:
             stream_instance(each_stream, get_title)
