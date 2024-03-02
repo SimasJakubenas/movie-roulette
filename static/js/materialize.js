@@ -81,24 +81,24 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),
         },
-        success: function (get_title) {
-            let openOverlay = function (index, get_title) {
+        success: function (getTitle) {
+            let openOverlay = function (index, getTitle) {
                 $('.overlay').eq(index).css('display', 'unset');
-                let title_info = JSON.parse(get_title)
+                let titleInfo = JSON.parse(getTitle)
                 let genreList = []
                 let castList = []
-                $.each(title_info.genres, function(key, value) {
+                $.each(titleInfo.genres, function (key, value) {
                     genreList.push(value.name)
                 });
                 $('.genres').eq(index).html(`${genreList.join(', ')}`)
                 if (titleType == 0) {
-                    fill_movie_details(index, title_info, castList)
+                    fill_movie_details(index, titleInfo, castList)
+                } else {
+                    fill_tv_details(index, titleInfo, castList)
                 }
-                else {
-                    fill_tv_details(index, title_info, castList)
-                }
+                compileStreamList(index, titleInfo)
             }
-            openOverlay(carouselIteNr, get_title)
+            openOverlay(carouselIteNr, getTitle)
         },
         error: (error) => {
             console.log(error);
@@ -106,41 +106,69 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
     });
 }
 
-function fill_movie_details(index, title_info, castList) {
+function fill_movie_details(index, titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
     let directorList = []
-    $('.runtime').eq(index).html(`${title_info.runtime}`)
-    $('.age-limit').eq(index).html(`${title_info.releases.countries[0].certification}`)
-    $.each(title_info.casts.cast, function(key, value) {
+    $('.runtime').eq(index).html(`${titleInfo.runtime}`)
+    $('.age-limit').eq(index).html(`${titleInfo.releases.countries[0].certification}`)
+    $.each(titleInfo.casts.cast, function (key, value) {
         castList.push(value.name)
     });
     $('.cast').eq(index).html(`${castList.join(', ')}`)
-    $(title_info.casts.crew).each(function () {
+    $(titleInfo.casts.crew).each(function () {
         if ($(this)[0].job === 'Director') {
             directorList.push($(this)[0].name)
-        } 
+        }
     });
     $('.director').eq(index).html(`${directorList.join(', ')}`)
 }
 
-function fill_tv_details(index, title_info, castList) {
+function fill_tv_details(index, titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
     let creatorList = []
-    $('.seasons').eq(index).html(`${title_info.last_episode_to_air.season_number}`)
-    $('.status').eq(index).html(`${title_info.status}`)
-    $.each(title_info.credits.cast, function(key, value) {
+    $('.seasons').eq(index).html(`${titleInfo.last_episode_to_air.season_number}`)
+    $('.status').eq(index).html(`${titleInfo.status}`)
+    $.each(titleInfo.credits.cast, function (key, value) {
         castList.push(value.name)
     });
     $('.cast').eq(index).html(`${castList.join(', ')}`)
-    $(title_info.created_by).each(function () {
+    $(titleInfo.created_by).each(function () {
         creatorList.push($(this)[0].name)
     });
     $('.creator').eq(index).html(`${creatorList.join(', ')}`)
 }
+
+/**
+ * Loops through different sections of ajax request responce
+ * Fills providers container with images of service providers
+ */
+function compileStreamList(index, titleInfo) {
+    let streamContainer = $('.providers').eq(index)
+    let streamList = []
+    $.each(titleInfo.results.IE.flatrate, function (key, value) {
+        if (streamList.includes(value.provider_id)) {} else {
+            streamList.push(value.provider_id)
+            streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${(this).logo_path}">`)
+        }
+    });
+    $.each(titleInfo.results.IE.rent, function (key, value) {
+        if (streamList.includes(value.provider_id)) {} else {
+            streamList.push(value.provider_id)
+            streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${(this).logo_path}">`)
+        }
+    });
+    $.each(titleInfo.results.IE.buy, function (key, value) {
+        if (streamList.includes(value.provider_id)) {} else {
+            streamList.push(value.provider_id)
+            streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${(this).logo_path}">`)
+        }
+    });
+}
+
 
 /**
  * Function used to get csrf token value when a post request is send without a form element

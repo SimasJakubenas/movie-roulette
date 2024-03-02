@@ -1,6 +1,7 @@
 import os
 import requests
 import random
+import json
 from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
@@ -198,7 +199,10 @@ def title_info(request):
         response = requests.get(url, headers=headers)
         title_details = response.json()
         stream_response = requests.get(stream_url, headers=headers)
-        available_stream_list = stream_response.json()
+        available_stream_details = stream_response.json()
+
+        title_details.update(available_stream_details)
+        myResponse = json.dumps(title_details)
         get_title = MovieOrShow.objects.get(title_id=titleID)
         for each_genre in title_details['genres']:
             genre, created  = Genre.objects.get_or_create(
@@ -209,7 +213,7 @@ def title_info(request):
             )
             get_title.genres.add(genre)
 
-        get_title_providers(titleType, titleID, get_title, available_stream_list)
+        get_title_providers(titleType, titleID, get_title, available_stream_details)
        
         get_title.status = title_details['status']
         if ( titleType == '0' ):
@@ -221,10 +225,8 @@ def title_info(request):
             get_all_tv_people(title_details, get_title)
             get_title.seasons = title_details['last_episode_to_air']['season_number']
             get_title.save()
-        
-        # title_streams = StreamingService.objects.filter(of_title__title_id=titleID)
 
-        return HttpResponse(response, stream_response)
+        return HttpResponse(myResponse)
 
 def get_all_movie_people(title_details, get_title):
     """
@@ -274,22 +276,22 @@ def get_all_tv_people(title_details, get_title):
         )
         get_title.creators.add(creator)
 
-def get_title_providers(titleType, titleID, get_title, available_stream_list):
+def get_title_providers(titleType, titleID, get_title, available_stream_details):
     """
     Connects to an API end point for streaming providers
     Loops through different areas of the response and updates StreamingServices model
 
     """
-    if 'flatrate' in available_stream_list['results']['IE']:
-        for each_stream in available_stream_list['results']['IE']['flatrate']:
+    if 'flatrate' in available_stream_details['results']['IE']:
+        for each_stream in available_stream_details['results']['IE']['flatrate']:
             stream_instance(each_stream, get_title)
 
-    if 'rent' in available_stream_list['results']['IE']:
-        for each_stream in available_stream_list['results']['IE']['rent']:
+    if 'rent' in available_stream_details['results']['IE']:
+        for each_stream in available_stream_details['results']['IE']['rent']:
             stream_instance(each_stream, get_title)
 
-    if 'buy' in available_stream_list['results']['IE']:
-        for each_stream in available_stream_list['results']['IE']['buy']:
+    if 'buy' in available_stream_details['results']['IE']:
+        for each_stream in available_stream_details['results']['IE']['buy']:
             stream_instance(each_stream, get_title)
 
 def stream_instance(each_stream, get_title):
