@@ -87,24 +87,12 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
                 let title_info = JSON.parse(get_title)
                 let genreList = []
                 let castList = []
-                let directorList = []
                 $.each(title_info.genres, function(key, value) {
                     genreList.push(value.name)
                 });
                 $('.genres').eq(index).html(`${genreList.join(', ')}`)
                 if (titleType == 0) {
-                    $('.runtime').eq(index).html(`${title_info.runtime}`)
-                    $('.age-limit').eq(index).html(`${title_info.releases.countries[0].certification}`)
-                    $.each(title_info.casts.cast, function(key, value) {
-                        castList.push(value.name)
-                    });
-                    $('.cast').eq(index).html(`${castList.join(', ')}`)
-                    $(title_info.casts.crew).each(function () {
-                        if ($(this)[0].job === 'Director') {
-                            directorList.push($(this)[0].name)
-                        } 
-                    });
-                    $('.director').eq(index).html(`${directorList.join(', ')}`)
+                    fill_movie_details(index, title_info, castList)
                 }
                 else {
                     fill_tv_details(index, title_info, castList)
@@ -118,9 +106,28 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
     });
 }
 
+function fill_movie_details(index, title_info, castList) {
+    /**
+     * Fills respective html elements with recieved data from ajax request responce
+     */
+    let directorList = []
+    $('.runtime').eq(index).html(`${title_info.runtime}`)
+    $('.age-limit').eq(index).html(`${title_info.releases.countries[0].certification}`)
+    $.each(title_info.casts.cast, function(key, value) {
+        castList.push(value.name)
+    });
+    $('.cast').eq(index).html(`${castList.join(', ')}`)
+    $(title_info.casts.crew).each(function () {
+        if ($(this)[0].job === 'Director') {
+            directorList.push($(this)[0].name)
+        } 
+    });
+    $('.director').eq(index).html(`${directorList.join(', ')}`)
+}
+
 function fill_tv_details(index, title_info, castList) {
     /**
-     * 
+     * Fills respective html elements with recieved data from ajax request responce
      */
     let creatorList = []
     $('.seasons').eq(index).html(`${title_info.last_episode_to_air.season_number}`)
