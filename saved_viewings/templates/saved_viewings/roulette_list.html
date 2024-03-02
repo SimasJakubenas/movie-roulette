@@ -41,8 +41,7 @@
             </form>
         </div>
         {% endfor %}
-        {% if 5 > in_roulette_list|length %}
-        {{ in_roulette_list|length }}
+        {% for card in empty_card_count %}
         <div class="carousel-item relative empty-carousel-item">
             <form action="{% url 'add_title' %}" method="post">
                 {% csrf_token %}
@@ -56,51 +55,8 @@
                 </button>
             </form>
         </div>
-        {% endif %}
-        {% if 4 > in_roulette_list|length %}
-        {{ in_roulette_list|length }}
-        <div class="carousel-item relative empty-carousel-item">
-            <form action="{% url 'add_title' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" value="" class="add-one-title absolute">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </form>
-        </div>
-        {% endif %}
-        {% if 3 > in_roulette_list|length %}
-        {{ in_roulette_list|length }}
-        <div class="carousel-item relative empty-carousel-item">
-            <form action="{% url 'add_title' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" value="" class="add-one-title absolute">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </form>
-        </div>
-        {% endif %}
-        {% if 2 > in_roulette_list|length %}
-        {{ in_roulette_list|length }}
-        <div class="carousel-item relative empty-carousel-item">
-            <form action="{% url 'add_title' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" value="" class="add-one-title absolute">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </form>
-        </div>
-        {% endif %}
-        {% if 1 > in_roulette_list|length %}
-        {{ in_roulette_list|length }}
-        <div class="carousel-item relative empty-carousel-item">
-            <form action="{% url 'add_title' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" value="" class="add-one-title absolute">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </form>
-        </div>
-        {% endif %}
+        {% endfor %}
+        
     </div>
     
     {% block rouletteimg %}

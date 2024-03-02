@@ -69,13 +69,16 @@ def roulette_list(request):
             roulette_load(request, result, source_form, source, type, load_all)
             
     in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
+    empty_card_count = range(5 - len(in_roulette_list))
+    
     return render(
         request,
         'saved_viewings/roulette_list.html',
         {
             'source_form': source_form,
             'POSTER_PATH': POSTER_PATH,
-            'in_roulette_list': in_roulette_list
+            'in_roulette_list': in_roulette_list,
+            'empty_card_count': empty_card_count
         })
 
 def roulette_load(request, result, source_form, source, type, load_all):
