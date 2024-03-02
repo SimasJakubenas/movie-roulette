@@ -1,237 +1,131 @@
-{% url 'add_title' as add_title_url %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %} 
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link to Materialize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="static/css/style.css">
-    <link rel="stylesheet" href="static/css/roulette.css">
-    <title>Views Part 1</title>
-</head>
+{% block content %}
 
-<body>
-    {% load static %}
-    <div class="container relative">
-        <h2 class="header-padding">Movie Roulette</h2>
-        <div class="row">
-            <form method="post">
+<div class="container relative">
+    <h2 class="header-padding">Movie Roulette</h2>
+    <div class="row">
+        <form method="post">
+            {% csrf_token %}
+            <div class="col xl4 m6 s12">
+                <div class="row main-select">
+                    <label class="col xl3 push-xl2 m11 push-m1"
+                        for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
+                    {{ source_form.source}}
+                </div>
+            </div>
+            <div class="col xl4 m6 s12">
+                <div class="row main-select">
+                    <label class="col xl3 push-xl2 m11 push-m1"
+                        for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
+                    {{ source_form.type}}
+                    {{ source_form.load_all}}
+                </div>
+            </div>
+            <div class="col xl4 l12 m12 s12">
+                <button class="btn btn-blue col xl8 push-xl2 m4 push-m4 s8 push-s2">Load Roulette</button>
+            </div>
+        </form>
+    </div>
+    <div class="carousel row" id="carousel">
+        {% for list_item in in_roulette_list reversed %}
+        <div class="carousel-item">
+            <form action="{% url 'delete' list_item.title_id %}" method="post">
                 {% csrf_token %}
-                <div class="col xl4 m6 s12">
-                    <div class="row main-select">
-                        <label class="col xl3 push-xl2 m11 push-m1"
-                            for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
-                        {{ source_form.source}}
-                    </div>
-                </div>
-                <div class="col xl4 m6 s12">
-                    <div class="row main-select">
-                        <label class="col xl3 push-xl2 m11 push-m1"
-                            for="{{ field.auto_id }}">{{ source_form.source.label }}</label>
-                        {{ source_form.type}}
-                        {{ source_form.load_all}}
-                    </div>
-                </div>
-                <div class="col xl4 l12 m12 s12">
-                    <button class="btn btn-blue col xl8 push-xl2 m4 push-m4 s8 push-s2">Load Roulette</button>
-                </div>
+                <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
+                    class="movie-poster" data-titleID="{{ list_item.title_id }}" data-titleType="{{ list_item.type }}">
+                <button type="submit" value="" class="remove-one-title absolute">
+                    <i class="far fa-times-circle"></i>
+                </button>
             </form>
         </div>
-        <div class="carousel row" id="carousel">
-            {% for list_item in in_roulette_list reversed %}
-            <div class="carousel-item">
-                <form action="{% url 'delete' list_item.title_id %}" method="post">
-                    {% csrf_token %}
-                    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
-                        class="movie-poster" data-titleID="{{ list_item.title_id }}" data-titleType="{{ list_item.type }}">
-                    <button type="submit" value="" class="remove-one-title absolute">
-                        <i class="far fa-times-circle"></i>
-                    </button>
-                </form>
-            </div>
-            {% endfor %}
-            {% if 5 > in_roulette_list|length %}
-            {{ in_roulette_list|length }}
-            <div class="carousel-item relative empty-carousel-item">
-                <form action="{% url 'add_title' %}" method="post">
-                    {% csrf_token %}
-                    {% for field in source_form %}
-                    <div class="individual-select">
-                        {{field}}
-                    </div>
-                    {% endfor %}
-                    <button type="submit" value="" class="add-one-title absolute">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-            {% if 4 > in_roulette_list|length %}
-            {{ in_roulette_list|length }}
-            <div class="carousel-item relative empty-carousel-item">
-                <form action="{% url 'add_title' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" value="" class="add-one-title absolute">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-            {% if 3 > in_roulette_list|length %}
-            {{ in_roulette_list|length }}
-            <div class="carousel-item relative empty-carousel-item">
-                <form action="{% url 'add_title' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" value="" class="add-one-title absolute">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-            {% if 2 > in_roulette_list|length %}
-            {{ in_roulette_list|length }}
-            <div class="carousel-item relative empty-carousel-item">
-                <form action="{% url 'add_title' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" value="" class="add-one-title absolute">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-            {% if 1 > in_roulette_list|length %}
-            {{ in_roulette_list|length }}
-            <div class="carousel-item relative empty-carousel-item">
-                <form action="{% url 'add_title' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" value="" class="add-one-title absolute">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-        </div>
-        <div class="roulette-image">
-            <div class="roulette-image-over relative">
-                <div class="roulette-image-big-hole5 absolute">
-                    <div class="roulette-image-big-hole5-background absolute"></div>
+        {% endfor %}
+        {% if 5 > in_roulette_list|length %}
+        {{ in_roulette_list|length }}
+        <div class="carousel-item relative empty-carousel-item">
+            <form action="{% url 'add_title' %}" method="post">
+                {% csrf_token %}
+                {% for field in source_form %}
+                <div class="individual-select">
+                    {{field}}
                 </div>
-                <div class="roulette-image-big-hole5-shadow absolute"></div>
-                <div class="roulette-image-big-hole4 absolute">
-                    <div class="roulette-image-big-hole4-background absolute"></div>
-                </div>
-                <div class="roulette-image-big-hole4-shadow absolute"></div>
-                <div class="roulette-image-big-hole3 absolute">
-                    <div class="roulette-image-big-hole3-background relative"></div>
-                </div>
-                <div class="roulette-image-big-hole3-shadow absolute"></div>
-                <div class="roulette-image-big-hole2 absolute">
-                    <div class="roulette-image-big-hole2-background relative"></div>
-                </div>
-                <div class="roulette-image-big-hole2-shadow absolute"></div>
-                <div class="roulette-image-big-hole1 absolute">
-                    <div class="roulette-image-big-hole1-background relative"></div>
-                </div>
-                <div class="roulette-image-big-hole1-shadow absolute"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s6">
-                <form action="{% url 'clear_list' %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-red col xl4 l5 m6 s12">Clear All</button>
-                    <!-- <input type="submit" value="Delete cat"> -->
-                </form>
-            </div>
-            <div class="col s6">
-                <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12" id="spin-it">
-                    Spin It!!!
+                {% endfor %}
+                <button type="submit" value="" class="add-one-title absolute">
+                    <i class="fas fa-plus"></i>
                 </button>
-            </div>
+            </form>
         </div>
-    </div>
-    {% for list_item in in_roulette_list reversed %}
-    <div class="overlay absolute">
-        <div class="container relative">
-            <button class="close-button absolute">
-                <i class="far fa-times-circle"></i>
-            </button>
-            <div class="row">
-                <div class="col xl4 m4 s12">
-                    <div class="row">
-                        <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" class="col s10 push-s1 overlay-img">
-                        <button class="btn btn-blue col m12 s10 push-s1">
-                            <i class="far fa-play-circle"></i>
-                            Watch Trailer
-                        </button>
-                    </div>
-                </div>
-                <div class="col xl7 push-xl1 m8 s12">
-                    <h3 class="overlay-heading">
-                        {{ list_item.title }}
-                        <form action="{% url 'add_title' %}" method="post" class="inline">
-                            {% csrf_token %}
-                            <button type="submit" value="" class="movie-reel-button relative">
-                                <img src="/static/images/NeoneFTon (9).png" alt="Image of movie reel">
-                            </button>
-                        </form>
-                    </h3>
-                    <p>
-                        {% if list_item.type == 0 %}
-                        Release Year <span>{{ list_item.date }}</span>
-                        Runtime <span class="runtime">{{ list_item.runtime }}</span>
-                        {% else %}
-                        First Aired <span>{{ list_item.date }}</span>
-                        Seasons <span class="seasons"></span>
-                        {% endif %}
-                    </p><br>
-                    <p>
-                        <span>tmdb</span> star <span>{{ list_item.tmdb_rating }}</span>
-                        {% if list_item.type == 0 %}
-                        <span class="age-limit"></span>
-                        {% else %}
-                        <span class="status"></span>
-                        {% endif %}
-                    </p><br>
-                    <p class="genres"></p><br>
-                    <p>{{ list_item.description }}</p>
-                    <br>
-                    <div class="row">
-                        <div class="col xl3 m5 s6">Cast:</div>
-                        <div class="col xl9 m7 s6 cast"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col xl3 m5 s6">
-                            {% if list_item.type == 0 %}
-                            Directed By:
-                            {% else %}
-                            Created By:
-                            {% endif %}
-                        </div>
-                        <div class="col xl9 m7 s6 director creator"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col xl3 m12">
-                        Available On:
-                    </div>
-                    <div class="col xl9 m12 providers"></div>
-                </div>
-            </div>
+        {% endif %}
+        {% if 4 > in_roulette_list|length %}
+        {{ in_roulette_list|length }}
+        <div class="carousel-item relative empty-carousel-item">
+            <form action="{% url 'add_title' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" value="" class="add-one-title absolute">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </form>
         </div>
+        {% endif %}
+        {% if 3 > in_roulette_list|length %}
+        {{ in_roulette_list|length }}
+        <div class="carousel-item relative empty-carousel-item">
+            <form action="{% url 'add_title' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" value="" class="add-one-title absolute">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </form>
+        </div>
+        {% endif %}
+        {% if 2 > in_roulette_list|length %}
+        {{ in_roulette_list|length }}
+        <div class="carousel-item relative empty-carousel-item">
+            <form action="{% url 'add_title' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" value="" class="add-one-title absolute">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </form>
+        </div>
+        {% endif %}
+        {% if 1 > in_roulette_list|length %}
+        {{ in_roulette_list|length }}
+        <div class="carousel-item relative empty-carousel-item">
+            <form action="{% url 'add_title' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" value="" class="add-one-title absolute">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </form>
+        </div>
+        {% endif %}
     </div>
-    {% endfor %}
-    <!-- Import Fontawesome script -->
-    <script src="https://kit.fontawesome.com/b83175b9a4.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- Import Minimize JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- Import Local JavaScript -->
-    <script type="text/javascript" src="{% static 'js/materialize.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
-</body>
+    
+    {% block rouletteimg %}
+    {% include 'roulette_img.html' %}
+    {% endblock %}
 
-</html>
+    </div>
+    <div class="row">
+        <div class="col s6">
+            <form action="{% url 'clear_list' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-red col xl4 l5 m6 s12">Clear All</button>
+                <!-- <input type="submit" value="Delete cat"> -->
+            </form>
+        </div>
+        <div class="col s6">
+            <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12" id="spin-it">
+                Spin It!!!
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block overlay %}
+{% include 'overlay.html' %}
+{% endblock %}
