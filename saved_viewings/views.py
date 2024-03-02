@@ -5,7 +5,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
 from .forms import RouletteSourceForm
-from .models import MovieOrShow, Genre, Person, Actor, Director, Creator
+from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, Country
 
 # Create your views here.
 # class TitleList(generic.ListView):
@@ -214,7 +214,7 @@ def title_info(request):
             get_all_tv_people(title_details, get_title)
             get_title.seasons = title_details['last_episode_to_air']['season_number']
             get_title.save()
-       
+
         return HttpResponse(response)
 
 def get_all_movie_people(title_details, get_title):
