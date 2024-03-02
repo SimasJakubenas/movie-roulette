@@ -77,4 +77,7 @@ class StreamingService(models.Model):
     provider_id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     logo_path = models.CharField(max_length=200, null=True, blank=True)
+    of_title =  models.ManyToManyField(
+        MovieOrShow, related_name="streaming_services"
+    )
     

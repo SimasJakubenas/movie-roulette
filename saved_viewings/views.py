@@ -204,6 +204,9 @@ def title_info(request):
                     }
             )
             get_title.genres.add(genre)
+            
+        get_title_providers(titleType, titleID, get_title)
+       
         get_title.status = title_details['status']
         if ( titleType == '0' ):
             get_all_movie_people(title_details, get_title)
@@ -264,6 +267,51 @@ def get_all_tv_people(title_details, get_title):
             person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
         )
         get_title.creators.add(creator)
+
+def get_title_providers(titleType, titleID, get_title):
+    """
+    
+    """
+    if ( titleType == '0' ):
+        stream_url = f'{BASE_URL}/movie/{titleID}/watch/providers?api_key={API_KEY}'
+    else:
+        stream_url = f'{BASE_URL}/tv/{titleID}/watch/providers?api_key={API_KEY}'
+    headers = {
+        "accept": "application/json",
+    }
+    stream_response = requests.get(stream_url, headers=headers)
+    available_stream_list = stream_response.json()
+
+    if 'flatrate' in available_stream_list['results']['IE']:
+        for each_stream in available_stream_list['results']['IE']['flatrate']:
+            stream, created  = StreamingService.objects.get_or_create(
+            provider_id=each_stream['provider_id'],
+            defaults={
+                'name': each_stream['provider_name'],
+                'logo_path': each_stream['logo_path']
+                }
+            )
+            get_title.streaming_services.add(stream)
+    if 'rent' in available_stream_list['results']['IE']:
+        for each_stream in available_stream_list['results']['IE']['rent']:
+            tream, created  = StreamingService.objects.get_or_create(
+            provider_id=each_stream['provider_id'],
+            defaults={
+                'name': each_stream['provider_name'],
+                'logo_path': each_stream['logo_path']
+                }
+            )
+            get_title.streaming_services.add(stream)
+    if 'buy' in available_stream_list['results']['IE']:
+        for each_stream in available_stream_list['results']['IE']['buy']:
+            tream, created  = StreamingService.objects.get_or_create(
+            provider_id=each_stream['provider_id'],
+            defaults={
+                'name': each_stream['provider_name'],
+                'logo_path': each_stream['logo_path']
+                }
+            )
+            get_title.streaming_services.add(stream)
 
 
 def new_person_instance(each_person):
