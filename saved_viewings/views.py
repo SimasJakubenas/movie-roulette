@@ -5,7 +5,7 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
 from .forms import RouletteSourceForm
-from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, Country
+from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, Country, StreamingService
 
 # Create your views here.
 # class TitleList(generic.ListView):

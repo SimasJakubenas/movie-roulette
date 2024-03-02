@@ -71,3 +71,10 @@ class Creator(models.Model):
 class Country(models.Model):
     country_iso = models.CharField(primary_key=True, unique=True, max_length=50)
     name = models.CharField(max_length=50, null=True, blank=True)
+
+    
+class StreamingService(models.Model):
+    provider_id = models.IntegerField(primary_key=True, unique=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    logo_path = models.CharField(max_length=200, null=True, blank=True)
+    
