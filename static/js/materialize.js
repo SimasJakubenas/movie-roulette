@@ -82,33 +82,32 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
             "X-CSRFToken": getCookie("csrftoken"),
         },
         success: function (get_title) {
-            let openOverlay = function (el, get_title) {
-                $('.overlay').eq(el).css('display', 'unset');
-                let obj = JSON.parse(get_title)
+            let openOverlay = function (index, get_title) {
+                $('.overlay').eq(index).css('display', 'unset');
+                let title_info = JSON.parse(get_title)
                 let genreList = []
                 let castList = []
                 let directorList = []
-                $.each(obj.genres, function(key, value) {
+                $.each(title_info.genres, function(key, value) {
                     genreList.push(value.name)
                 });
-                $('.genres').eq(el).html(`${genreList.join(', ')}`)
+                $('.genres').eq(index).html(`${genreList.join(', ')}`)
                 if (titleType == 0) {
-                    $('.runtime').eq(el).html(`${obj.runtime}`)
-                    $('.age-limit').eq(el).html(`${obj.releases.countries[0].certification}`)
-                    $.each(obj.casts.cast, function(key, value) {
+                    $('.runtime').eq(index).html(`${title_info.runtime}`)
+                    $('.age-limit').eq(index).html(`${title_info.releases.countries[0].certification}`)
+                    $.each(title_info.casts.cast, function(key, value) {
                         castList.push(value.name)
                     });
-                    $('.cast').eq(el).html(`${castList.join(', ')}`)
-                    $(obj.casts.crew).each(function () {
+                    $('.cast').eq(index).html(`${castList.join(', ')}`)
+                    $(title_info.casts.crew).each(function () {
                         if ($(this)[0].job === 'Director') {
                             directorList.push($(this)[0].name)
                         } 
                     });
-                    $('.director').eq(el).html(`${directorList.join(', ')}`)
+                    $('.director').eq(index).html(`${directorList.join(', ')}`)
                 }
                 else {
-                    $('.seasons').eq(el).html(`${obj.last_episode_to_air.season_number}`)
-                    $('.status').eq(el).html(`${obj.status}`)
+                    fill_tv_details(index, title_info, castList)
                 }
             }
             openOverlay(carouselIteNr, get_title)
@@ -117,6 +116,23 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
             console.log(error);
         }
     });
+}
+
+function fill_tv_details(index, title_info, castList) {
+    /**
+     * 
+     */
+    let creatorList = []
+    $('.seasons').eq(index).html(`${title_info.last_episode_to_air.season_number}`)
+    $('.status').eq(index).html(`${title_info.status}`)
+    $.each(title_info.credits.cast, function(key, value) {
+        castList.push(value.name)
+    });
+    $('.cast').eq(index).html(`${castList.join(', ')}`)
+    $(title_info.created_by).each(function () {
+        creatorList.push($(this)[0].name)
+    });
+    $('.creator').eq(index).html(`${creatorList.join(', ')}`)
 }
 
 /**

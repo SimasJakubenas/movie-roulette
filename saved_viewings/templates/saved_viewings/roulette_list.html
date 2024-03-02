@@ -204,8 +204,14 @@
                         <div class="col xl9 m7 s6 cast"></div>
                     </div>
                     <div class="row">
-                        <div class="col xl3 m5 s6"> Directed By: </div>
-                        <div class="col xl9 m7 s6 director"></div>
+                        <div class="col xl3 m5 s6">
+                            {% if list_item.type == 0 %}
+                            Directed By:
+                            {% else %}
+                            Created By:
+                            {% endif %}
+                        </div>
+                        <div class="col xl9 m7 s6 director creator"></div>
                     </div>
                 </div>
                 <div class="row">
