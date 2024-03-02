@@ -151,24 +151,28 @@ function compileStreamList(index, titleInfo) {
     let streamList = []
     $.each(titleInfo.results.IE.flatrate, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            streamList.push(value.provider_id)
-            streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${(this).logo_path}">`)
+            appendStreamList(value, streamList, streamContainer)
         }
     });
     $.each(titleInfo.results.IE.rent, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            streamList.push(value.provider_id)
-            streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${(this).logo_path}">`)
+            appendStreamList(value, streamList, streamContainer)
         }
     });
     $.each(titleInfo.results.IE.buy, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            streamList.push(value.provider_id)
-            streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${(this).logo_path}">`)
+            appendStreamList(value, streamList, streamContainer)
         }
     });
 }
 
+/**
+ * Adds streaming providers logos to providers container 
+ */
+function appendStreamList(value, streamList, streamContainer) {
+    streamList.push(value.provider_id)
+    streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`)
+}
 
 /**
  * Function used to get csrf token value when a post request is send without a form element
