@@ -1,0 +1,47 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col l2 push-l1 m12">
+        <div class="row">
+            <form method="post" class="col l12 m3 push-m9 s4 push-s8">
+                {% csrf_token %}
+                <div class="row main-select">
+                    <label class="col xl3 push-xl2 m11 push-m1">Movie</label>
+                </div>
+            </form>
+        </div>
+            <ul class="lists-menu row">
+                <a href="#" class="col l12 m3">
+                    <i class="far fa-heart"></i>
+                    <li>Favoutire</li>
+                </a>
+                <a href="#" class="col l12 m3">
+                    <i class="fas fa-plus"></i>
+                    <li">Watchlist</li>
+                </a>
+                <a href="#" class="col l12 m3">
+                    <i class="fas fa-check"></i>
+                    <li>Seen It</li>
+                </a>
+                <a href="#" class="col l12 m3">
+                    <i class="fas fa-times"></i>
+                    <li>Don't Show</li>
+                </a>
+            </ul>
+    </div>
+    <div class="col l9 m12">
+        <div class="container relative">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident totam esse veniam eum 
+            placeat! Harum nisi dolores molestiae soluta amet itaque quasi velit reiciendis voluptas 
+            aspernatur possimus, animi nulla laborum.
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block overlay %}
+{% include 'overlay.html' %}
+{% endblock %}

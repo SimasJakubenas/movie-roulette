@@ -330,3 +330,11 @@ def new_actor_instance(each_person, get_title):
         person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
     )
     get_title.actors.add(actor)
+
+def load_favourite_movies(request):
+    """
+    """
+    return render(
+        request,
+        'saved_viewings/favourites_list.html',
+    )

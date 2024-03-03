@@ -3,8 +3,9 @@ from django.urls import path
 
 urlpatterns = [
     path('', views.roulette_list, name='roulette_list'),
+    path('', views.roulette_list, name='add_title'),
     path('clearall/', views.roulette_clear, name='clear_list'),
     path('delete/<int:title_id>', views.clear_one_title, name='delete'),
-    path('', views.roulette_list, name='add_title'),
-    path('info/', views.title_info, name='info')
+    path('info/', views.title_info, name='info'),
+    path('favourite/movie/', views.load_favourite_movies, name='favourite_movies')
 ]
