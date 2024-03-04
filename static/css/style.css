@@ -200,6 +200,18 @@ button.btn {
     padding-bottom: 0.5em;
 }
 
+.my-lists-overlay {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 1.5em;
+    margin: 5% 0;
+}
+
+.my-lists-overlay i {
+    font-size: 1.2em;
+    padding: 5%;
+}
+
 .close-button {
     right: 0;
 }

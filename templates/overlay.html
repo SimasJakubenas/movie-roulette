@@ -47,25 +47,34 @@
                 <p>{{ list_item.description }}</p>
                 <br>
                 <div class="row">
-                    <div class="col xl3 m5 s6">Cast:</div>
-                    <div class="col xl9 m7 s6 cast"></div>
+                    <div class="col xl3 m5 s4">Cast:</div>
+                    <div class="col xl9 m7 s8 cast"></div>
                 </div>
                 <div class="row">
-                    <div class="col xl3 m5 s6">
+                    <div class="col xl3 m5 s4">
                         {% if list_item.type == 0 %}
                         Directed By:
                         {% else %}
                         Created By:
                         {% endif %}
                     </div>
-                    <div class="col xl9 m7 s6 director creator"></div>
+                    <div class="col xl9 m7 s8 director creator"></div>
+                </div>
+                <div class="my-lists-overlay row">
+                    <span class="col m4 s12">My Lists:</span>
+                    <div class="col m8 s12">
+                        <i class="far fa-heart"></i>
+                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-check"></i>
+                        <i class="fas fa-times"></i>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col xl3 m12">
+                <div class="col s12 my-lists-overlay">
                     Available On:
                 </div>
-                <div class="col xl9 m12 providers"></div>
+                <div class="col xl9 s12 providers"></div>
             </div>
         </div>
     </div>
