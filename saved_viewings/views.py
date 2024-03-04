@@ -256,6 +256,44 @@ def title_info(request):
 
         return HttpResponse(myResponse)
 
+def add_to_list(request):
+    """
+    Receives data from list icon toggle and uses that data to add title
+    to respective list 
+    """
+    if request.method == 'POST':
+        titleID = request.POST.get('titleID')
+        list = request.POST.get('list')
+        if list == 'is_in_favourites':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_favourites=True)
+        if list == 'is_in_watchlist':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_watchlist=True)
+        if list == 'is_in_seen_it':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_seen_it=True)
+        if list == 'is_in_dont_show':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_dont_show=True)
+
+        return HttpResponse('add to list')
+
+def remove_from_list(request):
+    """
+    Receives data from list icon toggle and uses that data to remove title
+    from respective list
+    """
+    if request.method == 'POST':
+        titleID = request.POST.get('titleID')
+        list = request.POST.get('list')
+        if list == 'is_in_favourites':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_favourites=False)
+        if list == 'is_in_watchlist':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_watchlist=False)
+        if list == 'is_in_seen_it':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_seen_it=False)
+        if list == 'is_in_dont_show':
+            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_dont_show=False)
+
+        return HttpResponse('removed from list')
+
 def get_all_movie_people(title_details, get_title):
     """
     Loops through 'cast' array in the API responce and creates new Person instances

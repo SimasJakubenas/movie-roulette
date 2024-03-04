@@ -212,6 +212,13 @@ button.btn {
     padding: 5%;
 }
 
+i[data-listed="is_in_favourites"],
+i[data-listed="is_in_watchlist"],
+i[data-listed="is_in_seen_it"],
+i[data-listed="is_in_dont_show"] { 
+    background-color: var(--highlight-blue);
+}
+
 .close-button {
     right: 0;
 }
@@ -260,4 +267,8 @@ a {
     border-radius: 0.3em;
     box-shadow: 0 0 10px 5px #000000;
     box-shadow: 0 0 5px 5px #000000 inset;
+}
+
+.icon-active {
+    background-color: var(--highlight-blue);
 }

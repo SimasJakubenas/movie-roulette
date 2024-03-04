@@ -23,6 +23,7 @@ $(document).ready(function () {
     $('.close-button').on('click', function () {
         $(this).parent().parent().css('display', 'none')
     });
+    listIconToggle(this)
     spinRoulette()
     movieShowToggle()
     // Confirmation modal to clear all button
@@ -106,6 +107,68 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
         }
     });
 }
+
+/**
+ * Sends POST request with ajax
+ * Transfers data (title ID and type of list) from frontend to backend
+ * Toggles background colour
+ */
+function listIconToggle() {
+    $('.add-to-list').on('click', function () {
+        let titleID = $(this).attr('data-titleID')
+        let list = ''
+        if ($(this).hasClass('add-to-favourites')) {
+            list = 'is_in_favourites'
+        }
+        if ($(this).hasClass('add-to-watchlist')) {
+            list = 'is_in_watchlist'
+        }
+        if ($(this).hasClass('add-to-seen-it')) {
+            list = 'is_in_seen_it'
+        }
+        if ($(this).hasClass('add-to-dont-show')) {
+            list = 'is_in_dont_show'
+        }
+
+        if ($(this).attr('data-listed')) {
+            $(this).removeAttr('data-listed')
+            $(this).css('background-color', 'unset')
+            $.ajax({
+                url: 'remove/',
+                type: 'POST',
+                data: {
+                    'list': list,
+                    'titleID': titleID,
+                },
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                error: (error) => {
+                    console.log(error);
+                }
+            });
+        } else {
+            $(this).attr('data-listed', list)
+            $(this).css('background-color', '#6CE5E8')
+            $.ajax({
+                url: 'add/',
+                type: 'POST',
+                data: {
+                    'list': list,
+                    'titleID': titleID,
+                },
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+
+                error: (error) => {
+                    console.log(error);
+                }
+            });
+        }
+    })
+};
 
 function fill_movie_details(index, titleInfo, castList) {
     /**
