@@ -11,14 +11,15 @@ class RouletteSourceForm(forms.Form):
         ('Seen It', 'Seen It')
         )
     TYPE_CHOICES = {
-        ('Movie', 'Movie'),
-        ('TV_Show', 'TV_Show')
+        ('Movies', 'Movies'),
+        ('TV Shows', 'TV Shows')
     }
 
     source = forms.CharField(
         widget=forms.Select(
             choices=SOURCE_CHOICES,
             attrs={'class': 'browser-default col xl6 push-xl3 m10 push-m1'}),
+            required=False
     )
     type = forms.CharField(
         widget=forms.Select(

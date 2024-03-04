@@ -1,41 +1,47 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 <div class="row">
-    <div class="col l2 push-l1 m12">
+    <div class="col l2 push-l1 s12">
         <div class="row">
-            <form method="post" class="col l12 m3 push-m9 s4 push-s8">
+            <form method="post" class="col l12 m3 push-m9 s4 push-s8 type-choice">
                 {% csrf_token %}
-                <div class="row main-select">
-                    <label class="col xl3 push-xl2 m11 push-m1">Movie</label>
+                <div class="row main-select individual-select list-type">
+                    {{ source_form.type}}
+                    {{ source_form.load_all}}
                 </div>
             </form>
         </div>
-            <ul class="lists-menu row">
-                <a href="#" class="col l12 m3">
-                    <i class="far fa-heart"></i>
-                    <li>Favoutire</li>
-                </a>
-                <a href="#" class="col l12 m3">
-                    <i class="fas fa-plus"></i>
-                    <li">Watchlist</li>
-                </a>
-                <a href="#" class="col l12 m3">
-                    <i class="fas fa-check"></i>
-                    <li>Seen It</li>
-                </a>
-                <a href="#" class="col l12 m3">
-                    <i class="fas fa-times"></i>
-                    <li>Don't Show</li>
-                </a>
-            </ul>
+        <ul class="lists-menu row">
+            <a href="#" class="col l12 m3">
+                <i class="far fa-heart"></i>
+                <li>Favoutire</li>
+            </a>
+            <a href="#" class="col l12 m3">
+                <i class="fas fa-plus"></i>
+                <li">Watchlist</li>
+            </a>
+            <a href="#" class="col l12 m3">
+                <i class="fas fa-check"></i>
+                <li>Seen It</li>
+            </a>
+            <a href="#" class="col l12 m3">
+                <i class="fas fa-times"></i>
+                <li>Don't Show</li>
+            </a>
+        </ul>
     </div>
-    <div class="col l9 m12">
-        <div class="container relative">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident totam esse veniam eum 
-            placeat! Harum nisi dolores molestiae soluta amet itaque quasi velit reiciendis voluptas 
-            aspernatur possimus, animi nulla laborum.
+    <div class="col l9 push-l1 s12">
+        <div class="container list-container row relative">
+            {% for list_item in in_list %}
+                <form action="{% url 'delete' list_item.title_id %}" method="post" class="movies-list">
+                    {% csrf_token %}
+                    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
+                        class="movie-poster col xl3 m4 s6" data-titleID="{{ list_item.title_id }}"
+                        data-titleType="{{ list_item.type }}">
+                </form>
+            {% endfor %}
         </div>
     </div>
 </div>

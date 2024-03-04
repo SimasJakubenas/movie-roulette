@@ -7,5 +7,6 @@ urlpatterns = [
     path('clearall/', views.roulette_clear, name='clear_list'),
     path('delete/<int:title_id>', views.clear_one_title, name='delete'),
     path('info/', views.title_info, name='info'),
-    path('favourite/movie/', views.load_favourite_movies, name='favourite_movies')
+    path('favourite/', views.load_favourites_list, name='favourite_list'),
+    path('favourite/info/', views.title_info, name='info')
 ]

@@ -22,7 +22,7 @@ POSTER_SIZE = 'w154/'
 POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
 
 def tmdb_api_connect(request, type):
-    if ( type == 'Movie'):
+    if ( type == 'Movies'):
         url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     else:
         url = f"{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
@@ -43,7 +43,7 @@ def roulette_list(request):
         Instance of roulette restriction fields
     ``POSTER_PATH``
         URL path for posters
-    ``in_roulette_list``
+    ``in_list``
         List of title instances in the roullete
 
     **Template**
@@ -51,7 +51,7 @@ def roulette_list(request):
     :saved_viewings/roulette_list.html`
     """
     source_form = RouletteSourceForm(data=request.POST)
-    in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+    in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
 
     if request.method == "POST":
         if source_form.is_valid():
@@ -68,8 +68,8 @@ def roulette_list(request):
                 result = list(MovieOrShow.objects.filter(is_in_seen_it=True).values()) 
             roulette_load(request, result, source_form, source, type, load_all)
             
-    in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
-    empty_card_count = range(5 - len(in_roulette_list))
+    in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
+    empty_card_count = range(5 - len(in_list))
     
     return render(
         request,
@@ -77,7 +77,7 @@ def roulette_list(request):
         {
             'source_form': source_form,
             'POSTER_PATH': POSTER_PATH,
-            'in_roulette_list': in_roulette_list,
+            'in_list': in_list,
             'empty_card_count': empty_card_count
         })
 
@@ -92,7 +92,7 @@ def roulette_load(request, result, source_form, source, type, load_all):
         Instance of roulette restriction fields
     ``POSTER_PATH``
         URL path for posters
-    ``in_roulette_list``
+    ``in_list``
         List of title instances in the roullete
 
     **Template**
@@ -106,12 +106,12 @@ def roulette_load(request, result, source_form, source, type, load_all):
             else:
                 random_number = random.randint(1, len(result))
             result_pick = result[random_number]
-            in_roulette_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+            in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
             if (load_all == True):
-                if len(in_roulette_list) == 0:
+                if len(in_list) == 0:
                     add_title_instance(request, result_pick, source, type)
-                if len(in_roulette_list) < 5:
-                    for title in in_roulette_list:
+                if len(in_list) < 5:
+                    for title in in_list:
                         if result_pick['id'] in title:
                             pass
                         else:
@@ -124,13 +124,13 @@ def roulette_load(request, result, source_form, source, type, load_all):
         else:
             return False
 
-    return in_roulette_list, render(
+    return render(
         request,
         'saved_viewings/roulette_list.html',
         {
             'source_form': source_form,
             'POSTER_PATH': POSTER_PATH,
-            'in_roulette_list': in_roulette_list
+            'in_list': in_list
         })
 
 def roulette_clear(request):
@@ -156,7 +156,7 @@ def add_title_instance(request, result_pick, source, type):
         backdrop_link=result_pick['backdrop_path'],
         is_in_roulette=True
     )
-    if ( type == 'Movie'):
+    if ( type == 'Movies'):
         new_entry.title=  result_pick['title']
         new_entry.type = 0
         slice_date = slice(4)
@@ -331,10 +331,32 @@ def new_actor_instance(each_person, get_title):
     )
     get_title.actors.add(actor)
 
-def load_favourite_movies(request):
+def load_favourites_list(request):
     """
+     Loads favourites page
+    **Context**
+
+    ``source_form``
+        Instance of type seletion field
+    ``POSTER_PATH``
+        URL path for posters
+    ``in_list``
+        List of title instances in the fsvourites list
+
+    **Template**
+        
+    :saved_viewings/favourites_list.html`
     """
+    in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
+    source_form = RouletteSourceForm(data=request.POST)
+
     return render(
         request,
         'saved_viewings/favourites_list.html',
+        {
+            'source_form': source_form,
+            'POSTER_PATH': POSTER_PATH,
+            'in_list': in_list
+        }
     )
+    
