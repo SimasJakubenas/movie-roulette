@@ -34,13 +34,22 @@
     </div>
     <div class="col l9 push-l1 s12">
         <div class="container list-container row relative">
-            {% for list_item in in_list %}
-                <form action="{% url 'delete' list_item.title_id %}" method="post" class="movies-list">
+            {% for list_item in in_list reversed %}
+            {% if list_item.type == 0 %}
+                <form action="{% url 'delete' list_item.title_id %}" method="post" class="movies-list carousel-item">
                     {% csrf_token %}
                     <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
                         class="movie-poster col xl3 m4 s6" data-titleID="{{ list_item.title_id }}"
                         data-titleType="{{ list_item.type }}">
                 </form>
+            {% else %}
+                <form action="{% url 'delete' list_item.title_id %}" method="post" class="shows-list carousel-item">
+                    {% csrf_token %}
+                    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
+                        class="movie-poster col xl3 m4 s6" data-titleID="{{ list_item.title_id }}"
+                        data-titleType="{{ list_item.type }}">
+                </form>
+            {% endif %}
             {% endfor %}
         </div>
     </div>

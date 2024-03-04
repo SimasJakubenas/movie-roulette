@@ -24,6 +24,7 @@ $(document).ready(function () {
         $(this).parent().parent().css('display', 'none')
     });
     spinRoulette()
+    movieShowToggle()
     // Confirmation modal to clear all button
     $('.btn-red').on('click', function () {
         let confirmClearAll = confirm('Are you sure you want to clear the roulette?')
@@ -164,6 +165,29 @@ function compileStreamList(index, titleInfo) {
             appendStreamList(value, streamList, streamContainer)
         }
     });
+}
+
+/**
+ * Acuires forms type value and displays/hides titles accordingly
+ */
+function movieShowToggle() {
+    $('.list-type select').addClass('type-select')
+    type = $('.type-select').val()
+    displayFavouriteTypeOfTitle(type)
+    $('.type-select').on('change', function () {
+        type = $(this).val()
+        displayFavouriteTypeOfTitle(type)
+    })
+}
+
+function displayFavouriteTypeOfTitle(type) {
+    if (type === 'Movies') {
+        $('.movies-list').css('display', 'unset')
+        $('.shows-list').css('display', 'none')
+    } else {
+        $('.shows-list').css('display', 'unset')
+        $('.movies-list').css('display', 'none')
+    }
 }
 
 /**
