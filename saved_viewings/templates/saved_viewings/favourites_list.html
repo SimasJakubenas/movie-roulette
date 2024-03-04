@@ -36,19 +36,32 @@
         <div class="container list-container row relative">
             {% for list_item in in_list reversed %}
             {% if list_item.type == 0 %}
-                <form action="{% url 'delete' list_item.title_id %}" method="post" class="movies-list carousel-item">
+            <div class="relative">
+                <form action="{% url 'delete_favourite' list_item.title_id %}" method="post"
+                    class="movies-list carousel-item relative">
                     {% csrf_token %}
                     <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
                         class="movie-poster col xl3 m4 s6" data-titleID="{{ list_item.title_id }}"
                         data-titleType="{{ list_item.type }}">
+                    <button type="submit" value="" class="remove-one-title absolute">
+                        <i class="far fa-times-circle"></i>
+                    </button>
                 </form>
+            </div>
+
             {% else %}
-                <form action="{% url 'delete' list_item.title_id %}" method="post" class="shows-list carousel-item">
+            <div class="relative">
+                <form action="{% url 'delete_favourite' list_item.title_id %}" method="post" class="shows-list carousel-item relative">
                     {% csrf_token %}
                     <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
                         class="movie-poster col xl3 m4 s6" data-titleID="{{ list_item.title_id }}"
                         data-titleType="{{ list_item.type }}">
+                    <button type="submit" value="" class="remove-one-title absolute remove-favourite">
+                        <i class="far fa-times-circle"></i>
+                    </button>
                 </form>
+            </div>
+
             {% endif %}
             {% endfor %}
         </div>

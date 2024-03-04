@@ -161,6 +161,10 @@ button.btn {
     opacity: 1;
 }
 
+.remove-favourite {
+    top: 5vh !important;
+}
+
 .empty-carousel-item {
     background-color: #000000;
     color: #ffffff;

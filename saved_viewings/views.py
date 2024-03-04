@@ -154,7 +154,8 @@ def add_title_instance(request, result_pick, source, type):
         tmdb_rating=result_pick['vote_average'],
         poster_link=result_pick['poster_path'],
         backdrop_link=result_pick['backdrop_path'],
-        is_in_roulette=True
+        is_in_roulette=True,
+        is_in_favourites=True
     )
     if ( type == 'Movies'):
         new_entry.title=  result_pick['title']
@@ -175,12 +176,36 @@ def clear_one_title(request, title_id):
     Removes a single title to the  roulette carousel
     """
     if request.method == 'POST':
-        queryset = MovieOrShow.objects.filter(is_in_roulette=True)
-        one_clicked = get_object_or_404(queryset, pk=title_id)
-        one_clicked.delete()
+        get_title = MovieOrShow.objects.filter(pk=title_id)
+        update_title = get_title.update(is_in_roulette=False)
+        clear_title(get_title,title_id)
         return HttpResponseRedirect(reverse('roulette_list'))
 
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
+
+def clear_one_favourite_title(request, title_id):
+    """
+    Removes a single title from the favourites list
+    """
+    if request.method == 'POST':
+        get_title = MovieOrShow.objects.filter(pk=title_id)
+        update_title = get_title.update(is_in_favourites=False)
+        clear_title(get_title, title_id)
+        return HttpResponseRedirect(reverse('favourite_list'))
+
+    return HttpResponseRedirect(reverse('favourite_list', args=[title_id]))
+
+def clear_title(get_title, title_id):
+    title_object = list(MovieOrShow.objects.filter(pk=title_id).values())
+    if (title_object[0]['is_in_roulette'] or 
+        title_object[0]['is_in_favourites'] or
+        title_object[0]['is_in_watchlist'] or
+        title_object[0]['is_in_seen_it'] or
+        title_object[0]['is_in_dont_show']
+        in title_object) == True:
+        pass
+    else:
+        get_title.delete()
 
 def title_info(request):
     """
