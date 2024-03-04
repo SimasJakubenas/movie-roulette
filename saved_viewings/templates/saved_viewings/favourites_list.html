@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col l2 push-l1 s12">
         <div class="row">
-            <form method="post" class="col l12 m3 push-m9 s4 push-s8 type-choice">
+            <form method="post" class="col l12 m3 push-m8 s6 push-s5 type-choice">
                 {% csrf_token %}
                 <div class="row main-select individual-select list-type">
                     {{ source_form.type}}
@@ -14,21 +14,21 @@
             </form>
         </div>
         <ul class="lists-menu row">
-            <a href="#" class="col l12 m3">
-                <i class="far fa-heart"></i>
-                <li>Favoutire</li>
+            <a href="#" class="col l12 m3 s2 push-s2 center-align list-active">
+                <i class="far fa-heart hide-on-med-and-up me"></i>
+                <li class="hide-on-small-only">Favourite</li>
             </a>
-            <a href="#" class="col l12 m3">
-                <i class="fas fa-plus"></i>
-                <li">Watchlist</li>
+            <a href="#" class="col l12 m3 s2 push-s2 center-align">
+                <i class="fas fa-plus hide-on-med-and-up"></i>
+                <li class="hide-on-small-only">Watchlist</li>
             </a>
-            <a href="#" class="col l12 m3">
-                <i class="fas fa-check"></i>
-                <li>Seen It</li>
+            <a href="#" class="col l12 m3 s2 push-s2 center-align">
+                <i class="fas fa-check hide-on-med-and-up"></i>
+                <li class="hide-on-small-only">Seen It</li>
             </a>
-            <a href="#" class="col l12 m3">
-                <i class="fas fa-times"></i>
-                <li>Don't Show</li>
+            <a href="#" class="col l12 m3 s2 push-s2 center-align">
+                <i class="fas fa-times hide-on-med-and-up"></i>
+                <li class="hide-on-small-only">Don't Show</li>
             </a>
         </ul>
     </div>

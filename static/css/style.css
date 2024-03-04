@@ -204,10 +204,48 @@ button.btn {
     right: 0;
 }
 
-.active {
-    box-shadow: 20px 20px red;
+/* My Lists style */
+
+.type-choice div select {
+    background-color: rgba(0, 0, 0, 0);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 1.5em;
+    height: 1.7em;
+    margin: 4vh 0;
+}
+
+select option {
+    background-color: var(--dark-grey) !important;
+}
+
+.lists-menu {
+    color: var(--off-white);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.lists-menu a li {
+    padding: 3% 15%;
+}
+.lists-menu a i {
+    font-size: 1.5em;
+    margin: 0.6em 0;
+}
+
+a {
+    color: inherit;
 }
 
 .shows-list {
     display: none;
+}
+
+.list-active {
+    background-color: var(--highlight-blue);
+    color: #000;
+    border-radius: 0.3em;
+    box-shadow: 0 0 10px 5px #000000;
+    box-shadow: 0 0 5px 5px #000000 inset;
 }
