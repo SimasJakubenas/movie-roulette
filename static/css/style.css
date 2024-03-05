@@ -212,10 +212,7 @@ button.btn {
     padding: 5%;
 }
 
-i[data-listed="is_in_favourites"],
-i[data-listed="is_in_watchlist"],
-i[data-listed="is_in_seen_it"],
-i[data-listed="is_in_dont_show"] { 
+i[data-listed="true"] { 
     background-color: var(--highlight-blue);
 }
 

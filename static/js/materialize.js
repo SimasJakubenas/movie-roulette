@@ -116,23 +116,17 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
 function listIconToggle() {
     $('.add-to-list').on('click', function () {
         let titleID = $(this).attr('data-titleID')
-        let list = ''
-        if ($(this).hasClass('add-to-favourites')) {
-            list = 'is_in_favourites'
-        }
-        if ($(this).hasClass('add-to-watchlist')) {
-            list = 'is_in_watchlist'
-        }
-        if ($(this).hasClass('add-to-seen-it')) {
-            list = 'is_in_seen_it'
-        }
-        if ($(this).hasClass('add-to-dont-show')) {
-            list = 'is_in_dont_show'
-        }
+        let list = $(this).attr('data-in-list')
 
         if ($(this).attr('data-listed')) {
             $(this).removeAttr('data-listed')
             $(this).css('background-color', 'unset')
+            $('.favourite-title img').each( function () {
+                if ($(this).attr('data-titleID') == titleID) {
+                    $(this).css('display', 'none')
+                    $(this).siblings().css('display', 'none')
+                }
+            })
             $.ajax({
                 url: 'remove/',
                 type: 'POST',
@@ -149,7 +143,7 @@ function listIconToggle() {
                 }
             });
         } else {
-            $(this).attr('data-listed', list)
+            $(this).attr('data-listed', 'true')
             $(this).css('background-color', '#6CE5E8')
             $.ajax({
                 url: 'add/',
