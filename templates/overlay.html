@@ -63,10 +63,14 @@
                 <div class="my-lists-overlay row">
                     <span class="col m4 s12">My Lists:</span>
                     <div class="col m8 s12">
-                        <i class="far fa-heart add-to-list add-to-favourites" data-titleID="{{ list_item.title_id }}" {% if list_item.is_in_favourites %} data-listed="is_in_favourites" {% endif %}></i>
-                        <i class="fas fa-plus add-to-list add-to-watchlist" data-titleID="{{ list_item.title_id }}" {% if list_item.is_in_watchlist %} data-listed="is_in_watchlist" {% endif %}></i>
-                        <i class="fas fa-check add-to-list add-to-seen-it" data-titleID="{{ list_item.title_id }}" {% if list_item.is_in_seen_it %} data-listed="is_in_seen_it" {% endif %}></i>
-                        <i class="fas fa-times add-to-list add-to-dont-show" data-titleID="{{ list_item.title_id }}" {% if list_item.is_in_dont_show %} data-listed="is_in_dont_show" {% endif %}></i>
+                        <i class="far fa-heart add-to-list add-to-favourites" data-titleID="{{ list_item.title_id }}"
+                            {% if list_item.is_in_favourites %} data-listed="is_in_favourites" {% endif %}></i>
+                        <i class="fas fa-plus add-to-list add-to-watchlist" data-titleID="{{ list_item.title_id }}"
+                            {% if list_item.is_in_watchlist %} data-listed="is_in_watchlist" {% endif %}></i>
+                        <i class="fas fa-check add-to-list add-to-seen-it" data-titleID="{{ list_item.title_id }}"
+                            {% if list_item.is_in_seen_it %} data-listed="is_in_seen_it" {% endif %}></i>
+                        <i class="fas fa-times add-to-list add-to-dont-show" data-titleID="{{ list_item.title_id }}"
+                            {% if list_item.is_in_dont_show %} data-listed="is_in_dont_show" {% endif %}></i>
                     </div>
                 </div>
             </div>
