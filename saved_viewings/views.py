@@ -191,9 +191,9 @@ def clear_one_favourite_title(request, title_id):
         get_title = MovieOrShow.objects.filter(pk=title_id)
         update_title = get_title.update(is_in_favourites=False)
         clear_title(get_title, title_id)
-        return HttpResponseRedirect(reverse('favourite_list'))
+        return HttpResponseRedirect(reverse('my_lists'))
 
-    return HttpResponseRedirect(reverse('favourite_list', args=[title_id]))
+    return HttpResponseRedirect(reverse('my_lists', args=[title_id]))
 
 def clear_title(get_title, title_id):
     title_object = list(MovieOrShow.objects.filter(pk=title_id).values())
@@ -207,7 +207,7 @@ def clear_title(get_title, title_id):
     else:
         get_title.delete()
 
-def title_info(request):
+def title_info(request, list_type):
     """
     Receives data from user input and uses that data to call to an API to fetch 
     detailed information about the title
@@ -256,7 +256,7 @@ def title_info(request):
 
         return HttpResponse(myResponse)
 
-def add_to_list(request):
+def add_to_list(request, list_type):
     """
     Receives data from list icon toggle and uses that data to add title
     to respective list 
@@ -275,7 +275,7 @@ def add_to_list(request):
 
         return HttpResponse('add to list')
 
-def remove_from_list(request):
+def remove_from_list(request, list_type):
     """
     Receives data from list icon toggle and uses that data to remove title
     from respective list
@@ -394,7 +394,7 @@ def new_actor_instance(each_person, get_title):
     )
     get_title.actors.add(actor)
 
-def load_favourites_list(request):
+def load_favourites_list(request, list_type):
     """
      Loads favourites page
     **Context**
@@ -408,14 +408,15 @@ def load_favourites_list(request):
 
     **Template**
         
-    :saved_viewings/favourites_list.html`
+    :saved_viewings/favourites.html`
     """
+    print(list_type)
     in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
     source_form = RouletteSourceForm(data=request.POST)
 
     return render(
         request,
-        'saved_viewings/favourites_list.html',
+        'saved_viewings/favourites.html',
         {
             'source_form': source_form,
             'POSTER_PATH': POSTER_PATH,
