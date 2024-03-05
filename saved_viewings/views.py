@@ -155,7 +155,8 @@ def add_title_instance(request, result_pick, source, type):
         poster_link=result_pick['poster_path'],
         backdrop_link=result_pick['backdrop_path'],
         is_in_roulette=True,
-        is_in_favourites=True
+        is_in_favourites=True,
+        is_in_watchlist=True
     )
     if ( type == 'Movies'):
         new_entry.title=  result_pick['title']
@@ -410,9 +411,16 @@ def load_favourites_list(request, list_type):
         
     :saved_viewings/favourites.html`
     """
-    print(list_type)
-    in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
     source_form = RouletteSourceForm(data=request.POST)
+    if list_type == 'favourites':
+        in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
+    if list_type == 'watchlist':
+        in_list = list(MovieOrShow.objects.filter(is_in_watchlist=True).values())
+    if list_type == 'seen_it':
+        in_list = list(MovieOrShow.objects.filter(is_in_seen_it=True).values())
+    if list_type == 'dont_show':
+        in_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+    
 
     return render(
         request,

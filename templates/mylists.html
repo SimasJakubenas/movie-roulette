@@ -15,19 +15,27 @@
             </form>
         </div>
         <ul class="lists-menu row">
-            <a href="{% url 'my_lists' 'favourites' %}" class="col l12 m3 s2 push-s2 center-align list-active">
+            <a href="{% url 'my_lists' 'favourites' %}"
+                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/favourites/' %}list-active"
+                aria-current="page{% endif %}">
                 <i class="far fa-heart hide-on-med-and-up"></i>
                 <li class="hide-on-small-only">Favourite</li>
             </a>
-            <a href="#" class="col l12 m3 s2 push-s2 center-align">
+            <a href="{% url 'my_lists' 'watchlist' %}"
+                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/watchlist/' %}list-active"
+                aria-current="page{% endif %}">
                 <i class="fas fa-plus hide-on-med-and-up"></i>
                 <li class="hide-on-small-only">Watchlist</li>
             </a>
-            <a href="#" class="col l12 m3 s2 push-s2 center-align">
+            <a href="{% url 'my_lists' 'seen_it' %}"
+                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/seen_it/' %}list-active"
+                aria-current="page{% endif %}">
                 <i class="fas fa-check hide-on-med-and-up"></i>
                 <li class="hide-on-small-only">Seen It</li>
             </a>
-            <a href="#" class="col l12 m3 s2 push-s2 center-align">
+            <a href="{% url 'my_lists' 'dont_show' %}"
+                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/dont_show/' %}list-active"
+                aria-current="page{% endif %}">
                 <i class="fas fa-times hide-on-med-and-up"></i>
                 <li class="hide-on-small-only">Don't Show</li>
             </a>
