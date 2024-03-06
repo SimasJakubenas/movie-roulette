@@ -156,7 +156,9 @@ def add_title_instance(request, result_pick, source, type):
         backdrop_link=result_pick['backdrop_path'],
         is_in_roulette=True,
         is_in_favourites=True,
-        is_in_watchlist=True
+        is_in_watchlist=True,
+        is_in_seen_it=True,
+        is_in_dont_show=True
     )
     if ( type == 'Movies'):
         new_entry.title=  result_pick['title']
@@ -184,19 +186,22 @@ def clear_one_title(request, title_id):
 
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
 
-def clear_one_favourite_title(request, title_id, list_type=None):
+def clear_one_listed_title(request, title_id, list_type=None):
     """
     Removes a single title from the favourites list
     """
     if request.method == 'POST':
         get_title = MovieOrShow.objects.filter(pk=title_id)
-        
+
         if list_type == 'favourites':
             update_title = get_title.update(is_in_favourites=False)
         if list_type == 'watchlist':
             update_title = get_title.update(is_in_watchlist=False)
-        if list_type == 'watchlist':
-            update_title = get_title.update(is_in_watchlist=False)
+        if list_type == 'seen_it':
+            print(list_type)
+            update_title = get_title.update(is_in_seen_it=False)
+        if list_type == 'dont_show':
+            update_title = get_title.update(is_in_dont_show=False)
         
         clear_title(get_title, title_id)
         return HttpResponseRedirect(reverse('my_lists', args=[list_type]))
@@ -402,7 +407,7 @@ def new_actor_instance(each_person, get_title):
     )
     get_title.actors.add(actor)
 
-def load_favourites_list(request, list_type=None):
+def load_list(request, list_type=None):
     """
      Loads favourites page
     **Context**
@@ -414,9 +419,12 @@ def load_favourites_list(request, list_type=None):
     ``in_list``
         List of title instances in the fsvourites list
 
-    **Template**
+    **Templates**
         
-    :saved_viewings/favourites.html`
+    'saved_viewings/favourites.html`
+    'saved_viewings/watchlist.html'
+    'saved_viewings/seen_it.html'
+    'saved_viewings/dont_show.html'
     """
     source_form = RouletteSourceForm(data=request.POST)
     if list_type == 'favourites':
@@ -446,11 +454,24 @@ def load_favourites_list(request, list_type=None):
         )
 
     if list_type == 'seen_it':
-        in_list = list(MovieOrShow.objects.filter(is_in_watchlist=True).values())
+        in_list = list(MovieOrShow.objects.filter(is_in_seen_it=True).values())
 
         return render(
             request,
             'saved_viewings/seen_it.html',
+            {
+                'source_form': source_form,
+                'POSTER_PATH': POSTER_PATH,
+                'in_list': in_list
+            }
+        )
+
+    if list_type == 'dont_show':
+        in_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+
+        return render(
+            request,
+            'saved_viewings/dont_show.html',
             {
                 'source_form': source_form,
                 'POSTER_PATH': POSTER_PATH,
