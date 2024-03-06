@@ -208,7 +208,7 @@ def clear_title(get_title, title_id):
     else:
         get_title.delete()
 
-def title_info(request, list_type):
+def title_info(request, list_type=None):
     """
     Receives data from user input and uses that data to call to an API to fetch 
     detailed information about the title
