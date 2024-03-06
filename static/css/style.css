@@ -126,6 +126,12 @@ button.btn {
     opacity: 1 !important;
 }
 
+.active {
+    box-shadow: 0 0 0.7em 0.7em var(--highlight-blue),
+                0 0 1.5em 2em rgba(108, 229, 232, 0.3);
+    border: 0.15em var(--off-white) solid;
+}
+
 .remove-one-title,
 .add-one-title,
 .close-button,
