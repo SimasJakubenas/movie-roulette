@@ -5,7 +5,7 @@
 
 {% for list_item in in_list reversed %}
 <div class="relative listed-title">
-    <form action="{% url 'delete_from_list' 'favourites' list_item.title_id %}" method="post"
+    <form action="{% url 'delete_from_list' 'watchlist' list_item.title_id %}" method="post"
         class="{% if list_item.type == 0 %}movies-list{% else %}shows-list {% endif %} carousel-item relative">
         {% csrf_token %}
         <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
