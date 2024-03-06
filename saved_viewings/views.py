@@ -190,11 +190,12 @@ def clear_one_favourite_title(request, title_id, list_type=None):
     """
     if request.method == 'POST':
         get_title = MovieOrShow.objects.filter(pk=title_id)
+        
         if list_type == 'favourites':
-            print(list_type)
             update_title = get_title.update(is_in_favourites=False)
         if list_type == 'watchlist':
-            print(list_type)
+            update_title = get_title.update(is_in_watchlist=False)
+        if list_type == 'watchlist':
             update_title = get_title.update(is_in_watchlist=False)
         
         clear_title(get_title, title_id)
@@ -443,8 +444,9 @@ def load_favourites_list(request, list_type=None):
                 'in_list': in_list
             }
         )
+
     if list_type == 'seen_it':
-        in_list = list(MovieOrShow.objects.filter(is_in_seen_it=True).values())
+        in_list = list(MovieOrShow.objects.filter(is_in_watchlist=True).values())
 
         return render(
             request,
@@ -455,19 +457,6 @@ def load_favourites_list(request, list_type=None):
                 'in_list': in_list
             }
         )
-    if list_type == 'dont_show':
-        in_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
-
-        return render(
-            request,
-            'saved_viewings/dont_show.html',
-            {
-                'source_form': source_form,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
-    
 
     return render(
         request,
