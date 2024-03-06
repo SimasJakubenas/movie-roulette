@@ -4,6 +4,7 @@
  * https://materializecss.com/carousel.html
  */
 $(document).ready(function () {
+    $(".dropdown-trigger").dropdown();
     $('.carousel-item').on('click', function (e) {
         e.stopPropagation()
     })

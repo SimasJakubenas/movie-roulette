@@ -20,6 +20,39 @@
 
 <body>
 
+    <ul id="dropdown1" class="dropdown-content">
+        {% if user.is_authenticated %}
+        <li><a href="#">Movies</a></li>
+        <li><a href="#">TV Shows</a></li>
+        <li><a href="#">Roulette</a></li>
+        <li><a href="#">My Lists</a></li>
+        <li><a href="#">Search</a></li>
+        {% else %}
+        <li class=""><a href="#">Sign In</a></li>
+        <li class=""><a href="#">Sign Up</a></li>
+        {% endif %}
+        <li class=""><a href="#">About</a></li>
+    </ul>
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+            <li class="hide-on-small-only"><a href="#">Movies</a></li>
+            <li class="hide-on-small-only"><a href="#">TV Shows</a></li>
+            <li class="hide-on-small-only"><a href="#">Roulette</a></li>
+            <li class="hide-on-small-only"><a href="#">My Lists</a></li>
+            <li class="hide-on-small-only"><a href="#">Search</a></li>
+            {% else %}
+            <li class="hide-on-small-only"><a href="#">Sign In</a></li>
+            <li class="hide-on-small-only"><a href="#">Sign Up</a></li>
+            {% endif %}
+            <li class="hide-on-small-only"><a href="#">About</a></li>
+        </ul>
+        <!-- Dropdown Trigger -->
+        <li><a class="dropdown-trigger hide-on-med-and-up" href="#!" data-target="dropdown1">&#9776;</a></li>
+
+
+    </nav>
+
     <main>
 
         {% block content %}
@@ -33,10 +66,10 @@
 
     <footer class="row">
         <div class="col l4 push-l4 s5 center-align">
-            <a href="https://github.com/simasjakubenas" aria-label="link to simas's github account" target="_blank" rel="noopener">
+            <a href="https://github.com/simasjakubenas" aria-label="link to simas's github account" target="_blank"
+                rel="noopener">
                 <i class="fab fa-github-square"></i>
             </a>
-        
             <a href="https://linkedin.com/in/simasjakubenas" aria-label="link to simas's linkedin account"
                 target="_blank" rel="noopener">
                 <i class="fab fa-linkedin"></i>

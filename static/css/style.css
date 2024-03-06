@@ -287,3 +287,66 @@ footer i:hover {
     color: var(--highlight-blue);
     cursor: pointer;
 }
+.dropdown-trigger {
+    float: none !important;
+}
+
+/* Navigation styling */
+
+nav {
+    background-color: unset;
+    margin-bottom: 1.5em;
+    list-style: none;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center !important;
+}
+
+nav li {
+    display: flex;
+    justify-content: right !important;
+}
+
+nav ul li {
+    padding: 0.5em;
+    font-size: 2vh;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    opacity: 0.7;
+}
+
+nav ul li:hover {
+    opacity: 1;
+}
+
+.dropdown-trigger {
+    float: right;
+    font-size: 2em;
+    padding: 0 0.6em;
+    margin: 0.6em 1.6em 0 0;
+    background-color: rgba(108, 229, 232, 0.2);
+    color: var(--highlight-blue);
+    border: 0.15em #000000 solid;;
+}
+
+.dropdown-trigger:hover, .dropdown-trigger:focus {
+    background-color: rgba(108, 229, 232, 0.7);
+}
+
+#dropdown1 {
+    background-color: var(--darker-grey);
+    width: 50vw !important;
+    border-radius: 0.5em;
+}
+
+#dropdown1 li {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    border-bottom: 0.15em var(--highlight-blue) solid;
+}
+
+#dropdown1 li:hover, #dropdown1 li:focus {
+    border-bottom: 0.15 var(--highlight-blue) solid;
+}
