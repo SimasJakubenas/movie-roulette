@@ -1,0 +1,358 @@
+/* Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500&family=Montserrat:wght@300&display=swap');
+
+/* --------- Colour scheme */
+
+:root {
+    --off-white: #FAFAFA;
+    --dark-grey: #363636;
+    --darker-grey: #2c2a2a;
+    --highlight-blue: #6CE5E8;
+    --highlight-red: #E8736C;
+}
+
+/* --------- Global style */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    scroll-behavior: smooth;
+    box-shadow: inset 0 0 150px 50px #000000;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    background-color: var(--darker-grey);
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute !important;
+}
+
+.inline {
+    display: inline;
+}
+
+.header-padding {
+    padding: 3vh 2vw;
+    margin: 0;
+}
+
+.container {
+    background-color: rgba(108, 229, 232, 0.1);
+    padding: 0 5vw 1vh;
+    border: rgba(108, 229, 232, 0.51) solid 0.1em;
+    border-radius: 1vh;
+}
+
+.container.list-container {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.list-container .movie-poster {
+    padding: 7% 3%;
+}
+
+.list-container button {
+    top: 20%;
+}
+
+h1,
+h2,
+h3,
+label {
+    color: var(--off-white);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+}
+
+.container label {
+    font-size: 1.3em;
+}
+
+select {
+    color: var(--off-white);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    height: 30px;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+}
+
+/* Button style */
+
+button.btn {
+    border-radius: 0.5em;
+    box-shadow: 0 0 10px 5px #000000;
+    box-shadow: 0 0 10px 5px #000000 inset;
+    color: #000000;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+}
+
+.btn-red {
+    background-color: var(--highlight-red);
+}
+
+.btn-blue {
+    background-color: rgba(108, 229, 232, 0.7);
+}
+
+.btn-blue-bright {
+    background-color: rgba(108, 229, 232, 1);
+}
+
+/* Roulette carousel style */
+
+.carousel {
+    perspective: 500px;
+    height: 300px;
+    max-width: 620px !important;
+}
+
+.carousel .carousel-item {
+    width: 150px;
+    opacity: 1 !important;
+}
+
+.active {
+    box-shadow: 0 0 0.7em 0.7em var(--highlight-blue),
+                0 0 1.5em 2em rgba(108, 229, 232, 0.3);
+    border: 0.15em var(--off-white) solid;
+}
+
+.remove-one-title,
+.add-one-title,
+.close-button,
+.movie-reel-button {
+    opacity: 0.7;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+
+.remove-one-title {
+    bottom: -25%;
+    right: 67%;
+}
+
+.add-one-title {
+    bottom: 42%;
+    left: 41%;
+}
+
+.remove-one-title i,
+.add-one-title i,
+.close-button i {
+    font-size: 2.5em;
+    color: var(--off-white);
+}
+
+.remove-one-title:hover,
+.add-one-title:hover,
+.close-button:hover,
+.movie-reel-button:hover {
+    opacity: 1;
+}
+
+.remove-from-list {
+    top: 5vh !important;
+}
+
+.empty-carousel-item {
+    background-color: #000000;
+    color: #ffffff;
+    height: 77% !important;
+}
+
+.movie-poster {
+    cursor: pointer;
+}
+
+.movie-reel-button img {
+    height: 1.2em;
+    padding: 0.2em 0 0 0.4em;
+}
+
+.overlay {
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(44, 42, 42, 0.94);
+    color: var(--off-white);
+    display: none;
+}
+
+.overlay-img {
+    margin: 13% 0;
+}
+
+.overlay-heading {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    padding-bottom: 0.5em;
+}
+
+.my-lists-overlay {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 1.5em;
+    margin: 5% 0;
+}
+
+.my-lists-overlay i {
+    font-size: 1.2em;
+    padding: 5%;
+}
+
+i[data-listed="true"] { 
+    background-color: var(--highlight-blue);
+}
+
+.close-button {
+    right: 0;
+}
+
+/* My Lists style */
+
+.type-choice div select {
+    background-color: rgba(0, 0, 0, 0);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 1.5em;
+    height: 1.7em;
+    margin: 4vh 0;
+}
+
+select option {
+    background-color: var(--dark-grey) !important;
+}
+
+.lists-menu {
+    color: var(--off-white);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.lists-menu a li {
+    padding: 3% 15%;
+}
+.lists-menu a i {
+    font-size: 1.5em;
+    margin: 0.6em 0;
+}
+
+a {
+    color: inherit;
+}
+
+.shows-list {
+    display: none;
+}
+
+.list-active {
+    background-color: var(--highlight-blue);
+    color: #000;
+    border-radius: 0.3em;
+    box-shadow: 0 0 10px 5px #000000;
+    box-shadow: 0 0 5px 5px #000000 inset;
+}
+
+.icon-active {
+    background-color: var(--highlight-blue);
+}
+
+/* Footer style */
+
+footer {
+    color: var(--off-white);
+    font-size: 1.2em;
+}
+
+footer i {
+    font-size: 2.5em;
+    padding: 0 0.3em;
+    margin-bottom: 0.3em;
+}
+
+footer i:hover {
+    color: var(--highlight-blue);
+    cursor: pointer;
+}
+.dropdown-trigger {
+    float: none !important;
+}
+
+/* Navigation styling */
+
+nav {
+    background-color: unset;
+    margin-bottom: 1.5em;
+    list-style: none;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center !important;
+}
+
+nav li {
+    display: flex;
+    justify-content: right !important;
+}
+
+nav ul li {
+    padding: 0.5em;
+    font-size: 2vh;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    opacity: 0.7;
+}
+
+nav ul li:hover {
+    opacity: 1;
+}
+
+.dropdown-trigger {
+    float: right;
+    font-size: 2em;
+    padding: 0 0.6em;
+    margin: 0.6em 1.6em 0 0;
+    background-color: rgba(108, 229, 232, 0.2);
+    color: var(--highlight-blue);
+    border: 0.15em #000000 solid;;
+}
+
+.dropdown-trigger:hover, .dropdown-trigger:focus {
+    background-color: rgba(108, 229, 232, 0.7);
+}
+
+#dropdown1 {
+    background-color: var(--darker-grey);
+    width: 50vw !important;
+    border-radius: 0.5em;
+}
+
+#dropdown1 li {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    border-bottom: 0.15em var(--highlight-blue) solid;
+}
+
+#dropdown1 li:hover, #dropdown1 li:focus {
+    border-bottom: 0.15 var(--highlight-blue) solid;
+}
