@@ -427,65 +427,27 @@ def load_list(request, list_type=None):
     'saved_viewings/dont_show.html'
     """
     source_form = RouletteSourceForm(data=request.POST)
+
     if list_type == 'favourites':
         in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
-
-        return render(
-            request,
-            'saved_viewings/favourites.html',
-            {
-                'source_form': source_form,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
 
     if list_type == 'watchlist':
         in_list = list(MovieOrShow.objects.filter(is_in_watchlist=True).values())
 
-        return render(
-            request,
-            'saved_viewings/watchlist.html',
-            {
-                'source_form': source_form,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
-
     if list_type == 'seen_it':
         in_list = list(MovieOrShow.objects.filter(is_in_seen_it=True).values())
-
-        return render(
-            request,
-            'saved_viewings/seen_it.html',
-            {
-                'source_form': source_form,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
 
     if list_type == 'dont_show':
         in_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
 
-        return render(
-            request,
-            'saved_viewings/dont_show.html',
-            {
-                'source_form': source_form,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
-
     return render(
         request,
-        'saved_viewings/favourites.html',
+        'saved_viewings/dont_show.html',
         {
             'source_form': source_form,
             'POSTER_PATH': POSTER_PATH,
             'in_list': in_list
         }
     )
+
     
