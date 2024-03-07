@@ -27,6 +27,7 @@ $(document).ready(function () {
     listIconToggle(this)
     spinRoulette()
     movieShowToggle()
+    removeFromList()
     // Confirmation modal to clear all button
     $('.btn-red').on('click', function () {
         let confirmClearAll = confirm('Are you sure you want to clear the roulette?')
@@ -273,4 +274,31 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+/**
+ * Async function that sends POST request with data which then in turn
+ * is used to carry out CRUD funtionalities on the backend
+ */
+function removeFromList() {
+    $('.remove-one-title').on('click', function () {
+        let titleID = $(this).attr('data-titleID')
+        let list = $(this).attr('data-in-list')
+        $(this).parent().css('display', 'none')
+        $.ajax({
+            url: 'remove/',
+            type: 'POST',
+            data: {
+                'list': list,
+                'titleID': titleID,
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    })
 }

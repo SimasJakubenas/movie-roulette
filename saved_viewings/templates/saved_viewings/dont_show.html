@@ -4,17 +4,13 @@
 {% block list %}
 
 {% for list_item in in_list reversed %}
-<div class="relative listed-title">
-    <form action="{% url 'delete_from_list' 'dont_show' list_item.title_id %}" method="post"
-        class="{% if list_item.type == 0 %}movies-list{% else %}shows-list {% endif %} carousel-item relative">
-        {% csrf_token %}
-        <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
-            class="movie-poster col xl3 m4 s6" data-titleID="{{ list_item.title_id }}"
-            data-titleType="{{ list_item.type }}">
-        <button type="submit" value="" class="remove-one-title absolute remove-from-list">
-            <i class="far fa-times-circle"></i>
-        </button>
-    </form>
+<div class="{% if list_item.type == 0 %}movies-list{% else %}shows-list {% endif %} carousel-item relative listed-title col xl3 m4 s6">
+    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
+        class="movie-poster" data-titleID="{{ list_item.title_id }}"
+        data-titleType="{{ list_item.type }}">
+    <button type="submit" value="" class="remove-one-title absolute remove-from-list" data-titleID="{{ list_item.title_id }}">
+        <i class="far fa-times-circle"></i>
+    </button>
 </div>
 {% endfor %}
 
