@@ -2,7 +2,7 @@
 
 {% url 'account_login' as signin_url %}
 {% url 'account_signup' as signup_url %}
-{% url 'account_logout' as logout_url %}
+{% url 'account_logout' as signout_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,58 +23,50 @@
 </head>
 
 <body>
-
-    {% if user.is_authenticated %}
-    <li class="nav-item">
-        <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
-            href="{% url 'account_logout' %}">Logout</a>
-    </li>
-    {% else %}
-    <li class="nav-item">
-        <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page"
-            href="{% url 'account_signup' %}">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page"
-            href="{% url 'account_login' %}">Login</a>
-    </li>
-    {% endif %}
-
     <ul id="dropdown1" class="dropdown-content">
         {% if user.is_authenticated %}
         <li><a href="#">Movies</a></li>
         <li><a href="#">TV Shows</a></li>
-        <li><a href="#">Roulette</a></li>
-        <li><a href="#">My Lists</a></li>
+        <li><a href="/">Roulette</a></li>
+        <li><a href="/mylists/favourites">My Lists</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Search</a></li>
-        <li><a href="{% url 'account_logout' %}">Logout</a></li>
+        <li><a href="{{ signout_url }}"><i class="fas fa-power-off log-out"> Sign Out</i></a>
         {% else %}
         <li><a href="#">home</a></li>
-        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+        <li><a href="{{ signin_url }}">Sign In</a></li>
+        <li><a href="{{ signup_url }}">Sign Up</a></li>
         <li><a href="#">About</a></li>
         {% endif %}
     </ul>
-    <nav>
-        <ul>
-            {% if user.is_authenticated %}
-            <li class="hide-on-small-only"><a href="#">Movies</a></li>
-            <li class="hide-on-small-only"><a href="#">TV Shows</a></li>
-            <li class="hide-on-small-only"><a href="/">Roulette</a></li>
-            <li class="hide-on-small-only"><a href="/mylists/favourites">My Lists</a></li>
-            <li class="hide-on-small-only"><a href="#">About</a></li>
-            <li class="hide-on-small-only"><a href="#">Search</a></li>
-            <li class="hide-on-small-only"><a href="{% url 'account_logout' %}">Log Out</a></li>
-            {% else %}
-            <li class="hide-on-small-only"><a href="#">Home</a></li>
-            <li class="hide-on-small-only"><a href="{% url 'account_login' %}">Sign In</a></li>
-            <li class="hide-on-small-only"><a href="{% url 'account_signup' %}">Sign Up</a></li>
-            <li class="hide-on-small-only"><a href="#">About</a></li>
-            {% endif %}
-        </ul>
-        <!-- Dropdown Trigger -->
-        <li><a class="dropdown-trigger hide-on-med-and-up" href="#!" data-target="dropdown1">&#9776;</a></li>
+    <nav class="nav-extended">
+        <div class="nav-wrapper">
+            <a href="#" style="float: left;">
+                <img id="roulette-logo" src="{% static 'images/movie-roulette-logo.png' %}" alt="Movie Roulette logo">
+            </a>
+            <ul id="nav-mobile" class="right">
+                <li class="hide-on-med-and-down"><a href="{{ signout_url }}" class="log-out">Sign Out</a></li>
+                <!-- Dropdown Trigger -->
+                <li><a class="dropdown-trigger hide-on-large-only" href="#!" data-target="dropdown1">&#9776;</a></li>
+            </ul>
+        </div>
+        <div class="nav-content">
+            <ul class="hide-on-med-and-down valign-wrapper">
+                {% if user.is_authenticated %}
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">TV Shows</a></li>
+                <li><a href="/">Roulette</a></li>
+                <li><a href="/mylists/favourites">My Lists</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Search</a></li>
+                {% else %}
+                <li><a href="#">Home</a></li>
+                <li><a href="{{ signin_url }}">Sign In</a></li>
+                <li><a href="{{ signup_url }}">Sign Up</a></li>
+                <li><a href="#">About</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
 
     <main>
