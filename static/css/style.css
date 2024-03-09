@@ -29,6 +29,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     background-color: var(--darker-grey);
+    color: var(--off-white);
 }
 
 .relative {
@@ -41,6 +42,10 @@ body {
 
 .inline {
     display: inline;
+}
+
+.margin-top {
+    margin-top: 5%;
 }
 
 .header-padding {
@@ -90,6 +95,43 @@ select {
     border: none;
 }
 
+/* Sign In page */
+
+.row .form-input:-webkit-autofill,
+.row .form-input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s;
+  border: none;
+}
+
+.login input[type="checkbox"] {
+    opacity: 1 !important;
+    margin: 0.5% 0 0 0.9%;
+}
+
+label[for="id_remember"] {
+    cursor: pointer;
+}
+
+.login span {
+    display: inline-block;
+}
+
+.hightlight-link {
+    font-size: 1.2em;
+    color: var(--highlight-blue);
+}
+
+.hightlight-link:hover, .hightlight-link:focus {
+    text-decoration: underline;
+}
+
+.row .form-input {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 0.7em !important;
+    color: var(--off-white);
+    padding-left: 4% !important;
+}
+
 /* Button style */
 
 button.btn {
@@ -124,12 +166,6 @@ button.btn {
 .carousel .carousel-item {
     width: 150px;
     opacity: 1 !important;
-}
-
-.active {
-    box-shadow: 0 0 0.7em 0.7em var(--highlight-blue),
-                0 0 1.5em 2em rgba(108, 229, 232, 0.3);
-    border: 0.15em var(--off-white) solid;
 }
 
 .remove-one-title,

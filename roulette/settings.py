@@ -107,6 +107,8 @@ DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
+ACCOUNT_FORMS = {'login': 'saved_viewings.forms.CustomSigninForm'}
+
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",
     "https://*.herokuapp.com"
