@@ -1,19 +1,5 @@
-from django.db import models
 from django import forms
-from allauth.account.forms import SignupForm, LoginForm
 from .models import MovieOrShow
-
-
-class CustomSigninForm(LoginForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['login'].widget.attrs.update({
-            'class': 'col l7 push-l1 s12 form-input',
-        })
-        self.fields['password'].widget.attrs.update({
-            'class': 'col l7 push-l1 s12 form-input',
-        })
         
 
 class RouletteSourceForm(forms.Form):

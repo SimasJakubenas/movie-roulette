@@ -6,11 +6,10 @@ from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
 from .forms import RouletteSourceForm
-from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, Country, StreamingService
+from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, StreamingService
+from accounts.models import Country
 
 # Create your views here.
-# class TitleList(generic.ListView):
-#     queryset = MovieOrShow.objects.all()
 
 API_KEY = os.environ.get('API_KEY')
 BASE_URL = 'https://api.themoviedb.org/3'

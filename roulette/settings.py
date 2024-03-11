@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'saved_viewings',
     'releases',
+    'accounts',
 ]
 
 SITE_ID = 1
@@ -107,7 +108,7 @@ DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
-ACCOUNT_FORMS = {'login': 'saved_viewings.forms.CustomSigninForm'}
+ACCOUNT_FORMS = {'login': 'accounts.forms.CustomSigninForm'}
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",

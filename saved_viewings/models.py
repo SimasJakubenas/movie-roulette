@@ -67,11 +67,6 @@ class Creator(models.Model):
         MovieOrShow, related_name="creators"
     )
 
-
-class Country(models.Model):
-    country_iso = models.CharField(primary_key=True, unique=True, max_length=50)
-    name = models.CharField(max_length=50, null=True, blank=True)
-
     
 class StreamingService(models.Model):
     provider_id = models.IntegerField(primary_key=True, unique=True)
