@@ -27,10 +27,12 @@ class Profile(models.Model):
         null=True
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_pic = CloudinaryField('Profile picture',
-                                  default='placeholder',
-                                  blank=True,
-                                  null=True)
+    profile_pic = CloudinaryField(
+        'Profile picture',
+        default='placeholder',
+        blank=True,
+        null=True
+    )
     created_on = models.DateTimeField(auto_now_add=True)
     streams =  models.ManyToManyField(
         StreamingService, related_name="Profiles"
@@ -40,12 +42,3 @@ class Profile(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-
-
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()

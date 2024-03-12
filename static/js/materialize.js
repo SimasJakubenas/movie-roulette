@@ -24,6 +24,25 @@ $(document).ready(function () {
     $('.close-button').on('click', function () {
         $(this).parent().parent().css('display', 'none')
     });
+    $('#id_streams').select2({
+        theme: "material",
+        width: "100%"
+    })
+    $("#id_country").change(function () {
+        var url = $("#signup_form").attr("data-providers-url");
+        var countryName = $(this).val();
+        $.ajax({
+            url: url,
+            data: {
+                'country': countryName
+            },
+            success: function (data) {
+                $("#id_streams").html(data);
+                console.log(data)
+            }
+        });
+
+    });
     listIconToggle(this)
     spinRoulette()
     movieShowToggle()

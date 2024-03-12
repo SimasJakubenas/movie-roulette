@@ -57,3 +57,29 @@ class CustomSignUpForm(SignupForm):
         new_profile.streams.set(get_streams)
 
         return user
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update({
+            'class': 'form-input'
+        })
+        self.fields['last_name'].widget.attrs.update({
+            'class': 'form-input'
+        })
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-input',
+            'placeholder': ''
+        })
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-input',
+            'placeholder': ''
+        })
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-input',
+            'placeholder': ''
+        })
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-input',
+            'placeholder': ''
+        })
+        
