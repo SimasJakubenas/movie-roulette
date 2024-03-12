@@ -418,10 +418,6 @@ nav ul li:hover, nav ul li:focus {
     background-color: rgba(108, 229, 232, 0.7) !important;
 }
 
-/* #dropdown1 li a:hover, #dropdown1 li a:focus {
-    color: var(--darker-grey) !important;
-} */
-
 #dropdown1 li:nth-child(7),
 #dropdown1 li:nth-child(7):hover,
 #dropdown1 li:nth-child(7):focus {

@@ -55,7 +55,11 @@ INSTALLED_APPS = [
     'saved_viewings',
     'releases',
     'accounts',
+    'crispy_forms',
+    'crispy_forms_materialize',
 ]
+
+CRISPY_TEMPLATE_PACK = 'materialize_css_forms'
 
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
@@ -108,8 +112,6 @@ DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
-ACCOUNT_FORMS = {'login': 'accounts.forms.CustomSigninForm'}
-
 CSRF_TRUSTED_ORIGINS = [
     "https://*.gitpod.io",
     "https://*.herokuapp.com"
@@ -135,6 +137,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+# Custom forms
+
+ACCOUNT_FORMS = {
+    'login': 'accounts.forms.CustomSigninForm',
+    'signup': 'accounts.forms.CustomSignUpForm'
+    }
+    
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

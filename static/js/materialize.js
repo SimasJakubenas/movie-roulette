@@ -123,7 +123,7 @@ function listIconToggle() {
         if ($(this).attr('data-listed')) {
             $(this).removeAttr('data-listed')
             $(this).css('background-color', 'unset')
-            $('.listed-title img').each( function () {
+            $('.listed-title img').each(function () {
                 if ($(this).attr('data-titleID') == titleID) {
                     $(this).css('display', 'none')
                     $(this).siblings().css('display', 'none')

@@ -5,6 +5,7 @@ import json
 from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.models import User
 from .forms import RouletteSourceForm
 from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, StreamingService
 from accounts.models import Country

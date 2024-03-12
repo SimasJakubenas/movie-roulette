@@ -75,4 +75,7 @@ class StreamingService(models.Model):
     of_title =  models.ManyToManyField(
         MovieOrShow, related_name="streaming_services"
     )
+
+    def __str__(self):
+        return self.name
     
