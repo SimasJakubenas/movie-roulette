@@ -5,6 +5,7 @@ import json
 from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import RouletteSourceForm
 from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, StreamingService
@@ -21,6 +22,7 @@ POSTER_BASE_URL = 'https://image.tmdb.org/t/p/'
 POSTER_SIZE = 'w154/'
 POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
 
+
 def tmdb_api_connect(request, type):
     if ( type == 'Movies'):
         url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
@@ -34,6 +36,8 @@ def tmdb_api_connect(request, type):
 
     return result
 
+
+@login_required
 def roulette_list(request):
     """
     Main view that controls loadind the roulette
@@ -81,6 +85,8 @@ def roulette_list(request):
             'empty_card_count': empty_card_count
         })
 
+
+@login_required
 def roulette_load(request, result, source_form, source, type, load_all):
     """
     Loads MovieOrShow entity with titles if there's less that 5 titles in the roulette
@@ -133,6 +139,8 @@ def roulette_load(request, result, source_form, source, type, load_all):
             'in_list': in_list
         })
 
+
+@login_required
 def roulette_clear(request):
     """
     View to empty roulette content
@@ -142,6 +150,7 @@ def roulette_clear(request):
         return HttpResponseRedirect(reverse('roulette_list'))
 
     return HttpResponseRedirect(reverse('roulette_list'))
+
 
 def add_title_instance(request, result_pick, source, type):
     """
@@ -174,6 +183,8 @@ def add_title_instance(request, result_pick, source, type):
         new_entry.save()
     new_entry.save()
 
+
+@login_required
 def clear_one_title(request, title_id):
     """
     Removes a single title to the  roulette carousel
@@ -186,6 +197,8 @@ def clear_one_title(request, title_id):
 
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))
 
+
+@login_required
 def clear_one_listed_title(request, title_id, list_type=None):
     """
     Removes a single title from the favourites list
@@ -212,6 +225,7 @@ def clear_one_listed_title(request, title_id, list_type=None):
 
     return HttpResponseRedirect(reverse('my_lists', args=[title_id]))
 
+
 def clear_title(get_title, title_id):
     title_object = list(MovieOrShow.objects.filter(pk=title_id).values())
     if (title_object[0]['is_in_roulette'] or 
@@ -224,6 +238,8 @@ def clear_title(get_title, title_id):
     else:
         get_title.delete()
 
+
+@login_required
 def title_info(request, list_type=None):
     """
     Receives data from user input and uses that data to call to an API to fetch 
@@ -273,6 +289,8 @@ def title_info(request, list_type=None):
 
         return HttpResponse(myResponse)
 
+
+@login_required
 def add_to_list(request, list_type):
     """
     Receives data from list icon toggle and uses that data to add title
@@ -292,6 +310,8 @@ def add_to_list(request, list_type):
 
         return HttpResponse('add to list')
 
+
+@login_required
 def remove_from_list(request, list_type):
     """
     Receives data from list icon toggle and uses that data to remove title
@@ -312,6 +332,7 @@ def remove_from_list(request, list_type):
         clear_title(get_title, title_id)
 
         return HttpResponse('Removed from list')
+
 
 def get_all_movie_people(title_details, get_title):
     """
@@ -337,6 +358,7 @@ def get_all_movie_people(title_details, get_title):
             )
             get_title.directors.add(director)
 
+
 def get_all_tv_people(title_details, get_title):
     """
     Loops through 'cast' array in the API responce and creates new Person instances
@@ -361,6 +383,7 @@ def get_all_tv_people(title_details, get_title):
         )
         get_title.creators.add(creator)
 
+
 def get_title_providers(titleType, titleID, get_title, available_stream_details):
     """
     Connects to an API end point for streaming providers
@@ -379,6 +402,7 @@ def get_title_providers(titleType, titleID, get_title, available_stream_details)
         for each_stream in available_stream_details['results']['IE']['buy']:
             stream_instance(each_stream, get_title)
 
+
 def stream_instance(each_stream, get_title):
     """
     Creates a new streaming provider instance in the Person StreamingService
@@ -392,6 +416,7 @@ def stream_instance(each_stream, get_title):
     )
     get_title.streaming_services.add(stream)
 
+
 def new_person_instance(each_person):
     """
     Creates a new attribute in the Person entity
@@ -403,6 +428,7 @@ def new_person_instance(each_person):
         }
     )
 
+
 def new_actor_instance(each_person, get_title):
     """
     Creates a new attribute in the Actor entity
@@ -413,6 +439,8 @@ def new_actor_instance(each_person, get_title):
     )
     get_title.actors.add(actor)
 
+
+@login_required
 def load_list(request, list_type=None):
     """
      Loads favourites page
