@@ -16,8 +16,8 @@
             <div class="row">
                 <!-- API providers logos -->
                 <img class="col m3 s4" alt="JustWatch" src="/static/images/justwatch.png">
-                <svg class="col m3 s4" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 185.04 133.4">
+                <svg class="col m3 s4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 185.04 133.4">
                     <defs>
                         <style>
                             .cls-1 {
@@ -45,6 +45,44 @@
     <div class="row">
         <div class="col text-right">
             <p class="text-end"><em>Last Update: {{ about.updated_on }}</em></p>
+        </div>
+        <button class="btn contact-btn right">Contact Us</button>
+    </div>
+</div>
+
+<!-- Contract form -->
+<div class="overlay absolute contact">
+    <div class="container relative fit-content">
+        <button class="close-button absolute">
+            <i class="far fa-times-circle"></i>
+        </button>
+        <h2>Contact Us</h2>
+        <p>Feel free to get in touch with any queries or suggestions</p>
+        <div class="row margin-top">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <label class="col l3 s12" for="{{ field.auto_id }}">{{ contact_form.name.label }}</label>
+                    <div class="col l8 push-l1 s12">
+                        {{ contact_form.name }}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col l3 s12" for="{{ field.auto_id }}">{{ contact_form.email.label }}</label>
+                    <div class="col l8 push-l1 s12">
+                        {{ contact_form.email }}
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col l3 s12" for="{{ field.auto_id }}">{{ contact_form.message.label }}</label>
+                    <div class="col l8 push-l1 s12 padding-right-0">
+                        {{ contact_form.message }}
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn col xl3 push-xl9 l4 push-l8 m6 push-m3 s10 push-s1" type="submit">Send</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

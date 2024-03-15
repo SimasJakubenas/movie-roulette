@@ -32,6 +32,10 @@ body {
     color: var(--off-white);
 }
 
+input {
+    height: 30px !important;
+}
+
 .relative {
     position: relative;
 }
@@ -46,6 +50,10 @@ body {
 
 .inline-block {
     display: inline-block;
+}
+
+.fit-content {
+    width: fit-content;
 }
 
 .margin-top {
@@ -135,7 +143,6 @@ label[for="id_remember"] {
     border-radius: 0.7em !important;
     color: var(--off-white);
     padding-left: 4% !important;
-    height: 30px !important;
     max-height: fit-content !important;
 }
 
@@ -237,6 +244,7 @@ button.btn {
     background-color: rgba(44, 42, 42, 0.94);
     color: var(--off-white);
     display: none;
+    z-index: 5;
 }
 
 .overlay-img {
@@ -519,4 +527,12 @@ input:-webkit-autofill{
 
 .about-logo {
     margin-bottom: -25%;
+}
+
+.contact {
+    padding-top: 15vh;
+}
+
+textarea {
+    height: unset;
 }

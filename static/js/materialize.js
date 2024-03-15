@@ -24,6 +24,9 @@ $(document).ready(function () {
     $('.close-button').on('click', function () {
         $(this).parent().parent().css('display', 'none')
     });
+    $('.contact-btn').on('click', function () {
+        $('.contact').css('display', 'unset')
+    })
     $('#id_streams').select2({
         theme: "material",
         width: "100%"

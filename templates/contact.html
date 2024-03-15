@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %}
+
+<form method="post">
+    {{ collaborate_form  }}
+    {% csrf_token %}
+    <button class="btn" type="submit">Submit</button>
+</form>
