@@ -84,6 +84,7 @@ body {
 h1,
 h2,
 h3,
+.logos-heading,
 label {
     color: var(--off-white);
     font-family: 'Be Vietnam Pro', sans-serif;
@@ -512,4 +513,10 @@ input:-webkit-autofill:active{
 /*Change text in autofill textbox*/
 input:-webkit-autofill{
     -webkit-text-fill-color: var(--off-white) !important;
+}
+
+/* About style */
+
+.about-logo {
+    margin-bottom: -25%;
 }

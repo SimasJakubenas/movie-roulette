@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-simasjakube-movieroulet-tr6c4w6c672.ws-eu109.gitpod.io',
+    '8000-simasjakube-movieroulet-tr6c4w6c672.ws-eu110.gitpod.io',
     'movie-roulette-828048507284.herokuapp.com'
 ]
 
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'saved_viewings',
     'releases',
     'accounts',
+    'about',
     'crispy_forms',
     'crispy_forms_materialize',
 ]
