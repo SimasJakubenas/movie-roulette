@@ -163,11 +163,7 @@ def add_title_instance(request, result_pick, source, type):
         tmdb_rating=result_pick['vote_average'],
         poster_link=result_pick['poster_path'],
         backdrop_link=result_pick['backdrop_path'],
-        is_in_roulette=True,
-        is_in_favourites=True,
-        is_in_watchlist=True,
-        is_in_seen_it=True,
-        is_in_dont_show=True
+        is_in_roulette=True
     )
     if ( type == 'Movies'):
         new_entry.title=  result_pick['title']
@@ -291,7 +287,7 @@ def title_info(request, list_type=None):
 
 
 @login_required
-def add_to_list(request, list_type):
+def add_to_list(request, list_type=None):
     """
     Receives data from list icon toggle and uses that data to add title
     to respective list 
@@ -312,7 +308,7 @@ def add_to_list(request, list_type):
 
 
 @login_required
-def remove_from_list(request, list_type):
+def remove_from_list(request, list_type=None):
     """
     Receives data from list icon toggle and uses that data to remove title
     from respective list

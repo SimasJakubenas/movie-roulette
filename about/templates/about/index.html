@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Welcome To Movie Roulette</h2>
+    <p>Do you find it hard to pick something to watch at times? Do you spend time browsing movie lists instead of
+        watching them? Well you came to the right place. Movie roulette will pick a movie for you!
+    </p>
+    <p>Watch a preview to have a glance at the featured or sign in if you have an account already.</p>
+    <div class="row">
+        <button class="btn col l3 m4 s6">Preview</button>
+        <a href="{{ signin_url }}">
+            <button class="btn col l3 push-l6 m4 push-m4 s6">
+                Sign In
+            </button>
+        </a>
+    </div>
+</div>
+
+{% endblock content %}

@@ -36,6 +36,10 @@ input {
     height: 30px !important;
 }
 
+p {
+    margin-bottom: 5%;
+}
+
 .relative {
     position: relative;
 }
@@ -236,7 +240,7 @@ button.btn {
     padding: 0.2em 0 0 0.4em;
 }
 
-.overlay {
+.overlay, .contact-overlay {
     top: 0;
     left: 0;
     height: 100vh;

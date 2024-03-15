@@ -23,3 +23,10 @@ def about_movie_roulette(request):
             "contact_form": contact_form
         },
     )
+
+
+def index(request):
+    return render(
+        request,
+        "about/index.html"
+    )

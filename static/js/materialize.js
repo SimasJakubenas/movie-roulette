@@ -17,7 +17,7 @@ $(document).ready(function () {
         let titleID = $(this).attr('data-titleID')
         let titleType = $(this).attr('data-titleType')
         // Sends ID of the selected title to backend
-        let carouselIteNr = $('img').index($(this))
+        let carouselIteNr = ($('img').index($(this)) - 1)
         sendTitleInfo(titleID, titleType, carouselIteNr)
     });
     // Closes the overlay
