@@ -188,6 +188,7 @@ def clear_one_title(request, title_id):
     if request.method == 'POST':
         get_title = MovieOrShow.objects.filter(pk=title_id)
         update_title = get_title.update(is_in_roulette=False)
+        print('b')
         clear_title(get_title,title_id)
         return HttpResponseRedirect(reverse('roulette_list'))
 
@@ -207,11 +208,10 @@ def clear_one_listed_title(request, title_id, list_type=None):
         if list_type == 'watchlist':
             update_title = get_title.update(is_in_watchlist=False)
         if list_type == 'seen_it':
-            print(list_type)
             update_title = get_title.update(is_in_seen_it=False)
         if list_type == 'dont_show':
             update_title = get_title.update(is_in_dont_show=False)
-
+        print('a')
         clear_title(get_title, title_id)
 
         if list_type:
@@ -224,15 +224,18 @@ def clear_one_listed_title(request, title_id, list_type=None):
 
 def clear_title(get_title, title_id):
     title_object = list(MovieOrShow.objects.filter(pk=title_id).values())
-    if (title_object[0]['is_in_roulette'] or 
-        title_object[0]['is_in_favourites'] or
-        title_object[0]['is_in_watchlist'] or
-        title_object[0]['is_in_seen_it'] or
-        title_object[0]['is_in_dont_show']
-        in title_object) == True:
-        pass
+    if len(title_object) > 0:
+        if (title_object[0]['is_in_roulette'] or 
+            title_object[0]['is_in_favourites'] or
+            title_object[0]['is_in_watchlist'] or
+            title_object[0]['is_in_seen_it'] or
+            title_object[0]['is_in_dont_show']
+            in title_object) == True:
+            pass
+        else:
+            get_title.delete()
     else:
-        get_title.delete()
+        pass
 
 
 @login_required
@@ -324,7 +327,7 @@ def remove_from_list(request, list_type=None):
             det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_seen_it=False)
         if list_type == 'dont_show':
             det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_dont_show=False)
-
+        print('sfsf')
         clear_title(get_title, title_id)
 
         return HttpResponse('Removed from list')
