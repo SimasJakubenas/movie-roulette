@@ -4,40 +4,57 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container profile-container">
     <div class="row">
-        <div class="col xl4 m5 s6">
-            <img src="{{ profile_data.profile_pic }}" alt="Your Profile picture">
+        <div class="col xl3 m4 s6">
+            {% if "placeholder" in profile_data.profile_pic.url %}
+            <img src="{% static 'images/placeholder.jpg' %}" width="75%" alt="Placeholder image" class="profile-pic">
+            {% else %}
+            <img src="{{ profile_data.profile_pic.url }}" width="75%" alt="Your profile picture" class="profile-pic">
+            {% endif %}
         </div>
-        <div class="col xl8 m7 s12">
+        <div class="col xl8 push-xl1 m7 push-m1 s12">
             <div class="row">
-                <label class="col l3 s12" for="name">Name</label>
-                <div class="col l8 s12">
-                    <input type="text" name="name" required_id="id_email" class="form-input" readonly value="{{ user_data.first_name }}">
+                <label class="col l4 s12" for="name">Name</label>
+                <div class="col l8 s12 profile-inputs">
+                    <input type="text" name="name" required_id="id_email" class="form-input" readonly
+                        value="{{ user_data.first_name }}">
                 </div>
-                <label class="col l3 s12" for="name">Surname</label>
-                <div class="col l8 s12">
-                    <input type="text" name="name" required_id="id_email" class="form-input" readonly value="{{ user_data.last_name }}">
+            </div>
+            <div class="row">
+                <label class="col l4 s12" for="name">Surname</label>
+                <div class="col l8 s12 profile-inputs">
+                    <input type="text" name="name" required_id="id_email" class="form-input" readonly
+                        value="{{ user_data.last_name }}">
                 </div>
-                <label class="col l3 s12" for="name">Username</label>
-                <div class="col l8 s12">
-                    <input type="text" name="name" required_id="id_email" class="form-input" readonly value="{{ user_data.username }}">
+            </div>
+            <div class="row">
+                <label class="col l4 s12" for="name">Username</label>
+                <div class="col l8 s12 profile-inputs">
+                    <input type="text" name="name" required_id="id_email" class="form-input" readonly
+                        value="{{ user_data.username }}">
                 </div>
-                <label class="col l3 s12" for="name">Email</label>
-                <div class="col l8 s12">
-                    <input type="text" name="name" required_id="id_email" class="form-input" readonly value="{{ user_data.email }}">
+            </div>
+            <div class="row">
+                <label class="col l4 s12" for="name">Email</label>
+                <div class="col l8 s12 profile-inputs">
+                    <input type="text" name="name" required_id="id_email" class="form-input" readonly
+                        value="{{ user_data.email }}">
                 </div>
-                <label class="col l3 s12" for="name">Country</label>
-                <div class="col l8 s12">
-                    <input type="text" name="name" required_id="id_email" class="form-input" readonly value="{{ user_data.country }}">
+            </div>
+            <div class="row">
+                <label class="col l4 s12" for="name">Country</label>
+                <div class="col l8 s12 profile-inputs">
+                    <input type="text" name="name" required_id="id_email" class="form-input" readonly
+                        value="{{ profile_data.country }}">
                 </div>
             </div>
         </div>
     </div>
-    <div>Services Used</div>
-    <div class="row">
+    <div class="services-used">Services Used</div>
+    <div class="row services-container">
         {% for stream in profile_streams %}
-        <img src="{{ POSTER_BASE_URL }}/h100{{ stream.logo_path }}" alt="profile_streams.name">
+        <img src="{{ POSTER_BASE_URL }}/h100{{ stream.logo_path }}" alt="profile_streams.name" class="stream-logo">
         {% endfor %}
     </div>
 </div>

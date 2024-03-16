@@ -540,3 +540,36 @@ input:-webkit-autofill{
 textarea {
     height: unset;
 }
+
+/* Profile style */
+
+.profile-container {
+    padding-top: 5%;
+}
+
+.profile-inputs .form-input {
+    opacity: 0.7;
+}
+
+.profile-pic {
+    border-radius: 2em;
+    width: -webkit-fill-available;
+    padding-bottom: 10%;
+}
+
+.services-used {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.services-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1em;
+    margin-top: 2%;
+    padding: 3% 5%;
+}
+
+.stream-logo {
+    margin-right: 3%;
+}

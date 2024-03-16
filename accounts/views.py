@@ -18,13 +18,14 @@ def profile_page(request):
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
     profile_streams = profile_data.streams.all()
-    print(list(profile_streams.values()))
+    print(profile_data.profile_pic)
 
     return render(
         request,
         "accounts/profile.html",
         {
             "profile_data": profile_data,
+            "user_data": user_data,
             "profile_streams": profile_streams,
             "POSTER_BASE_URL": POSTER_BASE_URL
         }
