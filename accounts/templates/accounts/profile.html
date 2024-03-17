@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container profile-container">
+<div class="container profile-container relative">
     <div class="row">
         <div class="col xl3 m4 s6">
             {% if "placeholder" in profile_data.profile_pic.url %}
@@ -12,6 +12,20 @@
             {% else %}
             <img src="{{ profile_data.profile_pic.url }}" width="75%" alt="Your profile picture" class="profile-pic">
             {% endif %}
+            <label for="id_profile_pic" class="relative" id="profile-pic_label">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </label>
+            <form action="{% url 'update_picture' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="profile_pic" id="id_profile_pic">
+                <div id="edit-profile-pic-confirm">
+                    <p class="center-align">Are you sure you want to change your profile picture?</p>
+                    <div class="row">
+                        <input type="button" value="No" class="btn col m2 push-m2 s4 push-s1 deny-button">
+                        <input type="submit" value="Yes" class="btn col m2 push-m6 s4 push-s3">
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="col xl8 push-xl1 m7 push-m1 s12">
             <div class="row">

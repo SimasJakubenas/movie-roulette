@@ -73,7 +73,7 @@ p {
     margin: 0;
 }
 
-.container {
+.container, #edit-profile-pic-confirm {
     background-color: rgba(108, 229, 232, 0.1);
     padding: 0 5vw 1vh;
     border: rgba(108, 229, 232, 0.51) solid 0.1em;
@@ -152,7 +152,9 @@ label[for="id_remember"] {
 
 /* Button style */
 
-button.btn {
+button.btn,
+input[type='button'],
+input[type='submit'] {
     border-radius: 0.5em;
     box-shadow: 0 0 10px 5px #000000;
     box-shadow: 0 0 10px 5px #000000 inset;
@@ -572,4 +574,48 @@ textarea {
 
 .stream-logo {
     margin-right: 3%;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+label[for='id_profile_pic'] {
+    cursor: pointer;
+}
+
+input[type='button'],
+input[type='submit'] {
+    padding: 1% 2%;
+}
+
+.confirm-continer {
+    width: 100vh;
+    height: 100vh;
+}
+
+#edit-profile-pic-confirm {
+    position: fixed;
+    top: 20%;
+    left: 5%;
+    width: 91%;
+    background-color: rgba(44, 42, 42, 0.94);
+    z-index: 15;
+    padding-top: 5%;
+    display: none;
+}
+
+#profile-pic_label {
+    top: 30%;
+    bottom: 30px;
+    left: 85%;
+}
+
+#profile-pic_label i {
+    font-size: 150%;
+}
+
+#profile-pic_label i:hover,
+#profile-pic_label i:focus {
+    color: var(--highlight-blue);
 }

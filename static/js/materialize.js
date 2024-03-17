@@ -31,6 +31,15 @@ $(document).ready(function () {
         theme: "material",
         width: "100%"
     })
+    // Reveals confirmation modal for updating profile picture
+    $('#id_profile_pic').on('change', function () {
+        $('#edit-profile-pic-confirm').css('display', 'unset')
+    })
+    // Reloads the page when 'No' button is clicked in confirmation modal
+    $('.deny-button').on('click', function () {
+        location.reload();
+    })
+    
     $("#id_country").change(function () {
         var url = $("#signup_form").attr("data-providers-url");
         var countryName = $(this).val();
