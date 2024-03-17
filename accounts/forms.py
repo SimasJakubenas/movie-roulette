@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from allauth.account.forms import SignupForm, LoginForm
 from saved_viewings.models import StreamingService
 from .models import Country, Profile
@@ -89,3 +90,19 @@ class ProfileImage(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('profile_pic',)
+
+
+class EditProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ('first_name', 'last_name', 'streams')
+
+    
+    # class Meta:
+    #     model = User
+    #     fields = ('username',)
+
+    
+    
+

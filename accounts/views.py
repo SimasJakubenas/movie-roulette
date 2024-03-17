@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from saved_viewings.models import StreamingService
 from saved_viewings.views import POSTER_BASE_URL
 from .models import Profile
-from .forms import ProfileImage
+from .forms import ProfileImage, CustomSignUpForm, EditProfileForm
 
 
 def load_providers(request):
@@ -46,7 +46,6 @@ def update_profile_pic(request):
         
         if profile_pic.is_valid():
             profile_pic_url = profile_pic.cleaned_data["profile_pic"]
-            print(profile_pic_url)
             update_picture = Profile.objects.get(user_id=request.user.id)
             update_picture.profile_pic = profile_pic_url
             update_picture.save()
@@ -54,3 +53,55 @@ def update_profile_pic(request):
     profile_pic = ProfileImage()
 
     return HttpResponseRedirect(reverse('profile'))
+
+
+def edit_profile(request):
+    """
+    Updates the user profile by using the input data through
+    EditProfileForm form.
+    Renders 'accounts/edit_profile.html' template
+    """
+    user_data = User.objects.get(pk=request.user.id)
+    profile_data = Profile.objects.get(user_id=request.user.id)
+    profile_streams = profile_data.streams.all()
+    
+    if request.method == "POST":
+        form = EditProfileForm(request.POST)
+
+        if form.is_valid():
+            print(profile_data.first_name)
+            user_data.first_name = form.cleaned_data["first_name"]
+            user_data.last_name = form.cleaned_data["last_name"]
+            selected_streams = form.cleaned_data.get('streams')
+            get_streams = StreamingService.objects.filter(provider_id__in=selected_streams)
+            profile_data.streams.set(get_streams)
+            user_data.save()
+            profile_data.save()
+
+            return HttpResponseRedirect(reverse('profile'))
+        
+        return render(
+            request,
+            "accounts/edit_profile.html",
+            {
+                "profile_data": profile_data,
+                "profile_streams": profile_streams,
+                "user_data": user_data,
+                "POSTER_BASE_URL": POSTER_BASE_URL,
+                "form": form
+            }
+        )
+    
+    form = CustomSignUpForm()
+
+    return render(
+        request,
+        "accounts/edit_profile.html",
+        {
+            "profile_data": profile_data,
+            "profile_streams": profile_streams,
+            "user_data": user_data,
+            "POSTER_BASE_URL": POSTER_BASE_URL,
+            "form": form
+        }
+    )

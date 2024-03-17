@@ -6,6 +6,7 @@
 {% url 'account_reset_password' as reset_password %}
 {% url 'about' as about_url %}
 {% url 'profile' as profile_url %}
+{% url 'edit_profile' as edit_profile %}
 
 
 <!DOCTYPE html>
@@ -52,8 +53,13 @@
                         </div>
                     </div>
                     <div class="menu-profile-image-container">
+                        {% if "placeholder" in profile_data.profile_pic.url %}
+                        <img src="{% static 'images/placeholder.jpg' %}" alt="Placeholder profile image"
+                            class="menu-profile-placeholder-image relative">
+                        {% else %}
                         <img src="{{ profile_data.profile_pic.url }}" alt="Your profile picture"
                             class="menu-profile-image relative">
+                        {% endif %}
                     </div>
                 </div>
             </a>

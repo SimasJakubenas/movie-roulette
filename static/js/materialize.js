@@ -1,3 +1,5 @@
+// const signUpForm = document.getElementById("signup_form");
+
 /**
  * Controls carousel ite movement and placement
  * Copied and adjusted as required from Materialize official docs 
@@ -54,6 +56,9 @@ $(document).ready(function () {
         });
 
     });
+    // $('#edit-profile').on('click', function () {
+    //     signUpForm.setAttribute("action", `edit_comment/${commentId}`);
+    // });
     listIconToggle(this)
     spinRoulette()
     movieShowToggle()

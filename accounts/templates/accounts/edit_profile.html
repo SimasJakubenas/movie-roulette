@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container profile-container relative">
+	<form action="{% url 'edit_profile' %}" method="POST" id="edit-profile">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col xl3 m4 s6"></div>
+			<div class="col xl8 push-xl1 m7 push-m1 s12">
+				<div class="row">
+					<label class="col l4 s12" for="first_name">Name</label>
+					<div class="col l8 s12 profile-inputs">
+						<input type="text" name="first_name" required_id="id_first_name" class="form-input"
+							value="{{ user_data.first_name }}">
+					</div>
+				</div>
+				<div class="row">
+					<label class="col l4 s12" for="last_name">Surname</label>
+					<div class="col l8 s12 profile-inputs">
+						<input type="text" name="last_name" required_id="id_last_name" class="form-input"
+							value="{{ user_data.last_name }}">
+					</div>
+				</div>
+				<div class="row">
+					<label class="col l4 s12" for="{{ field.auto_id }}">{{ form.streams.label }}</label>
+					<div class="col l7 push-l1 s12 padding-right-0">
+						{{ form.streams }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<button class="btn col xl3 push-xl7 m4 push-m6 s10 push-s1">Edit</button>
+		</div>
+		<div class="services-used">Services Used</div>
+		<div class="row services-container">
+			{% for stream in profile_streams %}
+			<img src="{{ POSTER_BASE_URL }}/h100{{ stream.logo_path }}" alt="profile_streams.name" class="stream-logo">
+			{% endfor %}
+		</div>
+	</form>
+</div>
+
+{% endblock content %}
