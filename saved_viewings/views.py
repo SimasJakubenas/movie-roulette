@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import RouletteSourceForm
 from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, StreamingService
-from accounts.models import Country
+from accounts.models import Country, Profile
 
 # Create your views here.
 
@@ -56,6 +56,8 @@ def roulette_list(request):
     """
     source_form = RouletteSourceForm(data=request.POST)
     in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+    user_data = User.objects.get(pk=request.user.id)
+    profile_data = Profile.objects.get(user_id=request.user.id)
 
     if request.method == "POST":
         if source_form.is_valid():
@@ -81,6 +83,8 @@ def roulette_list(request):
         {
             'source_form': source_form,
             'POSTER_PATH': POSTER_PATH,
+            "profile_data": profile_data,
+            "user_data": user_data,
             'in_list': in_list,
             'empty_card_count': empty_card_count
         })
@@ -460,6 +464,8 @@ def load_list(request, list_type=None):
     'saved_viewings/dont_show.html'
     """
     source_form = RouletteSourceForm(data=request.POST)
+    user_data = User.objects.get(pk=request.user.id)
+    profile_data = Profile.objects.get(user_id=request.user.id)
 
     if list_type == 'favourites':
         in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
@@ -469,6 +475,8 @@ def load_list(request, list_type=None):
         'saved_viewings/favourites.html',
         {
             'source_form': source_form,
+            "profile_data": profile_data,
+            "user_data": user_data,
             'POSTER_PATH': POSTER_PATH,
             'in_list': in_list
         }
@@ -482,6 +490,8 @@ def load_list(request, list_type=None):
         'saved_viewings/watchlist.html',
         {
             'source_form': source_form,
+            "profile_data": profile_data,
+            "user_data": user_data,
             'POSTER_PATH': POSTER_PATH,
             'in_list': in_list
         }
@@ -495,6 +505,8 @@ def load_list(request, list_type=None):
         'saved_viewings/seen_it.html',
         {
             'source_form': source_form,
+            "profile_data": profile_data,
+            "user_data": user_data,
             'POSTER_PATH': POSTER_PATH,
             'in_list': in_list
         }
@@ -508,6 +520,8 @@ def load_list(request, list_type=None):
         'saved_viewings/dont_show.html',
         {
             'source_form': source_form,
+            "profile_data": profile_data,
+            "user_data": user_data,
             'POSTER_PATH': POSTER_PATH,
             'in_list': in_list
         }

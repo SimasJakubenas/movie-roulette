@@ -39,7 +39,6 @@ $(document).ready(function () {
     $('.deny-button').on('click', function () {
         location.reload();
     })
-    
     $("#id_country").change(function () {
         var url = $("#signup_form").attr("data-providers-url");
         var countryName = $(this).val();

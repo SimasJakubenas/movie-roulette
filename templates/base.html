@@ -5,6 +5,8 @@
 {% url 'account_logout' as signout_url %}
 {% url 'account_reset_password' as reset_password %}
 {% url 'about' as about_url %}
+{% url 'profile' as profile_url %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +25,7 @@
     <link rel="stylesheet" href="/static/css/roulette.css">
 
     <!-- Link to select2 css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     {% block scripts %}
     {% endblock %}
 </head>
@@ -37,7 +39,27 @@
         <li><a href="/mylists/favourites">My Lists</a></li>
         <li><a href="{{ about_url }}">About</a></li>
         <li><a href="#">Search</a></li>
-        <li><a href="{{ signout_url }}"><i class="fas fa-power-off log-out"> Sign Out</i></a>
+        <li class="menu-profile">
+            {% if user.is_authenticated %}
+            <a href="{{ profile_url }}" aria-label="Link to your profile" class="margin-top">
+                <div class="menu-profile-wrapper flex">
+                    <div class="menu-profile-status-wrapper flex">
+                        <div class="menu-profile-status">
+                            <b>{{ user_data.username }}</b>
+                        </div>
+                        <div class="menu-profile-status">
+                            Signed In
+                        </div>
+                    </div>
+                    <div class="menu-profile-image-container">
+                        <img src="{{ profile_data.profile_pic.url }}" alt="Your profile picture"
+                            class="menu-profile-image relative">
+                    </div>
+                </div>
+            </a>
+            {% endif %}
+        </li>
+        <li><a href="{{ signout_url }}"><i class="fas fa-power-off log-out"> Sign Out</i></a></li>
         {% else %}
         <li><a href="#">home</a></li>
         <li><a href="{{ signin_url }}">Sign In</a></li>
@@ -52,6 +74,26 @@
             </a>
             <ul id="nav-mobile" class="right">
                 <li class="hide-on-med-and-down"><a href="{{ signout_url }}" class="log-out">Sign Out</a></li>
+                {% if user.is_authenticated %}
+                <li class="hide-on-med-and-down menu-profile">
+                    <a href="{{ profile_url }}" aria-label="Link to your profile" class="margin-top">
+                        <div class="menu-profile-wrapper flex">
+                            <div class="menu-profile-status-wrapper flex">
+                                <div class="menu-profile-status">
+                                    <b>{{ user_data.username }}</b>
+                                </div>
+                                <div class="menu-profile-status">
+                                    Signed In
+                                </div>
+                            </div>
+                            <div class="menu-profile-image-container">
+                                <img src="{{ profile_data.profile_pic.url }}" alt="Your profile picture"
+                                    class="menu-profile-image relative">
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endif %}
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-trigger hide-on-large-only" href="#!" data-target="dropdown1">&#9776;</a></li>
             </ul>
