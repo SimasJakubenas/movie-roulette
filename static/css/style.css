@@ -331,6 +331,10 @@ select option {
     top: -0.5em
 }
 
+.menu-profile-placeholder-image {
+    width: 3em
+}
+
 .menu-profile-image-container {
     height: 3em;
     width: 3em;

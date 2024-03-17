@@ -87,8 +87,13 @@
                                 </div>
                             </div>
                             <div class="menu-profile-image-container">
+                                {% if "placeholder" in profile_data.profile_pic.url %}
+                                <img src="{% static 'images/placeholder.jpg' %}" alt="Placeholder profile image"
+                                    class="menu-profile-placeholder-image relative">
+                                {% else %}
                                 <img src="{{ profile_data.profile_pic.url }}" alt="Your profile picture"
                                     class="menu-profile-image relative">
+                                {% endif %}
                             </div>
                         </div>
                     </a>
