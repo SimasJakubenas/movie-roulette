@@ -65,7 +65,7 @@ $(document).ready(function () {
     removeFromList()
     // Confirmation modal to clear all button
     $('.btn-red').on('click', function () {
-        let confirmClearAll = confirm('Are you sure you want to clear the roulette?')
+        let confirmClearAll = confirm('Are you sure you want to do this?')
         if (confirmClearAll == false) event.preventDefault()
     });
     // Add classes to form imputs for responsivness

@@ -65,14 +65,17 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <a href="{% url 'edit_profile' %}"><button class="btn col xl3 m4 s5">Update</button></a>
-    </div>
     <div class="services-used">Services Used</div>
     <div class="row services-container">
         {% for stream in profile_streams %}
         <img src="{{ POSTER_BASE_URL }}/h100{{ stream.logo_path }}" alt="profile_streams.name" class="stream-logo">
         {% endfor %}
+    </div>
+    <div class="row">
+        <a href="{% url 'delete_profile' %}"><button
+                class="btn col xl3 push-xl2 m4 push-m1 s5 btn-red">Delete</button></a>
+        <a href="{% url 'edit_profile' %}"><button
+                class="btn col xl3 push-xl4 m4 push-m3 s5 push-s2">Update</button></a>
     </div>
 </div>
 

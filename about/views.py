@@ -34,14 +34,5 @@ def about_movie_roulette(request):
 
 
 def index(request):
-    user_data = User.objects.get(pk=request.user.id)
-    profile_data = Profile.objects.get(user_id=request.user.id)
 
-    return render(
-        request,
-        "about/index.html",
-        {
-            "profile_data": profile_data,
-            "user_data": user_data
-        }
-    )
+    return render(request, "about/index.html")

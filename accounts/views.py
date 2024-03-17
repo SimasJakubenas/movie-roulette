@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from saved_viewings.models import StreamingService
@@ -105,3 +105,13 @@ def edit_profile(request):
             "form": form
         }
     )
+
+
+def delete_profile(request):
+    """
+    Deletes user instance
+    """
+    get_user = User.objects.get(pk=request.user.id)
+    get_user.delete()
+
+    return redirect("home")
