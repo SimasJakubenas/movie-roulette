@@ -670,14 +670,8 @@ input[type='submit'] {
 /* Movies Page style */
 
 .carousel-main {
-    width: auto;
-     height: 90vh;
-     box-shadow: 0 0 8vw 8vw #000;
-}
-
-.carousel-main .carousel-item img {
-    z-index: -3;
-    position: relative;
+    height: 93vh;
+    box-shadow: 0 0 8vw 8vw #000;
 }
 
 .info-container {
@@ -705,6 +699,7 @@ input[type='submit'] {
     padding: 0.3em;
     height: 3vw;
     line-height: normal;
+    width: fit-content;
 }
 
 .info-container button {
@@ -719,6 +714,30 @@ input[type='submit'] {
     height: 100vh;
     box-shadow: 0 0 8vw 8vw #000 inset;
     z-index: 4;
+    height: -webkit-fill-available;
+}
+
+.fa-chevron-right,
+.fa-chevron-left {
+    font-size: 6vw;
+    left: 95vw;
+    top: 30vw;
+    opacity: 0.8;
+}
+
+.fa-chevron-right {
+    left: 85vw;
+}
+
+.fa-chevron-left {
+    left: 83vw;
+}
+
+.fa-chevron-left:hover,
+.fa-chevron-left:focus,
+.fa-chevron-right:hover,
+.fa-chevron-right:focus {
+    opacity: 1;
 }
 
 @media only screen and (max-width: 992px) {
