@@ -14,14 +14,24 @@ $(document).ready(function () {
         dist: -50,
         padding: 60
     });
+    $('.carousel.carousel-offerings').carousel({
+        dist: 0,
+        padding: 20
+    });
+    $('.carousel-offerings .fa-chevron-left').on("click", function () {
+        $('.carousel-offerings').carousel('prev');
+    })
+    $('.carousel-offerings .fa-chevron-right').on("click", function () {
+        $('.carousel-offerings').carousel('next');
+    })
     $('.carousel.carousel-slider').carousel({
         fullWidth: true
     });
-    $('.fa-chevron-left').on("click", function () {
-        $('.carousel').carousel('prev');
+    $('.carousel-main .fa-chevron-left').on("click", function () {
+        $('.carousel-main').carousel('prev');
     })
-    $('.fa-chevron-right').on("click", function () {
-        $('.carousel').carousel('next');
+    $('.carousel-main .fa-chevron-right').on("click", function () {
+        $('.carousel-main').carousel('next');
     })
     // Reveals overlay based on the clicked carousels item
     $('.carousel-item img').on('click', function () {
