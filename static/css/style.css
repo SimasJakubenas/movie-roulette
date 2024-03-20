@@ -181,7 +181,7 @@ input[type='submit'] {
 
 /* Roulette carousel style */
 
-.carousel {
+.carousel-roulette {
     perspective: 500px;
     height: 300px;
     max-width: 620px !important;
@@ -382,6 +382,7 @@ a {
 footer {
     color: var(--off-white);
     font-size: 1.2em;
+    bottom: 0;
 }
 
 footer i {
@@ -410,6 +411,8 @@ nav {
     height: 15vh;
     padding-bottom: 5%;
     list-style: none;
+    z-index: 5;
+    position: absolute;
 }
 
 .nav-wrapper {
@@ -663,3 +666,64 @@ input[type='submit'] {
 #profile-pic_label i:focus {
     color: var(--highlight-blue);
 }
+
+/* Movies Page style */
+
+.carousel-main {
+    width: auto;
+     height: 90vh;
+     box-shadow: 0 0 8vw 8vw #000;
+}
+
+.carousel-main .carousel-item img {
+    z-index: -3;
+    position: relative;
+}
+
+.info-container {
+    top: 30vw;
+    left: 5vw;
+    line-height: 50%;
+    z-index: 5;
+
+}
+
+.info-container,
+.info-container button,
+.info-container button i {
+    font-size: 2vw;
+}
+
+.info-container h1 {
+    font-size: 4vw;
+    margin: 0;
+}
+
+.darken-background {
+    background-color: #000;
+    border-radius: 0.5em;
+    padding: 0.3em;
+    height: 3vw;
+    line-height: normal;
+}
+
+.info-container button {
+    margin-top: 1vw;
+    height: fit-content;
+    line-height: 2em;
+}
+
+.shadow {
+    top: 0;
+    width: inherit;
+    height: 100vh;
+    box-shadow: 0 0 8vw 8vw #000 inset;
+    z-index: 4;
+}
+
+@media only screen and (max-width: 992px) {
+    nav {
+      position: unset;
+    }
+    
+  }

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="carousel carousel-slider carousel-main">
+    {% for movie in movies %}
+    <div class="carousel-item relative">
+        <img src="{{POSTER_BASE_URL}}original/{{movie.backdrop_path}}" alt="Image for {{movie.title}}">
+        <div class="shadow absolute"></div>
+        <div class="info-container absolute">
+            <h1>{{movie.title}}</h1>
+            <div class="darken-background">
+                Released <b>{{movie.release_date}}</b> Rating <b>{{movie.vote_average}}</b>
+            </div>
+            <button class="btn"><i class="fas fa-play-circle"></i>Watch Now</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock content %}

@@ -14,6 +14,9 @@ $(document).ready(function () {
         dist: -50,
         padding: 60
     });
+    $('.carousel.carousel-slider').carousel({
+        fullWidth: true
+    });
     // Reveals overlay based on the clicked carousels item
     $('.carousel-item img').on('click', function () {
         let titleID = $(this).attr('data-titleID')
