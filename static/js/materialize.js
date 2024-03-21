@@ -10,19 +10,31 @@ $(document).ready(function () {
     $('.carousel-item').on('click', function (e) {
         e.stopPropagation()
     })
-    $('.carousel').carousel({
+    $('#roulette').carousel({
         dist: -50,
         padding: 60
     });
-    $('.carousel.carousel-offerings').carousel({
+    $('#carousel-popular').carousel({
         dist: 0,
         padding: 20
     });
-    $('.carousel-offerings .fa-chevron-left').on("click", function () {
-        $('.carousel-offerings').carousel('prev');
+    $('#carousel-top-rated').carousel({
+        dist: 0,
+        padding: 20
+    });
+    $('.popular-container .fa-chevron-left').on("click", function () {
+        $('#carousel-popular').carousel('prev');
+        console.log('sdfsdf')
     })
-    $('.carousel-offerings .fa-chevron-right').on("click", function () {
-        $('.carousel-offerings').carousel('next');
+    $('.popular-container .fa-chevron-right').on("click", function () {
+        $('#carousel-popular').carousel('next');
+    })
+    $('.top-rated-container .fa-chevron-left').on("click", function () {
+        $('#carousel-top-rated').carousel('prev');
+        console.log('sdfs')
+    })
+    $('.top-rated-container .fa-chevron-right').on("click", function () {
+        $('#carousel-top-rated').carousel('next');
     })
     $('.carousel.carousel-slider').carousel({
         fullWidth: true

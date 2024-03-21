@@ -90,6 +90,7 @@ p {
     border-bottom: rgba(108, 229, 232, 0.51) solid 0.1em;
     border-radius: 1vh;
     height: 300px;
+    margin-bottom: 5vh;
 }
 
 .offerings-container::before,
@@ -116,15 +117,22 @@ p {
     position: relative;
 }
 
-.carousel-offerings .fa-chevron-left,
-.carousel-offerings .fa-chevron-right {
-    font-size: 6vw;
-    top: 100px;
-    opacity: 0.8;
+.carousel-offerings ~ i {
+    top: 50px;
+    width: 8vw;
+    height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
 }
 
-.carousel-offerings .fa-chevron-left {
-    left: 5vw;
+.carousel-offerings ~ .fa-chevron-left {
+    flex-direction: column-reverse;
+    text-align: end;
+}
+
+.carousel-offerings ~ .fa-chevron-right {
+    right: 0;
 }
 
 .container.list-container {
@@ -760,19 +768,24 @@ input[type='submit'] {
     height: -webkit-fill-available;
 }
 
-.fa-chevron-right,
-.fa-chevron-left {
+.carousel i,
+.carousel ~ i {
+    opacity: 0.6;
     font-size: 6vw;
-    left: 95vw;
-    top: 30vw;
-    opacity: 0.8;
+    z-index: 6;
 }
 
-.fa-chevron-right {
+.carousel-main i {
+    left: 95vw;
+    top: 30vw;
+    z-index: 6;
+}
+
+.carousel-main .fa-chevron-right {
     left: 85vw;
 }
 
-.fa-chevron-left {
+.carousel-main .fa-chevron-left {
     left: 83vw;
 }
 

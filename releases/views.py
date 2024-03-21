@@ -7,12 +7,20 @@ from accounts.models import Profile
 
 def movie_releases(request):
 
-    url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+    url_discover = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+    url_popular = f"{BASE_URL}/movie/popular?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+    url_top_rated = f"{BASE_URL}/movie/top_rated?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     headers = {
         "accept": "application/json",
     }
-    response = requests.get(url, headers=headers)
-    movies = response.json()['results']
+    response_discover = requests.get(url_discover, headers=headers)
+    response_popular = requests.get(url_popular, headers=headers)
+    response_top_rated = requests.get(url_top_rated, headers=headers)
+
+    movies_discover = response_discover.json()['results']
+    movies_popular = response_popular.json()['results']
+    movies_top_rated = response_top_rated.json()['results']
+
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
 
@@ -20,7 +28,9 @@ def movie_releases(request):
         request,
         "releases/movies.html",
         {
-            "movies": movies,
+            "movies_discover": movies_discover,
+            "movies_popular": movies_popular,
+            "movies_top_rated": movies_top_rated,
             "profile_data": profile_data,
             "user_data": user_data,
             "POSTER_BASE_URL": POSTER_BASE_URL

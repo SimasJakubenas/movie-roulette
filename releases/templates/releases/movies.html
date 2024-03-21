@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="carousel carousel-slider carousel-main">
-    {% for movie in movies %}
+    {% for movie in movies_discover %}
     <div class="carousel-item relative">
         <img src="{{POSTER_BASE_URL}}original/{{movie.backdrop_path}}" alt="Image for {{movie.title}}">
         <div class="shadow absolute"></div>
@@ -22,15 +22,30 @@
     <i class="fas fa-chevron-right relative"></i>
 </div>
 
-<div class="carousel carousel-offerings offerings-container">
-    <div class="carousel-tag">Popular ▼</div>
-    {% for movie in movies %}
-    <div class="carousel-item relative">
-        <img src="{{POSTER_BASE_URL}}w154/{{movie.poster_path}}" alt="Image for {{movie.title}}">
+<div class="relative popular-container">
+    <div class="carousel carousel-offerings offerings-container" id="carousel-popular">
+        <div class="carousel-tag">Popular ▼</div>
+        {% for movie in movies_popular %}
+        <div class="carousel-item relative">
+            <img src="{{POSTER_BASE_URL}}w154/{{movie.poster_path}}" alt="Image for {{movie.title}}">
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-    <i class="fas fa-chevron-left relative"></i>
-    <i class="fas fa-chevron-right relative"></i>
+    <i class="fas fa-chevron-left popular absolute"></i>
+    <i class="fas fa-chevron-right popular absolute"></i>
+</div>
+
+<div class="relative top-rated-container">
+    <div class="carousel carousel-offerings offerings-container" id="carousel-top-rated">
+        <div class="carousel-tag">Top Rated ▼</div>
+        {% for movie in movies_top_rated %}
+        <div class="carousel-item relative">
+            <img src="{{POSTER_BASE_URL}}w154/{{movie.poster_path}}" alt="Image for {{movie.title}}">
+        </div>
+        {% endfor %}
+    </div>
+    <i class="fas fa-chevron-left absolute"></i>
+    <i class="fas fa-chevron-right absolute"></i>
 </div>
 
 {% endblock content %}

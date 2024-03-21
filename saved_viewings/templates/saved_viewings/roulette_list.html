@@ -28,7 +28,7 @@
             </div>
         </form>
     </div>
-    <div class="carousel carousel-roulette row" id="carousel">
+    <div class="carousel carousel-roulette row" id="roulette">
         {% for list_item in in_list reversed %}
         <div class="carousel-item">
             <form action="{% url 'delete' list_item.title_id %}" method="post">
