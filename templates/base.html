@@ -9,6 +9,7 @@
 {% url 'edit_profile' as edit_profile %}
 {% url 'delete_profile' as delete_profile %}
 {% url 'movie_releases' as movie_releases %}
+{% url 'show_releases' as show_releases %}
 
 
 <!DOCTYPE html>
@@ -37,7 +38,7 @@
     <ul id="dropdown1" class="dropdown-content">
         {% if user.is_authenticated %}
         <li><a href="{{ movie_releases }}">Movies</a></li>
-        <li><a href="#">TV Shows</a></li>
+        <li><a href="{{ show_releases }}">TV Shows</a></li>
         <li><a href="/">Roulette</a></li>
         <li><a href="/mylists/favourites">My Lists</a></li>
         <li><a href="{{ about_url }}">About</a></li>
@@ -115,7 +116,7 @@
             <ul class="hide-on-med-and-down valign-wrapper">
                 {% if user.is_authenticated %}
                 <li><a href="{{ movie_releases }}">Movies</a></li>
-                <li><a href="#">TV Shows</a></li>
+                <li><a href="{{ show_releases }}">TV Shows</a></li>
                 <li><a href="/">Roulette</a></li>
                 <li><a href="/mylists/favourites">My Lists</a></li>
                 <li><a href="{{ about_url }}">About</a></li>

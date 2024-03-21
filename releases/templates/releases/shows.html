@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="carousel carousel-slider carousel-main">
+    {% for show in shows_discover %}
+    <div class="carousel-item relative">
+        <img src="{{POSTER_BASE_URL}}original/{{show.backdrop_path}}" alt="Image for {{show.name}}">
+        <div class="shadow absolute"></div>
+        <div class="info-container absolute">
+            <h1>{{show.name}}</h1>
+            <div class="darken-background">
+                First Aired <b>{{show.first_air_date}}</b> Rating <b>{{show.vote_average}}</b>
+            </div>
+            <button class="btn"><i class="fas fa-play-circle"></i>Watch Now</button>
+        </div>
+    </div>
+    {% endfor %}
+    <i class="fas fa-chevron-left relative"></i>
+    <i class="fas fa-chevron-right relative"></i>
+</div>
+
+<div class="relative popular-container">
+    <div class="carousel carousel-offerings offerings-container" id="carousel-popular">
+        <div class="carousel-tag">Popular ▼</div>
+        {% for show in shows_popular %}
+        <div class="carousel-item relative">
+            <img src="{{POSTER_BASE_URL}}w154/{{show.poster_path}}" alt="Image for {{show.name}}">
+        </div>
+        {% endfor %}
+    </div>
+    <i class="fas fa-chevron-left popular absolute"></i>
+    <i class="fas fa-chevron-right popular absolute"></i>
+</div>
+
+<div class="relative top-rated-container">
+    <div class="carousel carousel-offerings offerings-container" id="carousel-top-rated">
+        <div class="carousel-tag">Top Rated ▼</div>
+        {% for show in shows_top_rated %}
+        <div class="carousel-item relative">
+            <img src="{{POSTER_BASE_URL}}w154/{{show.poster_path}}" alt="Image for {{show.name}}">
+        </div>
+        {% endfor %}
+    </div>
+    <i class="fas fa-chevron-left absolute"></i>
+    <i class="fas fa-chevron-right absolute"></i>
+</div>
+
+{% endblock content %}
