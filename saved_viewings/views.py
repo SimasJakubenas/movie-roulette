@@ -150,7 +150,19 @@ def roulette_clear(request):
     View to empty roulette content
     """
     if request.method == 'POST':
-        clear_list = MovieOrShow.objects.filter(is_in_roulette=True).delete()
+        get_query = MovieOrShow.objects.filter(is_in_roulette=True)
+        get_query.update(is_in_roulette=False)
+        get_list = list(get_query.values())
+        for list_item in get_list:
+            if (list_item['is_in_favourites'] or
+                list_item['is_in_watchlist'] or
+                list_item['is_in_seen_it'] or
+                list_item['is_in_dont_show']) == True:
+                pass
+            else:
+                get_title = MovieOrShow.objects.filter(pk=list_item['title_id'])
+                get_title.delete()
+
         return HttpResponseRedirect(reverse('roulette_list'))
 
     return HttpResponseRedirect(reverse('roulette_list'))
@@ -192,7 +204,6 @@ def clear_one_title(request, title_id):
     if request.method == 'POST':
         get_title = MovieOrShow.objects.filter(pk=title_id)
         update_title = get_title.update(is_in_roulette=False)
-        print('b')
         clear_title(get_title,title_id)
         return HttpResponseRedirect(reverse('roulette_list'))
 
