@@ -121,20 +121,20 @@ def roulette_load(request, result, source_form, source, type, load_all):
                 result_pick['id'] = result_pick['title_id']
 
             in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
-            if (load_all == True):
-                if len(in_list) == 0:
-                    add_title_instance(request, result, result_pick, source, type)
-                if len(in_list) < 5:
-                    for title in in_list:
-                        if result_pick['id'] == title['title_id']:
-                            pass
-                        else:
-                            add_title_instance(request, result, result_pick, source, type)
-                else:
-                    return False
-            else:
+            if len(in_list) == 0:
                 add_title_instance(request, result, result_pick, source, type)
+            if len(in_list) < 5:
+                for title in in_list:
+                    if result_pick['id'] == title['title_id']:
+                        pass
+                    else:
+                        add_title_instance(request, result, result_pick, source, type)
+                        if load_all == False:
+                            return False
+
+            else:
                 return False
+            
         else:
             return False
 
