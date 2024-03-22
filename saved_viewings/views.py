@@ -110,26 +110,30 @@ def roulette_load(request, result, source_form, source, type, load_all):
     :saved_viewings/roulette_list.html`
     """
     while True:
+        print(result)
         if (len(result) > 0):
             if ( source == 'Random'):
                 random_number = random.randint(1, len(result)-1)
+                result_pick = result[random_number]
             else:
-                random_number = random.randint(1, len(result))
-            result_pick = result[random_number]
+                random_number = random.randint(1, len(result)) - 1
+                result_pick = result[random_number]
+                result_pick['id'] = result_pick['title_id']
+
             in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
             if (load_all == True):
                 if len(in_list) == 0:
-                    add_title_instance(request, result_pick, source, type)
+                    add_title_instance(request, result, result_pick, source, type)
                 if len(in_list) < 5:
                     for title in in_list:
-                        if result_pick['id'] in title:
+                        if result_pick['id'] == title['title_id']:
                             pass
                         else:
-                            add_title_instance(request, result_pick, source, type)
+                            add_title_instance(request, result, result_pick, source, type)
                 else:
                     return False
             else:
-                add_title_instance(request, result_pick, source, type)
+                add_title_instance(request, result, result_pick, source, type)
                 return False
         else:
             return False
@@ -168,32 +172,42 @@ def roulette_clear(request):
     return HttpResponseRedirect(reverse('roulette_list'))
 
 
-def add_title_instance(request, result_pick, source, type):
+def add_title_instance(request, result, result_pick, source, type):
     """
     Addan instanceto the MovieOrShow entity
     """
-    new_entry = MovieOrShow(
-        title_id=result_pick['id'],
-        user_id=request.user,
-        description=result_pick['overview'],
-        tmdb_rating=result_pick['vote_average'],
-        poster_link=result_pick['poster_path'],
-        backdrop_link=result_pick['backdrop_path'],
-        is_in_roulette=True
-    )
-    if ( type == 'Movies'):
-        new_entry.title=  result_pick['title']
-        new_entry.type = 0
-        slice_date = slice(4)
-        new_entry.date = result_pick['release_date'][slice(4)]
+    if source == 'Random':
+        new_entry = MovieOrShow(
+            title_id=result_pick['id'],
+            user_id=request.user,
+            description=result_pick['overview'],
+            tmdb_rating=result_pick['vote_average'],
+            poster_link=result_pick['poster_path'],
+            backdrop_link=result_pick['backdrop_path'],
+            is_in_roulette=True
+        )
+        if ( type == 'Movies'):
+            new_entry.title=  result_pick['title']
+            new_entry.type = 0
+            slice_date = slice(4)
+            new_entry.date = result_pick['release_date'][slice(4)]
+            new_entry.save()
+        else:
+            new_entry.title = result_pick['name']
+            new_entry.type = 1
+            slice_date = slice(4)
+            new_entry.date = result_pick['first_air_date'][slice(4)]
+            new_entry.save()
         new_entry.save()
+    
     else:
-        new_entry.title = result_pick['name']
-        new_entry.type = 1
-        slice_date = slice(4)
-        new_entry.date = result_pick['first_air_date'][slice(4)]
-        new_entry.save()
-    new_entry.save()
+        get_query = MovieOrShow.objects.get(pk=result_pick['id'])
+        get_query.is_in_roulette = True
+        get_query.save()
+        for index in result:
+            if index['title_id'] == result_pick['id']:
+                result.remove(index)
+                return result
 
 
 @login_required
