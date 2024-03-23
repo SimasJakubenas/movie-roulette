@@ -316,7 +316,7 @@ input[type='submit'] {
     margin: 13% 0;
 }
 
-.overlay-heading {
+#overlay-heading {
     font-family: 'Be Vietnam Pro', sans-serif;
     font-weight: 500;
     padding-bottom: 0.5em;

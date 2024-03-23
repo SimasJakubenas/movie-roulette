@@ -1,6 +1,5 @@
 {% load static %}
 
-{% for list_item in in_list reversed %}
 <div class="overlay absolute">
     <div class="container relative">
         <button class="close-button absolute">
@@ -9,7 +8,7 @@
         <div class="row">
             <div class="col xl4 m4 s12">
                 <div class="row">
-                    <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" class="col s10 push-s1 overlay-img">
+                    <img src="" class="col s10 push-s1 overlay-img">
                     <button class="btn btn-blue col m12 s10 push-s1">
                         <i class="far fa-play-circle"></i>
                         Watch Trailer
@@ -17,8 +16,8 @@
                 </div>
             </div>
             <div class="col xl7 push-xl1 m8 s12">
-                <h3 class="overlay-heading">
-                    {{ list_item.title }}
+                <h3 id="overlay-heading">
+                    <span></span>
                     <form action="{% url 'add_title' %}" method="post" class="inline">
                         {% csrf_token %}
                         <button type="submit" value="" class="movie-reel-button relative">
@@ -27,38 +26,32 @@
                     </form>
                 </h3>
                 <p>
-                    {% if list_item.type == 0 %}
-                    Release Year <span>{{ list_item.date }}</span>
-                    Runtime <span class="runtime">{{ list_item.runtime }}</span>
-                    {% else %}
-                    First Aired <span>{{ list_item.date }}</span>
-                    Seasons <span class="seasons"></span>
-                    {% endif %}
+                    <span id="release-year"></span>
+                    <span id="first-aired"></span>
+                    <span id="date"></span>
+                    <span id="runtime"></span>
+                    <span id="runtime-minutes"></span>
+                    <span id="seasons"></span>
+                    <span id="seasons-count"></span>
                 </p><br>
                 <p>
-                    <span>tmdb</span> star <span>{{ list_item.tmdb_rating }}</span>
-                    {% if list_item.type == 0 %}
-                    <span class="age-limit"></span>
-                    {% else %}
-                    <span class="status"></span>
-                    {% endif %}
-                </p><br>
-                <p class="genres"></p><br>
-                <p>{{ list_item.description }}</p>
+                    <span>tmdb</span> star <span id="rating"></span>
+                    <span id="age-limit"></span>
+                    <span id="status"></span>
+                </p>
+                <br>
+                <p id="genres"></p>
+                <br>
+                <p id="title-description"></p>
                 <br>
                 <div class="row">
                     <div class="col xl3 m5 s4">Cast:</div>
-                    <div class="col xl9 m7 s8 cast"></div>
+                    <div class="col xl9 m7 s8" id="cast"></div>
                 </div>
                 <div class="row">
-                    <div class="col xl3 m5 s4">
-                        {% if list_item.type == 0 %}
-                        Directed By:
-                        {% else %}
-                        Created By:
-                        {% endif %}
+                    <div class="col xl3 m5 s4" id="crew">
                     </div>
-                    <div class="col xl9 m7 s8 director creator"></div>
+                    <div class="col xl9 m7 s8" id="crew-list"></div>
                 </div>
                 <div class="my-lists-overlay row">
                     <span class="col m4 s12">My Lists:</span>
@@ -78,9 +71,8 @@
                 <div class="col s12 my-lists-overlay">
                     Available On:
                 </div>
-                <div class="col xl9 s12 providers"></div>
+                <div class="col xl9 s12" id="providers"></div>
             </div>
         </div>
     </div>
 </div>
-{% endfor %}

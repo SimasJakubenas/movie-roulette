@@ -24,14 +24,12 @@ $(document).ready(function () {
     });
     $('.popular-container .fa-chevron-left').on("click", function () {
         $('#carousel-popular').carousel('prev');
-        console.log('sdfsdf')
     })
     $('.popular-container .fa-chevron-right').on("click", function () {
         $('#carousel-popular').carousel('next');
     })
     $('.top-rated-container .fa-chevron-left').on("click", function () {
         $('#carousel-top-rated').carousel('prev');
-        console.log('sdfs')
     })
     $('.top-rated-container .fa-chevron-right').on("click", function () {
         $('#carousel-top-rated').carousel('next');
@@ -50,8 +48,7 @@ $(document).ready(function () {
         let titleID = $(this).attr('data-titleID')
         let titleType = $(this).attr('data-titleType')
         // Sends ID of the selected title to backend
-        let carouselIteNr = ($('.movie-poster').index($(this)))
-        sendTitleInfo(titleID, titleType, carouselIteNr)
+        sendTitleInfo(titleID, titleType)
     });
     // Closes the overlay
     $('.close-button').on('click', function () {
@@ -87,9 +84,6 @@ $(document).ready(function () {
         });
 
     });
-    // $('#edit-profile').on('click', function () {
-    //     signUpForm.setAttribute("action", `edit_comment/${commentId}`);
-    // });
     listIconToggle(this)
     spinRoulette()
     movieShowToggle()
@@ -140,7 +134,7 @@ function spinRoulette() {
  * https://copyprogramming.com/howto/pass-array-to-backend-using-ajax-django
  * Returns data from the backend and fills in required title info
  */
-function sendTitleInfo(titleID, titleType, carouselIteNr) {
+function sendTitleInfo(titleID, titleType) {
     $.ajax({
         url: 'info/',
         type: 'POST',
@@ -152,23 +146,26 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
             "X-CSRFToken": getCookie("csrftoken"),
         },
         success: function (getTitle) {
-            let openOverlay = function (index, getTitle) {
-                $('.overlay').eq(index).css('display', 'unset');
+            let openOverlay = function (getTitle) {
+                $('.overlay').css('display', 'unset');
                 let titleInfo = JSON.parse(getTitle)
                 let genreList = []
                 let castList = []
+                $('#title-description').html(titleInfo.overview)
+                $('.overlay-img').attr('src', 'https://image.tmdb.org/t/p/w154' + titleInfo.poster_path)
+                $('#rating').html(Math.round(titleInfo.vote_average * 10) / 10)
                 $.each(titleInfo.genres, function (key, value) {
                     genreList.push(value.name)
                 });
-                $('.genres').eq(index).html(`${genreList.join(', ')}`)
+                $('#genres').html(genreList.join(', '))
                 if (titleType == 0) {
-                    fill_movie_details(index, titleInfo, castList)
+                    fill_movie_details(titleInfo, castList)
                 } else {
-                    fill_tv_details(index, titleInfo, castList)
+                    fill_tv_details(titleInfo, castList)
                 }
-                compileStreamList(index, titleInfo)
+                compileStreamList(titleInfo)
             }
-            openOverlay(carouselIteNr, getTitle)
+            openOverlay(getTitle)
         },
         error: (error) => {
             console.log(error);
@@ -232,48 +229,65 @@ function listIconToggle() {
     })
 };
 
-function fill_movie_details(index, titleInfo, castList) {
+function fill_movie_details(titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
     let directorList = []
-    $('.runtime').eq(index).html(`${titleInfo.runtime}`)
-    $('.age-limit').eq(index).html(`${titleInfo.releases.countries[0].certification}`)
+    $('#overlay-heading span').html(titleInfo.title)
+    $('#release-year').html('Release Year')
+    $('#first-aired').html('')
+    $('#seasons').html('')
+    $('#seasons-count').html('')
+    $('#status').html('')
+    $('#date').html((titleInfo.release_date).slice(0, 4))
+    $('#runtime').html('Runtime')
+    $('#runtime-minutes').html(titleInfo.runtime)
+    $('#age-limit').html(titleInfo.releases.countries[0].certification)
     $.each(titleInfo.casts.cast, function (key, value) {
         castList.push(value.name)
     });
-    $('.cast').eq(index).html(`${castList.join(', ')}`)
+    $('#cast').html(castList.join(', '))
     $(titleInfo.casts.crew).each(function () {
         if ($(this)[0].job === 'Director') {
             directorList.push($(this)[0].name)
         }
     });
-    $('.director').eq(index).html(`${directorList.join(', ')}`)
+    $('#crew').html('Directed By:')
+    $('#crew-list').html(directorList.join(', '))
 }
 
-function fill_tv_details(index, titleInfo, castList) {
+function fill_tv_details(titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
     let creatorList = []
-    $('.seasons').eq(index).html(`${titleInfo.last_episode_to_air.season_number}`)
-    $('.status').eq(index).html(`${titleInfo.status}`)
+    $('#overlay-heading span').html(titleInfo.name)
+    $('#first-aired').html('First Aired')
+    $('#date').html((titleInfo.first_air_date).slice(0, 4))
+    $('#seasons').html('Seasons')
+    $('#seasons-count').html(titleInfo.last_episode_to_air.season_number)
+    $('#status').html(titleInfo.status)
+    $('#runtime').html('')
+    $('#runtime-minutes').html('')
+    $('#age-limit').html('')
     $.each(titleInfo.credits.cast, function (key, value) {
         castList.push(value.name)
     });
-    $('.cast').eq(index).html(`${castList.join(', ')}`)
+    $('#cast').html(castList.join(', '))
     $(titleInfo.created_by).each(function () {
         creatorList.push($(this)[0].name)
     });
-    $('.creator').eq(index).html(`${creatorList.join(', ')}`)
+    $('#crew').html('Created By:')
+    $('#crew-list').html(creatorList.join(', '))
 }
 
 /**
  * Loops through different sections of ajax request responce
  * Fills providers container with images of service providers
  */
-function compileStreamList(index, titleInfo) {
-    let streamContainer = $('.providers').eq(index)
+function compileStreamList(titleInfo) {
+    let streamContainer = $('#providers')
     let streamList = []
     $.each(titleInfo.results.IE.flatrate, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {

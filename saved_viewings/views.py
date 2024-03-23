@@ -110,7 +110,6 @@ def roulette_load(request, result, source_form, source, type, load_all):
     :saved_viewings/roulette_list.html`
     """
     while True:
-        print(result)
         if (len(result) > 0):
             if ( source == 'Random'):
                 random_number = random.randint(1, len(result)-1)
@@ -143,8 +142,6 @@ def roulette_load(request, result, source_form, source, type, load_all):
         'saved_viewings/roulette_list.html',
         {
             'source_form': source_form,
-            'POSTER_PATH': POSTER_PATH,
-            'in_list': in_list
         })
 
 
@@ -287,6 +284,7 @@ def title_info(request, list_type=None):
         }
         response = requests.get(url, headers=headers)
         title_details = response.json()
+
         stream_response = requests.get(stream_url, headers=headers)
         available_stream_details = stream_response.json()
 
