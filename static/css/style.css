@@ -475,6 +475,7 @@ nav {
     z-index: 5;
     position: fixed;
     top: 0;
+    box-shadow: none;
 }
 
 .nav-wrapper {
@@ -490,6 +491,8 @@ nav {
                 0 0 2em 1.2em inset;
     color: #000;
     height: 5em;
+    background-color: rgba(44, 42, 42, 0.6);
+    visibility: visible;
 }
 
 .nav-content ul li {
@@ -517,7 +520,7 @@ nav ul li:hover, nav ul li:focus {
 }
 
 .dropdown-trigger {
-    font-size: 2em;
+    font-size: 5vh;
     padding: 0 0.6em;
     margin: 0.3em 10% 0 0;
     background-color: rgba(108, 229, 232, 0.2);

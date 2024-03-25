@@ -6,6 +6,21 @@
  * https://materializecss.com/carousel.html
  */
 $(document).ready(function () {
+    // Changes menu visibility with mouse wheel
+    // Taken and altered from https://stackoverflow.com/questions/8189840/get-mouse-wheel-events-in-jquery
+    $('body').on('wheel', function (event) {
+        if (event.originalEvent.wheelDelta <= 0) {
+            $('.nav-content ul').css('visibility', 'hidden')
+        }
+        else
+            // Menu is made visible on scrolling to top of the page
+            // Taken from https://stackoverflow.com/questions/15123081/how-can-i-launch-a-javascript-or-jquery-event-when-i-reach-the-top-of-my-page
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() == 0) {
+                    $('.nav-content ul').css('visibility', 'visible')
+                }
+            });
+    })
     $(".dropdown-trigger").dropdown();
     $('.carousel-item').on('click', function (e) {
         e.stopPropagation()
