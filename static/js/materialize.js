@@ -44,7 +44,7 @@ $(document).ready(function () {
         $('.carousel-main').carousel('next');
     })
     // Reveals overlay based on the clicked carousels item
-    $('.carousel-item img').on('click', function () {
+    $('.overlay-trigger').on('click', function () {
         let titleID = $(this).attr('data-titleID')
         let titleType = $(this).attr('data-titleType')
         // Sends ID of the selected title to backend
@@ -79,7 +79,6 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $("#id_streams").html(data);
-                console.log(data)
             }
         });
 
@@ -149,6 +148,7 @@ function sendTitleInfo(titleID, titleType) {
             let openOverlay = function (getTitle) {
                 $('.overlay').css('display', 'unset');
                 let titleInfo = JSON.parse(getTitle)
+                console.log(titleInfo)
                 let genreList = []
                 let castList = []
                 $('#title-description').html(titleInfo.overview)

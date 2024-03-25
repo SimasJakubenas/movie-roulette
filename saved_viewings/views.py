@@ -122,14 +122,14 @@ def roulette_load(request, result, source_form, source, type, load_all):
             in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
             if len(in_list) == 0:
                 add_title_instance(request, result, result_pick, source, type)
-            if len(in_list) < 5:
+                if load_all == False: return False
+            elif len(in_list) < 5:
                 for title in in_list:
                     if result_pick['id'] == title['title_id']:
                         pass
                     else:
                         add_title_instance(request, result, result_pick, source, type)
-                        if load_all == False:
-                            return False
+                        if load_all == False: return False
 
             else:
                 return False
@@ -152,13 +152,13 @@ def roulette_clear(request):
     """
     if request.method == 'POST':
         get_query = MovieOrShow.objects.filter(is_in_roulette=True)
-        get_query.update(is_in_roulette=False)
         get_list = list(get_query.values())
         for list_item in get_list:
             if (list_item['is_in_favourites'] or
                 list_item['is_in_watchlist'] or
                 list_item['is_in_seen_it'] or
                 list_item['is_in_dont_show']) == True:
+                print('what')
                 pass
             else:
                 get_title = MovieOrShow.objects.filter(pk=list_item['title_id'])
@@ -287,7 +287,6 @@ def title_info(request, list_type=None):
 
         stream_response = requests.get(stream_url, headers=headers)
         available_stream_details = stream_response.json()
-
         title_details.update(available_stream_details)
         myResponse = json.dumps(title_details)
         get_title = MovieOrShow.objects.get(title_id=titleID)

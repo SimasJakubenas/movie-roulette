@@ -14,7 +14,8 @@
             <div class="darken-background">
                 Released <b>{{movie.release_date}}</b> Rating <b>{{movie.vote_average}}</b>
             </div>
-            <button class="btn"><i class="fas fa-play-circle"></i>Watch Now</button>
+            <button class="btn overlay-trigger" data-titleID="{{ movie.id }}"
+            data-titleType="0"></i>More Info</button>
         </div>
     </div>
     {% endfor %}
@@ -27,7 +28,9 @@
         <div class="carousel-tag">Popular ▼</div>
         {% for movie in movies_popular %}
         <div class="carousel-item relative">
-            <img src="{{POSTER_BASE_URL}}w154/{{movie.poster_path}}" alt="Image for {{movie.title}}">
+            <img src="{{ POSTER_BASE_URL }}original/{{ movie.poster_path }}" alt="{{ movie.title }} movie poster"
+            class="overlay-trigger" data-titleID="{{ movie.id }}"
+            data-titleType="0">
         </div>
         {% endfor %}
     </div>
@@ -40,7 +43,9 @@
         <div class="carousel-tag">Top Rated ▼</div>
         {% for movie in movies_top_rated %}
         <div class="carousel-item relative">
-            <img src="{{POSTER_BASE_URL}}w154/{{movie.poster_path}}" alt="Image for {{movie.title}}">
+            <img src="{{ POSTER_BASE_URL }}original/{{ movie.poster_path }}" alt="{{ movie.title }} movie poster"
+            class="overlay-trigger" data-titleID="{{ movie.id }}"
+            data-titleType="0">
         </div>
         {% endfor %}
     </div>
@@ -49,3 +54,7 @@
 </div>
 
 {% endblock content %}
+
+{% block overlay %}
+{% include 'overlay.html' %}
+{% endblock %}

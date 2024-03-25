@@ -1,4 +1,4 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -34,7 +34,8 @@
             <form action="{% url 'delete' list_item.title_id %}" method="post">
                 {% csrf_token %}
                 <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
-                    class="movie-poster" data-titleID="{{ list_item.title_id }}" data-titleType="{{ list_item.type }}">
+                    class="movie-poster overlay-trigger" data-titleID="{{ list_item.title_id }}"
+                    data-titleType="{{ list_item.type }}">
                 <button type="submit" value="" class="remove-one-title absolute">
                     <i class="far fa-times-circle"></i>
                 </button>
@@ -56,28 +57,28 @@
             </form>
         </div>
         {% endfor %}
-        
+
     </div>
-    
+
     {% block rouletteimg %}
     {% include 'roulette_img.html' %}
     {% endblock %}
 
+</div>
+<div class="row">
+    <div class="col s6">
+        <form action="{% url 'clear_list' %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-red col xl4 l5 m6 s12">Clear All</button>
+            <!-- <input type="submit" value="Delete cat"> -->
+        </form>
     </div>
-    <div class="row">
-        <div class="col s6">
-            <form action="{% url 'clear_list' %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-red col xl4 l5 m6 s12">Clear All</button>
-                <!-- <input type="submit" value="Delete cat"> -->
-            </form>
-        </div>
-        <div class="col s6">
-            <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12" id="spin-it">
-                Spin It!!!
-            </button>
-        </div>
+    <div class="col s6">
+        <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12" id="spin-it">
+            Spin It!!!
+        </button>
     </div>
+</div>
 </div>
 
 {% endblock content %}
