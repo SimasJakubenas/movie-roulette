@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container profile-container relative">
+<div class="container profile-container relative margin-top-25">
 	<form action="{% url 'edit_profile' %}" method="POST" id="edit-profile">
 		{% csrf_token %}
 		<div class="row">

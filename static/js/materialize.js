@@ -11,6 +11,7 @@ $(document).ready(function () {
     $('body').on('wheel', function (event) {
         if (event.originalEvent.wheelDelta <= 0) {
             $('.nav-content ul').css('visibility', 'hidden')
+            $('.nav-wrapper').css('background-color', '#000')
         }
         else
             // Menu is made visible on scrolling to top of the page
@@ -18,6 +19,7 @@ $(document).ready(function () {
             $(window).on('scroll', function () {
                 if ($(this).scrollTop() == 0) {
                     $('.nav-content ul').css('visibility', 'visible')
+                    $('.nav-wrapper').css('background-color', 'unset')
                 }
             });
     })

@@ -7,7 +7,8 @@
 <div class="carousel carousel-slider carousel-main">
     {% for movie in movies_discover %}
     <div class="carousel-item relative">
-        <img src="{{POSTER_BASE_URL}}original/{{movie.backdrop_path}}" alt="Image for {{movie.title}}">
+        <img class="big-screen-poster" src="{{POSTER_BASE_URL}}original/{{movie.backdrop_path}}" alt="Image for {{movie.title}}">
+        <img class="small-screen-poster" src="{{POSTER_BASE_URL}}original/{{movie.poster_path}}" alt="Image for {{movie.title}}">
         <div class="shadow absolute"></div>
         <div class="info-container absolute">
             <h1>{{movie.title}}</h1>
@@ -19,8 +20,8 @@
         </div>
     </div>
     {% endfor %}
-    <i class="fas fa-chevron-left relative"></i>
-    <i class="fas fa-chevron-right relative"></i>
+    <i class="fas fa-chevron-left absolute"></i>
+    <i class="fas fa-chevron-right absolute"></i>
 </div>
 
 <div class="relative popular-container">
