@@ -1,4 +1,5 @@
 import requests
+from django.contrib.auth import logout
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -115,3 +116,22 @@ def delete_profile(request):
     get_user.delete()
 
     return redirect("home")
+
+
+def logout_page(request):
+    user_data = User.objects.get(pk=request.user.id)
+    profile_data = Profile.objects.get(user_id=request.user.id)
+
+    if request.method == "POST":
+        logout(request)
+
+        return HttpResponseRedirect("/about/home/")
+
+    return render(
+        request,
+        "account/logout.html",
+        {
+            "profile_data": profile_data,
+            "user_data": user_data,
+        }
+    )
