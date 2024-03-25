@@ -183,6 +183,11 @@ select {
   border: none;
 }
 
+.signup-container {
+    width: fit-content;
+    min-width: 50%;
+}
+
 .login input[type="checkbox"] {
     opacity: 1 !important;
     margin: 0.5% 0 0 0.9%;
