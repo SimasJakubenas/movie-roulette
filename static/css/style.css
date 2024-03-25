@@ -310,6 +310,7 @@ input[type='submit'] {
     color: var(--off-white);
     display: none;
     z-index: 5;
+    height: auto;
 }
 
 .overlay-img {
