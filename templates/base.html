@@ -82,8 +82,12 @@
                 <img id="roulette-logo" src="{% static 'images/movie-roulette-logo.png' %}" alt="Movie Roulette logo">
             </a>
             <ul id="nav-mobile" class="right">
-                <li class="hide-on-med-and-down"><a href="{{ signout_url }}" class="log-out">Sign Out</a></li>
                 {% if user.is_authenticated %}
+                <li class="hide-on-med-and-down">
+                    <a href="{{ signout_url }}" class="log-out">
+                        Sign Out
+                    </a>
+                </li>
                 <li class="hide-on-med-and-down menu-profile">
                     <a href="{{ profile_url }}" aria-label="Link to your profile" class="margin-top">
                         <div class="menu-profile-wrapper flex">
