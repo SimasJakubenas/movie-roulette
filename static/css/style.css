@@ -38,6 +38,14 @@ input {
 
 p {
     margin-bottom: 5%;
+    font-size:1em;
+    line-height:1.5em;
+    height:4.5em;
+    width:100%;
+    overflow:hidden;
+}
+.hidden {
+    display:none;
 }
 
 .relative {
@@ -69,7 +77,7 @@ p {
 }
 
 .margin-top-25 {
-    margin-top: 30vh;
+    margin-top: 25vh;
 }
 
 .padding-right-0 {
@@ -79,6 +87,11 @@ p {
 .header-padding {
     padding: 3vh 2vw;
     margin: 0;
+}
+
+.bold {
+    font-weight: 700;
+    margin: 0 1.5vw 0 0.5vw;
 }
 
 .container, #edit-profile-pic-confirm {
@@ -312,6 +325,10 @@ input[type='submit'] {
     padding: 0.2em 0 0 0.4em;
 }
 
+.overlay-container {
+    margin-top: 5%;
+}
+
 .overlay, .contact-overlay {
     top: 0;
     left: 0;
@@ -321,7 +338,7 @@ input[type='submit'] {
     color: var(--off-white);
     display: none;
     z-index: 5;
-    height: auto;
+    height: -webkit-fill-available;
 }
 
 .overlay-img {
@@ -332,6 +349,25 @@ input[type='submit'] {
     font-family: 'Be Vietnam Pro', sans-serif;
     font-weight: 500;
     padding-bottom: 0.5em;
+}
+
+#star {
+    color: gold;
+}
+
+#tmdb {
+    color: #000;
+    border-radius: 0.4em;
+    background-color: rgb(63, 238, 238);
+    font-weight: 700;
+    padding: 0.3em;
+}
+
+.overlay-highlight {
+    padding: 0.3em 1.4em;
+    border-radius: 0.4em;
+    background-color: var(--darker-grey);
+    border: var(--highlight-blue) solid 0.2em;
 }
 
 .my-lists-overlay {
@@ -646,7 +682,7 @@ input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.5) inset !important;
 }
 
-/*Change text in autofill textbox*/
+/* Change text color in autofill textbox*/
 input:-webkit-autofill{
     -webkit-text-fill-color: var(--off-white) !important;
 }

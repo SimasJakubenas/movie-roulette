@@ -1,5 +1,3 @@
-// const signUpForm = document.getElementById("signup_form");
-
 /**
  * Controls carousel ite movement and placement
  * Copied and adjusted as required from Materialize official docs 
@@ -165,10 +163,10 @@ function sendTitleInfo(titleID, titleType) {
             let openOverlay = function (getTitle) {
                 $('.overlay').css('display', 'unset');
                 let titleInfo = JSON.parse(getTitle)
-                console.log(titleInfo)
                 let genreList = []
                 let castList = []
-                $('#title-description').html(titleInfo.overview)
+                $('.truncate-overflow').expander('destroy');
+                $('.truncate-overflow').html(titleInfo['overview']).expander()
                 $('.overlay-img').attr('src', 'https://image.tmdb.org/t/p/w154' + titleInfo.poster_path)
                 $('#rating').html(Math.round(titleInfo.vote_average * 10) / 10)
                 $.each(titleInfo.genres, function (key, value) {
@@ -187,7 +185,7 @@ function sendTitleInfo(titleID, titleType) {
         error: (error) => {
             console.log(error);
         }
-    });
+    })
 }
 
 /**
@@ -255,11 +253,13 @@ function fill_movie_details(titleInfo, castList) {
     $('#release-year').html('Release Year')
     $('#first-aired').html('')
     $('#seasons').html('')
-    $('#seasons-count').html('')
-    $('#status').html('')
+    $('#seasons-count').css('display', 'none')
+    $('#status').css('display', 'none')
     $('#date').html((titleInfo.release_date).slice(0, 4))
     $('#runtime').html('Runtime')
+    $('#runtime-minutes').css('display', 'unset')
     $('#runtime-minutes').html(titleInfo.runtime)
+    $('#age-limit').css('display', 'unset')
     $('#age-limit').html(titleInfo.releases.countries[0].certification)
     $.each(titleInfo.casts.cast, function (key, value) {
         castList.push(value.name)
@@ -283,11 +283,13 @@ function fill_tv_details(titleInfo, castList) {
     $('#first-aired').html('First Aired')
     $('#date').html((titleInfo.first_air_date).slice(0, 4))
     $('#seasons').html('Seasons')
+    $('#seasons-count').css('display', 'unset')
     $('#seasons-count').html(titleInfo.last_episode_to_air.season_number)
+    $('#status').css('display', 'unset')
     $('#status').html(titleInfo.status)
     $('#runtime').html('')
-    $('#runtime-minutes').html('')
-    $('#age-limit').html('')
+    $('#runtime-minutes').css('display', 'none')
+    $('#age-limit').css('display', 'none')
     $.each(titleInfo.credits.cast, function (key, value) {
         castList.push(value.name)
     });

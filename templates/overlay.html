@@ -1,7 +1,7 @@
 {% load static %}
 
 <div class="overlay absolute">
-    <div class="container relative">
+    <div class="container overlay-container relative">
         <button class="close-button absolute">
             <i class="far fa-times-circle"></i>
         </button>
@@ -9,8 +9,7 @@
             <div class="col xl4 m4 s12">
                 <div class="row">
                     <img src="" class="col s10 push-s1 overlay-img">
-                    <button class="btn btn-blue col m12 s10 push-s1">
-                        <i class="far fa-play-circle"></i>
+                    <button class="btn btn-blue col s10 push-s1">
                         Watch Trailer
                     </button>
                 </div>
@@ -25,33 +24,35 @@
                         </button>
                     </form>
                 </h3>
-                <p>
+                <div>
                     <span id="release-year"></span>
                     <span id="first-aired"></span>
-                    <span id="date"></span>
+                    <span id="date" class="bold"></span>
                     <span id="runtime"></span>
-                    <span id="runtime-minutes"></span>
+                    <span id="runtime-minutes" class="bold"></span>
                     <span id="seasons"></span>
-                    <span id="seasons-count"></span>
-                </p><br>
-                <p>
-                    <span>tmdb</span> star <span id="rating"></span>
-                    <span id="age-limit"></span>
-                    <span id="status"></span>
-                </p>
+                    <span id="seasons-count" class="bold"></span>
+                </div><br>
+                <div>
+                    <span class="bold" id="tmdb">TMDB</span>
+                    <span id="star">&#9733</span>
+                    <span id="rating" class="bold"></span>
+                    <span id="age-limit" class="bold overlay-highlight"></span>
+                    <span id="status" class="bold overlay-highlight"></span>
+                </div>
                 <br>
-                <p id="genres"></p>
+                <div id="genres"></div>
                 <br>
-                <p id="title-description"></p>
+                <div id="title-description" class="truncate-overflow"></div>    
                 <br>
                 <div class="row">
                     <div class="col xl3 m5 s4">Cast:</div>
-                    <div class="col xl9 m7 s8" id="cast"></div>
+                    <div class="col xl9 m7 s8 truncate-overflow" id="cast"></div>
                 </div>
                 <div class="row">
                     <div class="col xl3 m5 s4" id="crew">
                     </div>
-                    <div class="col xl9 m7 s8" id="crew-list"></div>
+                    <div class="col xl9 m7 s8 truncate-overflow" id="crew-list"></div>
                 </div>
                 <div class="my-lists-overlay row">
                     <span class="col m4 s12">My Lists:</span>

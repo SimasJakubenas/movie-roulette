@@ -33,7 +33,8 @@ class CustomSignUpForm(SignupForm):
     country = forms.ModelChoiceField(
         queryset=Country.objects.all(),
         widget=forms.Select(attrs={
-            'class': "browser-default"
+            'autocomplete': 'off',
+            'class': "browser-default"  
         })
     )
     streams = forms.ModelMultipleChoiceField(
