@@ -289,7 +289,31 @@ def title_info(request, list_type=None):
         available_stream_details = stream_response.json()
         title_details.update(available_stream_details)
         myResponse = json.dumps(title_details)
-        get_title = MovieOrShow.objects.get(title_id=titleID)
+        get_title = MovieOrShow.objects.get_or_create(
+            title_id=title_details['id'],
+            user_id=request.user,
+            defaults={
+                'description': title_details['overview'],
+                'tmdb_rating': title_details['vote_average'],
+                'poster_link': title_details['poster_path'],
+                'backdrop_link': title_details['backdrop_path'],
+            }
+        )
+        get_title = MovieOrShow.objects.get(pk=titleID)
+        if ( titleType == '0'):
+            get_title.title=  title_details['title']
+            get_title.type = 0
+            slice_date = slice(4)
+            get_title.date = title_details['release_date'][slice(4)]
+            get_title.save()
+        else:
+            get_title.title = title_details['name']
+            get_title.type = 1
+            slice_date = slice(4)
+            get_title.date = title_details['first_air_date'][slice(4)]
+            get_title.save()
+        get_title.save()
+        
         for each_genre in title_details['genres']:
             genre, created  = Genre.objects.get_or_create(
                 genre_id=each_genre['id'],
