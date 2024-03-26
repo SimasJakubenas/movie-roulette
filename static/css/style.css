@@ -332,13 +332,12 @@ input[type='submit'] {
 .overlay, .contact-overlay {
     top: 0;
     left: 0;
-    height: 100vh;
+    height: auto;
     width: 100vw;
     background-color: rgba(44, 42, 42, 0.94);
     color: var(--off-white);
     display: none;
     z-index: 5;
-    height: -webkit-fill-available;
 }
 
 .overlay-img {

@@ -165,8 +165,12 @@ function sendTitleInfo(titleID, titleType) {
                 let titleInfo = JSON.parse(getTitle)
                 let genreList = []
                 let castList = []
-                $('.truncate-overflow').expander('destroy');
-                $('.truncate-overflow').html(titleInfo['overview']).expander()
+                $('.add-to-list').attr('data-titleID', titleInfo['id'])
+                $('#title-description').expander('destroy');
+                $('#cast').expander('destroy');
+                $('#crew-list').expander('destroy')
+                $('#title-description').html(titleInfo['overview']).expander()
+                
                 $('.overlay-img').attr('src', 'https://image.tmdb.org/t/p/w154' + titleInfo.poster_path)
                 $('#rating').html(Math.round(titleInfo.vote_average * 10) / 10)
                 $.each(titleInfo.genres, function (key, value) {
@@ -264,13 +268,13 @@ function fill_movie_details(titleInfo, castList) {
     $.each(titleInfo.casts.cast, function (key, value) {
         castList.push(value.name)
     });
-    $('#cast').html(castList.join(', '))
+    $('#cast').html(castList.join(', ')).expander()
     $(titleInfo.casts.crew).each(function () {
         if ($(this)[0].job === 'Director') {
             directorList.push($(this)[0].name)
         }
     });
-    $('#crew').html('Directed By:')
+    $('#crew').html('Directed By:').expander()
     $('#crew-list').html(directorList.join(', '))
 }
 

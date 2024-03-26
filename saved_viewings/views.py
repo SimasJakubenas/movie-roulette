@@ -285,6 +285,7 @@ def title_info(request, list_type=None):
         response = requests.get(url, headers=headers)
         title_details = response.json()
 
+
         stream_response = requests.get(stream_url, headers=headers)
         available_stream_details = stream_response.json()
         title_details.update(available_stream_details)
@@ -347,6 +348,7 @@ def add_to_list(request, list_type=None):
     """
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
+        print(titleID)
         list = request.POST.get('list')
         if list == 'is_in_favourites':
             det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_favourites=True)
