@@ -165,6 +165,9 @@ function sendTitleInfo(titleID, titleType) {
                 let titleInfo = JSON.parse(getTitle)
                 let genreList = []
                 let castList = []
+                $('.add-to-list').each(function () {
+                    $(this).css('background-color', 'unset')
+                })
                 $('.add-to-list').attr('data-titleID', titleInfo['id'])
                 $('#title-description').expander('destroy');
                 $('#cast').expander('destroy');
@@ -183,6 +186,18 @@ function sendTitleInfo(titleID, titleType) {
                     fill_tv_details(titleInfo, castList)
                 }
                 compileStreamList(titleInfo)
+                if (titleInfo['is_in_favourites'] === true) {
+                    $('.add-to-favourites').css('background-color', '#6CE5E8')
+                }
+                if (titleInfo['is_in_watchlist'] === true) {
+                    $('.add-to-watchlist').css('background-color', '#6CE5E8')
+                }
+                if (titleInfo['is_in_seen_it'] === true) {
+                    $('.add-to-seen-it').css('background-color', '#6CE5E8')
+                }
+                if (titleInfo['is_in_dont_show'] === true) {
+                    $('.add-to-dont-show').css('background-color', '#6CE5E8')
+                }
             }
             openOverlay(getTitle)
         },

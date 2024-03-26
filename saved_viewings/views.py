@@ -285,11 +285,9 @@ def title_info(request, list_type=None):
         response = requests.get(url, headers=headers)
         title_details = response.json()
 
-
         stream_response = requests.get(stream_url, headers=headers)
         available_stream_details = stream_response.json()
         title_details.update(available_stream_details)
-        myResponse = json.dumps(title_details)
         get_title = MovieOrShow.objects.get_or_create(
             title_id=title_details['id'],
             user_id=request.user,
@@ -336,6 +334,11 @@ def title_info(request, list_type=None):
             get_all_tv_people(title_details, get_title)
             get_title.seasons = title_details['last_episode_to_air']['season_number']
             get_title.save()
+        
+        get_title = list(MovieOrShow.objects.filter(pk=titleID).values())
+
+        title_details.update(get_title[0])
+        myResponse = json.dumps(title_details)
 
         return HttpResponse(myResponse)
 
@@ -348,8 +351,8 @@ def add_to_list(request, list_type=None):
     """
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
-        print(titleID)
         list = request.POST.get('list')
+        print(list)
         if list == 'is_in_favourites':
             det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_favourites=True)
         if list == 'is_in_watchlist':
