@@ -152,7 +152,9 @@ def roulette_load(request, result, source_form, source, type, load_all):
 @login_required
 def roulette_clear(request):
     """
-    View to empty roulette content
+    Queries database and filters for titles in roulette list.
+    If the titles aren't in any other lists - title is deleted
+    Returns to roulette page
     """
     if request.method == 'POST':
         get_query = MovieOrShow.objects.filter(is_in_roulette=True)
