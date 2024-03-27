@@ -512,18 +512,18 @@ def new_actor_instance(each_person, get_title):
 @login_required
 def load_list(request, list_type=None):
     """
-     Loads favourites page
+    Gathers data from roulette form/ django user model/ profile model
+    Get listed values of MovieOrShow entitry for specific instances
+    Renders corresponding pade and passes all the data
     **Context**
 
-    ``source_form``
-        Instance of type seletion field
-    ``POSTER_PATH``
-        URL path for posters
-    ``in_list``
+    `source_form`
+        Data from roulettes restriction fields
+    `in_list`
         List of title instances in the fsvourites list
 
     **Templates**
-        
+
     'saved_viewings/favourites.html`
     'saved_viewings/watchlist.html'
     'saved_viewings/seen_it.html'
