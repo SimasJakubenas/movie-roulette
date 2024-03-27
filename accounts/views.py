@@ -10,14 +10,35 @@ from .forms import ProfileImage, CustomSignUpForm, EditProfileForm
 
 
 def load_providers(request):
+    """
+    Loads country specific providers to sign up forms select element
+    """
     country_iso = request.GET.get('country')
     services = StreamingService.objects.filter(countries__country_iso=country_iso)
 
     return render(request, 'services_list_options.html', {'services': services})
 
 
+@login_required
 def profile_page(request):
+    """
+    Querys number of database entitites to fetch data
 
+    **Context**
+
+    `user_data`
+        Data from djangos user model
+    `profile_data`
+        Data from profile model
+    `profile_streams`
+        Gets all the streaming providers that profile has selected
+    `profile_img`
+        Profile image
+
+    **Templates**
+
+    'accounts/profile.html`
+    """
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
     profile_streams = profile_data.streams.all()
@@ -36,11 +57,12 @@ def profile_page(request):
     )
 
 
+@login_required
 def update_profile_pic(request):
     """
-    Accquires profile picture data from a suubmitted form and
+    Accquires profile picture data from a submitted form and
     updates Profile model.
-    Returns back to profile page
+    Redirects back to profile page
     """
     if request.method == "POST":
         profile_pic = ProfileImage(request.POST, request.FILES)
@@ -56,11 +78,26 @@ def update_profile_pic(request):
     return HttpResponseRedirect(reverse('profile'))
 
 
+@login_required
 def edit_profile(request):
     """
     Updates the user profile by using the input data through
     EditProfileForm form.
-    Renders 'accounts/edit_profile.html' template
+
+    **Context**
+
+    `user_data`
+        Data from djangos user model
+    `profile_data`
+        Data from profile model
+    `profile_streams`
+        Gets all the streaming providers that profile has selected
+    `form`
+        Data from user input in EditProfileForm
+
+    **Templates**
+
+    'accounts/edit_profile.html`
     """
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
@@ -108,9 +145,11 @@ def edit_profile(request):
     )
 
 
+@login_required
 def delete_profile(request):
     """
     Deletes user instance
+    Redirects to home page
     """
     get_user = User.objects.get(pk=request.user.id)
     get_user.delete()
@@ -118,7 +157,22 @@ def delete_profile(request):
     return redirect("home")
 
 
+@login_required
 def logout_page(request):
+    """
+    View for custom log out page
+
+    **Context**
+
+    `user_data`
+        Data from djangos user model
+    `profile_data`
+        Data from profile model
+
+    **Templates**
+
+    'account/logout.html`
+    """
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
 
