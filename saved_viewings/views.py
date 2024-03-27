@@ -218,6 +218,7 @@ def add_title_instance(request, result, result_pick, source, type):
 def clear_one_title(request, title_id):
     """
     Removes a single title to the  roulette carousel
+    Redirects to roulete page
     """
     if request.method == 'POST':
         get_title = MovieOrShow.objects.filter(pk=title_id)
@@ -231,7 +232,9 @@ def clear_one_title(request, title_id):
 @login_required
 def clear_one_listed_title(request, title_id, list_type=None):
     """
-    Removes a single title from the favourites list
+    Queries the database for a specific title
+    Removes a single title from the corresponding list
+    Redirects to mylists page
     """
     if request.method == 'POST':
         get_title = MovieOrShow.objects.filter(pk=title_id)
@@ -244,7 +247,6 @@ def clear_one_listed_title(request, title_id, list_type=None):
             update_title = get_title.update(is_in_seen_it=False)
         if list_type == 'dont_show':
             update_title = get_title.update(is_in_dont_show=False)
-        print('a')
         clear_title(get_title, title_id)
 
         if list_type:
