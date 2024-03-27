@@ -103,18 +103,15 @@ def roulette_load(request, result, source_form, source, type, load_all):
     Loads MovieOrShow entity with titles if there's less that 5 titles in the roulette
     Uses source_form boolean field to determine weather to load all roulette items
     or just one.
+
     **Context**
 
-    ``source_form``
-        Instance of roulette restriction fields
-    ``POSTER_PATH``
-        URL path for posters
-    ``in_list``
-        List of title instances in the roullete
+    `source_form`
+        Data from roulettes restriction fields
 
     **Template**
         
-    :saved_viewings/roulette_list.html`
+    'saved_viewings/roulette_list.html`
     """
     while True:
         if (len(result) > 0):
