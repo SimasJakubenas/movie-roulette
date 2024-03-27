@@ -8,6 +8,17 @@ from .forms import ContactForm
 def about_movie_roulette(request):
     """
     Renders the About page
+
+    **Context**
+
+    `about`
+        Data from About model
+    `contact_form`
+        Data from contact form
+
+    **Templates**
+
+    'about/about.html`
     """
     if request.method == "POST":
         contact_form = ContactForm(data=request.POST)
@@ -44,5 +55,7 @@ def about_movie_roulette(request):
 
 
 def index(request):
-
+    """
+    Renders index page
+    """
     return render(request, "about/index.html")
