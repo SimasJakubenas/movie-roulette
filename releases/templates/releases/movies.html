@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block overlay %}
+{% include 'overlay.html' %}
+{% endblock %}
+
 {% block content %}
 
 <div class="carousel carousel-slider carousel-main">
@@ -55,7 +59,3 @@
 </div>
 
 {% endblock content %}
-
-{% block overlay %}
-{% include 'overlay.html' %}
-{% endblock %}
