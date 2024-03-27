@@ -11,7 +11,6 @@ from .forms import RouletteSourceForm
 from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, StreamingService
 from accounts.models import Country, Profile
 
-# Create your views here.
 
 API_KEY = os.environ.get('API_KEY')
 BASE_URL = 'https://api.themoviedb.org/3'
@@ -24,6 +23,9 @@ POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
 
 
 def tmdb_api_connect(request, type):
+    """
+    Connects to API and get movie/show data, then returns the result in json format
+    """
     if ( type == 'Movies'):
         url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     else:
@@ -41,18 +43,23 @@ def tmdb_api_connect(request, type):
 def roulette_list(request):
     """
     Main view that controls loadind the roulette
+    Recieves data from a form, calls to an API/ retreaves data from database
+    and populates movie roulette with titles
+
     **Context**
 
-    ``source_form``
-        Instance of roulette restriction fields
-    ``POSTER_PATH``
-        URL path for posters
-    ``in_list``
+    `source_form`
+        Data from roulettes restriction fields
+    `in_list`
         List of title instances in the roullete
+    'user_data'
+        data from Djangos user model
+    'profile_data'
+        data from profile model
 
     **Template**
         
-    :saved_viewings/roulette_list.html`
+    'saved_viewings/roulette_list.html`
     """
     source_form = RouletteSourceForm(data=request.POST)
     in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
