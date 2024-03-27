@@ -16,7 +16,6 @@ API_KEY = os.environ.get('API_KEY')
 BASE_URL = 'https://api.themoviedb.org/3'
 DISCOVER_MOVIE = '/discover/movie'
 DISCOVER_SHOW = '/discover/tv'
-ENDPOINT_POPULAR_TITLES = 'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=IE&with_watch_providers=8'
 POSTER_BASE_URL = 'https://image.tmdb.org/t/p/'
 POSTER_SIZE = 'w154/'
 POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
@@ -26,6 +25,9 @@ def tmdb_api_connect(request, type):
     """
     Connects to API and get movie/show data, then returns the result in json format
     """
+    get_profile = Profile.objects.get(user_id=request.user.id)
+    get_country = Country.objects.get(name=get_profile.country)
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers=8'
     if ( type == 'Movies'):
         url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     else:
@@ -164,7 +166,6 @@ def roulette_clear(request):
                 list_item['is_in_watchlist'] or
                 list_item['is_in_seen_it'] or
                 list_item['is_in_dont_show']) == True:
-                print('what')
                 pass
             else:
                 get_title = MovieOrShow.objects.filter(pk=list_item['title_id'])
@@ -367,7 +368,6 @@ def add_to_list(request, list_type=None):
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         list = request.POST.get('list')
-        print(list)
         if list == 'is_in_favourites':
             det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_favourites=True)
         if list == 'is_in_watchlist':
@@ -397,7 +397,6 @@ def remove_from_list(request, list_type=None):
             det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_seen_it=False)
         if list_type == 'dont_show':
             det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_dont_show=False)
-        print('sfsf')
         clear_title(get_title, title_id)
 
         return HttpResponse('Removed from list')

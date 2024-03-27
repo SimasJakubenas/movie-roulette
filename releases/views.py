@@ -2,8 +2,8 @@ import requests
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from saved_viewings.views import API_KEY, BASE_URL, POSTER_BASE_URL, ENDPOINT_POPULAR_TITLES, DISCOVER_MOVIE, DISCOVER_SHOW
-from accounts.models import Profile
+from saved_viewings.views import API_KEY, BASE_URL, POSTER_BASE_URL, DISCOVER_MOVIE, DISCOVER_SHOW
+from accounts.models import Profile, Country
 
 
 @login_required
@@ -24,6 +24,9 @@ def movie_releases(request):
 
     'releases/movies.html`
     """
+    get_profile = Profile.objects.get(user_id=request.user.id)
+    get_country = Country.objects.get(name=get_profile.country)
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}'
     url_discover = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_popular = f"{BASE_URL}/movie/popular?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_top_rated = f"{BASE_URL}/movie/top_rated?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
