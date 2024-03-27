@@ -338,7 +338,7 @@ def title_info(request, list_type=None):
             )
             get_title.genres.add(genre)
 
-        get_title_providers(titleType, titleID, get_title, available_stream_details)
+        get_title_providers(request, titleType, titleID, get_title, available_stream_details)
        
         get_title.status = title_details['status']
         if ( titleType == '0' ):
@@ -452,22 +452,24 @@ def get_all_tv_people(title_details, get_title):
         get_title.creators.add(creator)
 
 
-def get_title_providers(titleType, titleID, get_title, available_stream_details):
+def get_title_providers(request, titleType, titleID, get_title, available_stream_details):
     """
     Connects to an API end point for streaming providers
     Loops through different areas of the response and updates StreamingServices model
 
     """
-    if 'flatrate' in available_stream_details['results']['IE']:
-        for each_stream in available_stream_details['results']['IE']['flatrate']:
+    get_profile = Profile.objects.get(user_id=request.user.id)
+    get_country = Country.objects.get(name=get_profile.country)
+    if 'flatrate' in available_stream_details['results'][get_country.country_iso]:
+        for each_stream in available_stream_details['results'][get_country.country_iso]['flatrate']:
             stream_instance(each_stream, get_title)
 
-    if 'rent' in available_stream_details['results']['IE']:
-        for each_stream in available_stream_details['results']['IE']['rent']:
+    if 'rent' in available_stream_details['results'][get_country.country_iso]:
+        for each_stream in available_stream_details['results'][get_country.country_iso]['rent']:
             stream_instance(each_stream, get_title)
 
-    if 'buy' in available_stream_details['results']['IE']:
-        for each_stream in available_stream_details['results']['IE']['buy']:
+    if 'buy' in available_stream_details['results'][get_country.country_iso]:
+        for each_stream in available_stream_details['results'][get_country.country_iso]['buy']:
             stream_instance(each_stream, get_title)
 
 
