@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from accounts.models import Profile
 from .models import About
 from .forms import ContactForm
 
 
+@login_required
 def about_movie_roulette(request):
     """
     Renders the About page
@@ -54,6 +56,7 @@ def about_movie_roulette(request):
         )
 
 
+@login_required
 def index(request):
     """
     Renders index page

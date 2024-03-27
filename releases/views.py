@@ -1,8 +1,10 @@
 import requests
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from saved_viewings.views import API_KEY, BASE_URL, POSTER_BASE_URL, ENDPOINT_POPULAR_TITLES, DISCOVER_MOVIE, DISCOVER_SHOW
 from accounts.models import Profile
+
 
 @login_required
 def movie_releases(request):

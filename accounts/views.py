@@ -3,6 +3,7 @@ from django.contrib.auth import logout
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from saved_viewings.models import StreamingService
 from saved_viewings.views import POSTER_BASE_URL
 from .models import Profile
