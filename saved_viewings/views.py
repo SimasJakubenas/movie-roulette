@@ -258,6 +258,10 @@ def clear_one_listed_title(request, title_id, list_type=None):
 
 
 def clear_title(get_title, title_id):
+    """
+    Queries the database for a specific title
+    If title is in database and not in any of the lists - deletes the title
+    """
     title_object = list(MovieOrShow.objects.filter(pk=title_id).values())
     if len(title_object) > 0:
         if (title_object[0]['is_in_roulette'] or 
