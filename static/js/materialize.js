@@ -10,8 +10,7 @@ $(document).ready(function () {
         if (event.originalEvent.wheelDelta <= 0) {
             $('.nav-content ul').css('visibility', 'hidden')
             $('.nav-wrapper').css('background-color', '#000')
-        }
-        else
+        } else
             // Menu is made visible on scrolling to top of the page
             // Taken from https://stackoverflow.com/questions/15123081/how-can-i-launch-a-javascript-or-jquery-event-when-i-reach-the-top-of-my-page
             $(window).on('scroll', function () {
@@ -25,39 +24,7 @@ $(document).ready(function () {
     $('.carousel-item').on('click', function (e) {
         e.stopPropagation()
     })
-    $('#roulette').carousel({
-        dist: -50,
-        padding: 60
-    });
-    $('#carousel-popular').carousel({
-        dist: 0,
-        padding: 20
-    });
-    $('#carousel-top-rated').carousel({
-        dist: 0,
-        padding: 20
-    });
-    $('.popular-container .fa-chevron-left').on("click", function () {
-        $('#carousel-popular').carousel('prev');
-    })
-    $('.popular-container .fa-chevron-right').on("click", function () {
-        $('#carousel-popular').carousel('next');
-    })
-    $('.top-rated-container .fa-chevron-left').on("click", function () {
-        $('#carousel-top-rated').carousel('prev');
-    })
-    $('.top-rated-container .fa-chevron-right').on("click", function () {
-        $('#carousel-top-rated').carousel('next');
-    })
-    $('.carousel.carousel-slider').carousel({
-        fullWidth: true
-    });
-    $('.carousel-main .fa-chevron-left').on("click", function () {
-        $('.carousel-main').carousel('prev');
-    })
-    $('.carousel-main .fa-chevron-right').on("click", function () {
-        $('.carousel-main').carousel('next');
-    })
+    carouselControls()
     // Reveals overlay based on the clicked carousels item
     $('.overlay-trigger').on('click', function () {
         let titleID = $(this).attr('data-titleID')
@@ -114,6 +81,45 @@ $(document).ready(function () {
     // It allows for differentiation of actions in one view (load one title/load many titles)
     $('.main-select:last').children('input:last').attr('checked', 'checked')
 });
+
+/**
+ * Initiates all carousels and add controls
+ */
+function carouselControls() {
+    $('#roulette').carousel({
+        dist: -50,
+        padding: 60
+    });
+    $('#carousel-popular').carousel({
+        dist: 0,
+        padding: 20
+    });
+    $('#carousel-top-rated').carousel({
+        dist: 0,
+        padding: 20
+    });
+    $('.popular-container .fa-chevron-left').on("click", function () {
+        $('#carousel-popular').carousel('prev');
+    })
+    $('.popular-container .fa-chevron-right').on("click", function () {
+        $('#carousel-popular').carousel('next');
+    })
+    $('.top-rated-container .fa-chevron-left').on("click", function () {
+        $('#carousel-top-rated').carousel('prev');
+    })
+    $('.top-rated-container .fa-chevron-right').on("click", function () {
+        $('#carousel-top-rated').carousel('next');
+    })
+    $('.carousel.carousel-slider').carousel({
+        fullWidth: true
+    });
+    $('.carousel-main .fa-chevron-left').on("click", function () {
+        $('.carousel-main').carousel('prev');
+    })
+    $('.carousel-main .fa-chevron-right').on("click", function () {
+        $('.carousel-main').carousel('next');
+    })
+}
 
 /**
  * Picks a random number and sets the carousel in motion
@@ -174,7 +180,7 @@ function sendTitleInfo(titleID, titleType) {
                 $('#cast').expander('destroy');
                 $('#crew-list').expander('destroy')
                 $('#title-description').html(titleInfo['overview']).expander()
-                
+
                 $('.overlay-img').attr('src', 'https://image.tmdb.org/t/p/w154' + titleInfo.poster_path)
                 $('#rating').html(Math.round(titleInfo.vote_average * 10) / 10)
                 $.each(titleInfo.genres, function (key, value) {
@@ -187,6 +193,7 @@ function sendTitleInfo(titleID, titleType) {
                     fill_tv_details(titleInfo, castList)
                 }
                 compileStreamList(titleInfo)
+                // changes background color of list icons if title in that list
                 if (titleInfo['is_in_favourites'] === true) {
                     $('.add-to-favourites').css('background-color', '#6CE5E8')
                 }
@@ -358,6 +365,9 @@ function movieShowToggle() {
     })
 }
 
+/**
+ * Changes display property in a corresponding elements based on movie or show selection
+ */
 function displayFavouriteTypeOfTitle(type) {
     if (type === 'Movies') {
         $('.movies-list').css('display', 'unset')
