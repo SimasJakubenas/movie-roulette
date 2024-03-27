@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 TYPE = ((0, "Movie"), (1, "TV-Show"))
 
 
-# Create your models here.
 class MovieOrShow(models.Model):
     title_id = models.IntegerField(primary_key=True)
     user_id = models.ForeignKey(

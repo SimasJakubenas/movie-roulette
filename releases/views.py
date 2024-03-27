@@ -35,6 +35,7 @@ def movie_releases(request):
     response_top_rated = requests.get(url_top_rated, headers=headers)
 
     movies_discover = response_discover.json()['results']
+    print(movies_discover)
     movies_popular = response_popular.json()['results']
     movies_top_rated = response_top_rated.json()['results']
 
