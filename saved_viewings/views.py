@@ -282,6 +282,8 @@ def title_info(request, list_type=None):
     """
     Receives data from user input and uses that data to call to an API to fetch 
     detailed information about the title
+    Pulls MovieOrShow instance from database/ creates new instance
+    Appends this data to API response and passes all colective data back to async function
     """
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
