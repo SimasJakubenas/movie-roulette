@@ -381,6 +381,11 @@ input[type='submit'] {
     padding: 5%;
 }
 
+#providers img {
+    border-radius: 20%;
+    margin-right: 3%;
+}
+
 i[data-listed="true"] { 
     background-color: var(--highlight-blue);
 }

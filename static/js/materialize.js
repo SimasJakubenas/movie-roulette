@@ -68,6 +68,7 @@ $(document).ready(function () {
     // Closes the overlay
     $('.close-button').on('click', function () {
         $(this).parent().parent().css('display', 'none')
+        $('#providers').html('')
     });
     $('.contact-btn').on('click', function () {
         $('.contact').css('display', 'unset')
