@@ -32,7 +32,9 @@
         <div class="carousel-tag">Popular ▼</div>
         {% for show in shows_popular %}
         <div class="carousel-item relative">
-            <img src="{{POSTER_BASE_URL}}w154/{{show.poster_path}}" alt="Image for {{show.name}}">
+            <img src="{{ POSTER_BASE_URL }}original/{{ show.poster_path }}" alt="{{ show.title }} show poster"
+            class="overlay-trigger" data-titleID="{{ show.id }}"
+            data-titleType="1">
         </div>
         {% endfor %}
     </div>
@@ -45,7 +47,9 @@
         <div class="carousel-tag">Top Rated ▼</div>
         {% for show in shows_top_rated %}
         <div class="carousel-item relative">
-            <img src="{{POSTER_BASE_URL}}w154/{{show.poster_path}}" alt="Image for {{show.name}}">
+            <img src="{{ POSTER_BASE_URL }}original/{{ show.poster_path }}" alt="{{ show.name }} show poster"
+            class="overlay-trigger" data-titleID="{{ show.id }}"
+            data-titleType="1">
         </div>
         {% endfor %}
     </div>
