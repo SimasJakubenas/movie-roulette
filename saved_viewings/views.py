@@ -177,7 +177,8 @@ def roulette_clear(request):
 
 def add_title_instance(request, result, result_pick, source, type):
     """
-    Addan instanceto the MovieOrShow entity
+    If roulette page form source is 'Random': creates a new instance in MovieOrShow entity
+    Otherwise adds a title to roulette from database by changing it's boolean value
     """
     if source == 'Random':
         new_entry = MovieOrShow(
