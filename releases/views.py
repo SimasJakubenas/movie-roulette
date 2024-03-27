@@ -77,6 +77,9 @@ def show_releases(request):
 
     'releases/shows.html`
     """
+    get_profile = Profile.objects.get(user_id=request.user.id)
+    get_country = Country.objects.get(name=get_profile.country)
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers=8'
     url_discover = f"{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_popular = f"{BASE_URL}/tv/popular?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_top_rated = f"{BASE_URL}/tv/top_rated?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
