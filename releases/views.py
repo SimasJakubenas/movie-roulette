@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from saved_viewings.views import API_KEY, BASE_URL, POSTER_BASE_URL, DISCOVER_MOVIE, DISCOVER_SHOW
+from saved_viewings.models import StreamingService
 from accounts.models import Profile, Country
 
 
@@ -26,7 +27,12 @@ def movie_releases(request):
     """
     get_profile = Profile.objects.get(user_id=request.user.id)
     get_country = Country.objects.get(name=get_profile.country)
-    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers=8'
+    stream_list = ''
+    stream_list_query = list(get_profile.streams.all().values())
+    for stream in stream_list_query:
+        stream_list += (str(stream['provider_id']) + ',')
+    
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
     url_discover = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_popular = f"{BASE_URL}/movie/popular?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_top_rated = f"{BASE_URL}/movie/top_rated?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
@@ -78,10 +84,15 @@ def show_releases(request):
     """
     get_profile = Profile.objects.get(user_id=request.user.id)
     get_country = Country.objects.get(name=get_profile.country)
+    stream_list = ''
+    stream_list_query = list(get_profile.streams.all().values())
+    for stream in stream_list_query:
+        stream_list += (str(stream['provider_id']) + ',')
     ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers=8'
     url_discover = f"{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_popular = f"{BASE_URL}/tv/popular?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_top_rated = f"{BASE_URL}/tv/top_rated?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+    
     headers = {
         "accept": "application/json",
     }
@@ -92,6 +103,7 @@ def show_releases(request):
     shows_discover = response_discover.json()['results']
     shows_popular = response_popular.json()['results']
     shows_top_rated = response_top_rated.json()['results']
+
 
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)

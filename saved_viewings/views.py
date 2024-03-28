@@ -354,6 +354,18 @@ def title_info(request, list_type=None):
         get_title = list(MovieOrShow.objects.filter(pk=titleID).values())
 
         title_details.update(get_title[0])
+
+        get_profile = Profile.objects.get(user_id=request.user.id)
+        get_country = Country.objects.get(name=get_profile.country)
+        get_profile_streams = list(get_profile.streams.all().values())
+        title_providers = {}
+        title_providers['provider_name'] = []
+        for profile_stream in get_profile_streams:
+            title_providers['provider_name'].append((profile_stream['name']))
+        country_id = {}
+        country_id['user_country'] = get_country.country_iso
+        title_details.update(country_id)
+        title_details.update(title_providers)
         myResponse = json.dumps(title_details)
 
         return HttpResponse(myResponse)
@@ -460,17 +472,17 @@ def get_title_providers(request, titleType, titleID, get_title, available_stream
     """
     get_profile = Profile.objects.get(user_id=request.user.id)
     get_country = Country.objects.get(name=get_profile.country)
-    if 'flatrate' in available_stream_details['results'][get_country.country_iso]:
-        for each_stream in available_stream_details['results'][get_country.country_iso]['flatrate']:
-            stream_instance(each_stream, get_title)
+    if get_country.country_iso in available_stream_details['results']:
+        if 'flatrate' in available_stream_details['results'][get_country.country_iso]:
+            for each_stream in available_stream_details['results'][get_country.country_iso]['flatrate']:
+                stream_instance(each_stream, get_title)
+        if 'rent' in available_stream_details['results'][get_country.country_iso]:
+            for each_stream in available_stream_details['results'][get_country.country_iso]['rent']:
+                stream_instance(each_stream, get_title)
 
-    if 'rent' in available_stream_details['results'][get_country.country_iso]:
-        for each_stream in available_stream_details['results'][get_country.country_iso]['rent']:
-            stream_instance(each_stream, get_title)
-
-    if 'buy' in available_stream_details['results'][get_country.country_iso]:
-        for each_stream in available_stream_details['results'][get_country.country_iso]['buy']:
-            stream_instance(each_stream, get_title)
+        if 'buy' in available_stream_details['results'][get_country.country_iso]:
+            for each_stream in available_stream_details['results'][get_country.country_iso]['buy']:
+                stream_instance(each_stream, get_title)
 
 
 def stream_instance(each_stream, get_title):

@@ -340,21 +340,24 @@ function fill_tv_details(titleInfo, castList) {
  * Fills providers container with images of service providers
  */
 function compileStreamList(titleInfo) {
+    let titleStreams = titleInfo['provider_name']
+    let userCountry = titleInfo['user_country']
     let streamContainer = $('#providers')
     let streamList = []
-    $.each(titleInfo.results.IE.flatrate, function (key, value) {
+    console.log(titleInfo.id)
+    $.each(titleInfo.results[userCountry].flatrate, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer)
         }
     });
-    $.each(titleInfo.results.IE.rent, function (key, value) {
+    $.each(titleInfo.results[userCountry].rent, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer)
         }
     });
-    $.each(titleInfo.results.IE.buy, function (key, value) {
+    $.each(titleInfo.results[userCountry].buy, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer)
         }
     });
 }
@@ -388,9 +391,12 @@ function displayFavouriteTypeOfTitle(type) {
 /**
  * Adds streaming providers logos to providers container 
  */
-function appendStreamList(value, streamList, streamContainer) {
-    streamList.push(value.provider_id)
-    streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`)
+function appendStreamList(titleStreams, value, streamList, streamContainer) {
+    if (titleStreams.includes(value.provider_name)) {
+        
+        streamList.push(value.provider_id)
+        streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`)
+    }
 }
 
 /**
