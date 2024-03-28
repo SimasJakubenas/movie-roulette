@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django_summernote',
     'cloudinary',
+    'roulette',
     'saved_viewings',
     'releases',
     'accounts',

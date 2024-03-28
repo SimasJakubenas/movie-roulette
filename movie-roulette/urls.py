@@ -20,6 +20,7 @@ urlpatterns = [
     path("about/", include("about.urls"), name="about-urls"),
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")),
+    path('roulette/', include('roulette.urls')),
     path('summernote/', include('django_summernote.urls')),
     path("", include("accounts.urls"), name="accounts-urls"),
     path("", include("releases.urls"), name="releases-urls"),
