@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'releases',
     'accounts',
     'about',
+    'search',
     'crispy_forms',
     'crispy_forms_materialize',
 ]
