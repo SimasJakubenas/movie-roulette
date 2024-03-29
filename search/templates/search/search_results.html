@@ -1,0 +1,9 @@
+{% load static %}
+
+{% for title in search_result %}
+<div class="carousel-item relative listed-title col xl3 m4 s6">
+    <img src="{{ POSTER_PATH }}{{ title.poster_path }}" alt="{{ title.title }} movie poster"
+        class="movie-poster overlay-trigger margin-bottom" data-titleID="{{ title.id }}"
+        data-titleType="{{ title.type }}">
+</div>
+{% endfor %}

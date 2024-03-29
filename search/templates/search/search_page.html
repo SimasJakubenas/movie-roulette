@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="container margin-top-25">
-    <form id="search" method="post" action="{% url 'search_results' %}">
+    <form id="search-form" method="post" data-search-results-url="{% url 'search_results' %}">
         {% csrf_token %}
         <div class="row">
             <div class="col m6 s12">
@@ -30,7 +30,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col l6 push-l1 s12" for="{{ field.auto_id }}">{{ search_form.age_limit.label }}</label>
+                    <label class="col l6 push-l1 s12"
+                        for="{{ field.auto_id }}">{{ search_form.age_limit.label }}</label>
                     <div class="col l6 s12 padding-right-0">
                         {{ search_form.age_limit }}
                     </div>
@@ -38,12 +39,16 @@
             </div>
 
             <div class="row">
-                <button class="btn col xl2 push-xl8 l3 push-l8 m4 push-m7 s10 push-s1 margin-top" type="submit">
+                <button class="btn col xl2 push-xl8 l3 push-l8 m4 push-m7 s10 push-s1 margin-top" id="search-btn" type="button">
                     Search
                 </button>
             </div>
         </div>
     </form>
+
+    <div id="search-results-container" class="row">
+
+    </div>
 
 </div>
 

@@ -37,6 +37,31 @@ $(document).ready(function () {
     $('.deny-button').on('click', function () {
         location.reload();
     })
+    $('#search-btn').on('click', function () {
+        // let url = $("#search-form").attr("data-search-results-url");
+        let url = $("#search-form").attr("data-search-results-url");
+        console.log(url)
+        let year = $('#id_year').val();
+        let rating = $('#id_rating').val();
+        let runtime = $('#id_runtime').val();
+        let age_limit = $('#id_age_limit').val();
+        
+        $.ajax({
+            url: url,
+            data: {
+                'year': year,
+                'rating': rating,
+                'runtime': runtime,
+                'age_limit': age_limit
+            },
+            success: function (data) {
+                $("#search-results-container").html(data);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        })
+    })
     countryStreamingProviders()
     listMenuToggle()
     listTypeToggle()
