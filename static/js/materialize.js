@@ -51,29 +51,7 @@ $(document).ready(function () {
             }
         });
     });
-    $(".list-menu-item").on('click', function () {
-
-        let type = $('#id_type').val();
-        let list = $(this).attr("data-list");
-        let url = $("#list-type-form").attr("data-list-url");
-        $.ajax({
-            url: url,
-            data: {
-                'type': type,
-                'list': list
-            },
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken"),
-            },
-            success: function (data) {
-                $("#list-container").html(data);
-
-            },
-            error: (error) => {
-                console.log(error);
-            }
-        }).then( () => overlayTrigger()).then( () => removeFromList())
-    });
+    listMenuToggle()
     // $("#id_type").change(function () {
     //     let url = $("#list-type-form").attr("data-list-type-url");
     //     let type = $(this).val();
@@ -102,6 +80,37 @@ $(document).ready(function () {
     // It allows for differentiation of actions in one view (load one title/load many titles)
     $('.main-select:last').children('input:last').attr('checked', 'checked')
 });
+
+
+/**
+ * Creates functionality for toggling list menu with async function
+ * Passes data to backend  which in turn returns data to be loaded on the page
+ * Awaits resutls and runs overlayTrigger and removeFromList functions
+ */
+function listMenuToggle() {
+    $(".list-menu-item").on('click', function () {
+        let type = $('#id_type').val();
+        let list = $(this).attr("data-list");
+        let url = $("#list-type-form").attr("data-list-url");
+        $.ajax({
+            url: url,
+            data: {
+                'type': type,
+                'list': list
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            success: function (data) {
+                $("#list-container").html(data);
+
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        }).then( () => overlayTrigger()).then( () => removeFromList())
+    });
+}
 
 function overlayTrigger() {
     $('.overlay-trigger').on('click', function () {
