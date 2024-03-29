@@ -39,19 +39,25 @@ $(document).ready(function () {
     })
     countryStreamingProviders()
     listMenuToggle()
-    // $("#id_type").change(function () {
-    //     let url = $("#list-type-form").attr("data-list-type-url");
-    //     let type = $(this).val();
-    //     $.ajax({
-    //         url: url,
-    //         data: {
-    //             'type': type
-    //         },
-    //         success: function (data) {
-    //             $("#list-container").html(data);
-    //         }
-    //     });
-    // });
+    $("#id_type").change(function () {
+        let url = $("#list-type-form").attr("data-list-type-url");
+        let type = $(this).val();
+        $(".list-menu-item").each(function () {
+            if ($(this).hasClass('list-active')) {
+                list = $(this).attr('data-list')
+            }
+        })
+        $.ajax({
+            url: url,
+            data: {
+                'type': type,
+                'list': list
+            },
+            success: function (data) {
+                $("#list-container").html(data);
+            }
+        }).then(() => overlayTrigger()).then(() => removeFromList());
+    });
     listIconToggle()
     spinRoulette()
     // movieShowToggle()
@@ -97,7 +103,11 @@ function listMenuToggle() {
     $(".list-menu-item").on('click', function () {
         let type = $('#id_type').val();
         let list = $(this).attr("data-list");
-        let url = $("#list-type-form").attr("data-list-url");
+        let url = $("#list-type-form").attr("data-list-type-url");
+        $(".list-menu-item").each(function () {
+            $(this).removeClass('list-active')
+        })
+        $(this).addClass('list-active')
         $.ajax({
             url: url,
             data: {

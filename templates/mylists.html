@@ -7,7 +7,7 @@
     <div class="col l2 push-l1 s12">
         <div class="row">
             <form method="post" class="col l12 m3 push-m8 s6 push-s5 type-choice" id="list-type-form"
-                data-list-url="{% url 'list' %}">
+                data-list-type-url="{% url 'list-type' %}">
                 {% csrf_token %}
                 <div class="row main-select individual-select list-type">
                     {{ source_form.type}}
@@ -36,6 +36,9 @@
     </div>
     <div class="col l9 push-l1 s12">
         <div class="container row relative" id="list-container">
+
+            {% block list %}
+            {% endblock %}
 
         </div>
     </div>

@@ -5,6 +5,7 @@
 {% url 'account_logout' as signout_url %}
 {% url 'account_reset_password' as reset_password %}
 {% url 'about' as about_url %}
+{% url 'my_lists' as my_lists %}
 {% url 'roulette_list' as roulette_list_url %}
 {% url 'profile' as profile_url %}
 {% url 'edit_profile' as edit_profile %}
@@ -41,7 +42,7 @@
         <li><a href="{{ movie_releases }}">Movies</a></li>
         <li><a href="{{ show_releases }}">TV Shows</a></li>
         <li><a href="{{ roulette_list_url }}">Roulette</a></li>
-        <li><a href="/mylists/">My Lists</a></li>
+        <li><a href="{{ my_lists }}">My Lists</a></li>
         <li><a href="{{ about_url }}">About</a></li>
         <li><a href="#">Search</a></li>
         <li class="menu-profile">
@@ -127,7 +128,7 @@
                 <li><a href="{{ movie_releases }}">Movies</a></li>
                 <li><a href="{{ show_releases }}">TV Shows</a></li>
                 <li><a href="{{ roulette_list_url }}">Roulette</a></li>
-                <li><a href="/mylists/">My Lists</a></li>
+                <li><a href="{{ my_lists }}">My Lists</a></li>
                 <li><a href="{{ about_url }}">About</a></li>
                 <li><a href="#">Search</a></li>
                 {% else %}

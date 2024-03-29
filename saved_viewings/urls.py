@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('mylists/type/', views.load_list_type, name='list-type'),
     path('mylists/list/', views.load_selected_list, name='list'),
     path('mylists/', views.load_list, name='my_lists'),
     path('mylists/delete/<int:title_id>', views.clear_one_listed_title, name='delete_from_list'),
