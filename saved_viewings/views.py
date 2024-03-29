@@ -233,7 +233,7 @@ def remove_from_list(request):
         title_id = request.POST.get('titleID')
         list_type = request.POST.get('list')
 
-        if list_type == 'undefined':
+        if list_type == 'roulette':
             get_title = MovieOrShow.objects.filter(pk=title_id)
             get_title.update(is_in_favourites=False)
         if list_type == 'favourites':

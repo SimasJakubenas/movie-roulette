@@ -501,6 +501,7 @@ function getCookie(name) {
  * is used to carry out CRUD funtionalities on the backend
  */
 function removeFromList() {
+    let list = 'roulette'
     $('.remove-one-title').on('click', function () {
         let titleID = $(this).attr('data-titleID')
     $('.list-menu-item').each(function () {
