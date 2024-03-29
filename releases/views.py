@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from saved_viewings.views import API_KEY, BASE_URL, POSTER_BASE_URL, DISCOVER_MOVIE, DISCOVER_SHOW
-from saved_viewings.models import StreamingService
+from saved_viewings.models import StreamingService, MovieOrShow
 from accounts.models import Profile, Country
 
 
@@ -44,8 +44,28 @@ def movie_releases(request):
     response_top_rated = requests.get(url_top_rated, headers=headers)
 
     movies_discover = response_discover.json()['results']
+    movies_discover_amemded = response_discover.json()['results']
     movies_popular = response_popular.json()['results']
+    movies_popular_amended = response_popular.json()['results']
     movies_top_rated = response_top_rated.json()['results']
+    movies_top_rated_amended = response_top_rated.json()['results']
+
+    dont_show = []
+    dont_show_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+    for title in dont_show_list:
+        dont_show.append(title['title_id'])
+
+    for index, movie in enumerate(movies_discover):
+        if movie['id'] in dont_show:
+            movies_discover_amemded.remove(movie)
+
+    for index, movie in enumerate(movies_popular):
+        if movie['id'] in dont_show:
+            movies_popular_amended.remove(movie)
+
+    for index, movie in enumerate(movies_top_rated):
+        if movie['id'] in dont_show:
+            movies_top_rated_amended.remove(movie)
 
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
@@ -54,9 +74,9 @@ def movie_releases(request):
         request,
         "releases/movies.html",
         {
-            "movies_discover": movies_discover,
-            "movies_popular": movies_popular,
-            "movies_top_rated": movies_top_rated,
+            "movies_discover": movies_discover_amemded,
+            "movies_popular": movies_popular_amended,
+            "movies_top_rated": movies_top_rated_amended,
             "profile_data": profile_data,
             "user_data": user_data,
             "POSTER_BASE_URL": POSTER_BASE_URL
@@ -101,10 +121,28 @@ def show_releases(request):
     response_top_rated = requests.get(url_top_rated, headers=headers)
 
     shows_discover = response_discover.json()['results']
+    shows_discover_amemded = response_discover.json()['results']
     shows_popular = response_popular.json()['results']
+    shows_popular_amended = response_popular.json()['results']
     shows_top_rated = response_top_rated.json()['results']
+    shows_top_rated_amended = response_top_rated.json()['results']
 
+    dont_show = []
+    dont_show_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+    for title in dont_show_list:
+        dont_show.append(title['title_id'])
 
+    for index, show in enumerate(shows_discover):
+        if show['id'] in dont_show:
+            shows_discover_amemded.remove(show)
+
+    for index, show in enumerate(shows_popular):
+        if show['id'] in dont_show:
+            shows_popular_amended.remove(show)
+
+    for index, show in enumerate(shows_top_rated):
+        if show['id'] in dont_show:
+            shows_top_rated_amended.remove(show)
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
 
@@ -112,9 +150,9 @@ def show_releases(request):
         request,
         "releases/shows.html",
         {
-            "shows_discover": shows_discover,
-            "shows_popular": shows_popular,
-            "shows_top_rated": shows_top_rated,
+            "shows_discover": shows_discover_amemded,
+            "shows_popular": shows_popular_amended,
+            "shows_top_rated": shows_top_rated_amended,
             "profile_data": profile_data,
             "user_data": user_data,
             "POSTER_BASE_URL": POSTER_BASE_URL

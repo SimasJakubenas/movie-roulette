@@ -24,7 +24,17 @@ def tmdb_api_connect(request, type):
         "accept": "application/json",
     }
     response = requests.get(url, headers=headers)
+    result_initial = response.json()['results']
     result = response.json()['results']
+
+    dont_show = []
+    dont_show_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+    for title in dont_show_list:
+        dont_show.append(title['title_id'])
+
+    for index, title in enumerate(result_initial):
+        if title['id'] in dont_show:
+            result.remove(title)
 
     return result
 

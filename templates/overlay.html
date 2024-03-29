@@ -59,13 +59,13 @@
                 <div class="my-lists-overlay row">
                     <span class="col m4 s12">My Lists:</span>
                     <div class="col m8 s12">
-                        <i class="far fa-heart add-to-list add-to-favourites" data-in-list="is_in_favourites"
+                        <i class="far fa-heart add-to-list add-to-favourites" data-in-list="favourites"
                             {% if list_item.is_in_favourites %} data-listed="true" {% endif %}></i>
-                        <i class="fas fa-plus add-to-list add-to-watchlist" data-in-list="is_in_watchlist"
+                        <i class="fas fa-plus add-to-list add-to-watchlist" data-in-list="watchlist"
                             {% if list_item.is_in_watchlist %} data-listed="true" {% endif %}></i>
-                        <i class="fas fa-check add-to-list add-to-seen-it" data-in-list="is_in_seen_it"
+                        <i class="fas fa-check add-to-list add-to-seen-it" data-in-list="seen_it"
                             {% if list_item.is_in_seen_it %} data-listed="true" {% endif %}></i>
-                        <i class="fas fa-times add-to-list add-to-dont-show" data-in-list="is_in_dont_show"
+                        <i class="fas fa-times add-to-list add-to-dont-show" data-in-list="dont_show"
                             {% if list_item.is_in_dont_show %} data-listed="true" {% endif %}></i>
                     </div>
                 </div>

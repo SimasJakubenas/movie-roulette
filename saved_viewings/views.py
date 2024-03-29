@@ -211,13 +211,13 @@ def add_to_list(request, list_type=None):
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         list = request.POST.get('list')
-        if list == 'is_in_favourites':
+        if list == 'favourites':
             det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_favourites=True)
-        if list == 'is_in_watchlist':
+        if list == 'watchlist':
             det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_watchlist=True)
-        if list == 'is_in_seen_it':
+        if list == 'seen_it':
             det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_seen_it=True)
-        if list == 'is_in_dont_show':
+        if list == 'dont_show':
             det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_dont_show=True)
 
         return HttpResponse('add to list')
