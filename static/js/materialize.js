@@ -510,7 +510,6 @@ function removeFromList() {
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),
         },
-
         error: (error) => {
             console.log(error);
         }
