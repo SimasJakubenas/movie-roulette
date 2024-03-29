@@ -37,20 +37,7 @@ $(document).ready(function () {
     $('.deny-button').on('click', function () {
         location.reload();
     })
-    // Fetches data from database for streaming services for specific contries and fills id_streams element with logos
-    $("#id_country").change(function () {
-        var url = $("#signup_form").attr("data-providers-url");
-        var countryName = $(this).val();
-        $.ajax({
-            url: url,
-            data: {
-                'country': countryName
-            },
-            success: function (data) {
-                $("#id_streams").html(data);
-            }
-        });
-    });
+    countryStreamingProviders()
     listMenuToggle()
     // $("#id_type").change(function () {
     //     let url = $("#list-type-form").attr("data-list-type-url");
@@ -81,6 +68,25 @@ $(document).ready(function () {
     $('.main-select:last').children('input:last').attr('checked', 'checked')
 });
 
+/**
+ * Runs async function triggered by country select element change
+ * Passed data to backend which in turn returns data to be fild in streming providers select element
+ */
+function countryStreamingProviders() {
+    $("#id_country").change(function () {
+        var url = $("#signup_form").attr("data-providers-url");
+        var countryName = $(this).val();
+        $.ajax({
+            url: url,
+            data: {
+                'country': countryName
+            },
+            success: function (data) {
+                $("#id_streams").html(data);
+            }
+        });
+    });
+}
 
 /**
  * Creates functionality for toggling list menu with async function
