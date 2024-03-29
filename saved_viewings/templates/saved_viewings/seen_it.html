@@ -1,7 +1,4 @@
-{% extends 'mylists.html' %}
 {% load static %}
-
-{% block list %}
 
 {% for list_item in in_list reversed %}
 <div class="{% if list_item.type == 0 %}movies-list{% else %}shows-list {% endif %} carousel-item relative listed-title col xl3 m4 s6">
@@ -13,5 +10,3 @@
     </button>
 </div>
 {% endfor %}
-
-{% endblock %}

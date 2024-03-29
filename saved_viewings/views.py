@@ -116,6 +116,7 @@ def title_info(request, list_type=None):
     Pulls MovieOrShow instance from database/ creates new instance
     Appends this data to API response and passes all colective data back to async function
     """
+    print('sdfdsf')
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         titleType = request.POST.get('titleType')
@@ -223,22 +224,25 @@ def add_to_list(request, list_type=None):
 
 
 @login_required
-def remove_from_list(request, list_type=None):
+def remove_from_list(request):
     """
     Receives data from list icon toggle and uses that data to remove title
     from respective list
     """
     if request.method == 'POST':
         title_id = request.POST.get('titleID')
-        get_title = MovieOrShow.objects.filter(pk=title_id)
+        list_type = request.POST.get('list')
+
+        if list_type == 'undefined':
+            get_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_roulette=False)
         if list_type == 'favourites':
-            det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_favourites=False)
+            get_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_favourites=False)
         if list_type == 'watchlist':
-            det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_watchlist=False)
+            get_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_watchlist=False)
         if list_type == 'seen_it':
-            det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_seen_it=False)
+            get_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_seen_it=False)
         if list_type == 'dont_show':
-            det_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_dont_show=False)
+            get_title = MovieOrShow.objects.filter(pk=title_id).update(is_in_dont_show=False)
         clear_title(get_title, title_id)
 
         return HttpResponse('Removed from list')
@@ -376,10 +380,104 @@ def load_list(request, list_type=None):
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
 
+    in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
+
+    return render(
+        request,
+        'mylists.html',
+        {
+            'source_form': source_form,
+            "profile_data": profile_data,
+            "user_data": user_data,
+            'POSTER_PATH': POSTER_PATH,
+            'in_list': in_list
+        }
+    )
+
     if list_type == 'favourites':
-        in_list = list(MovieOrShow.objects.filter(is_in_favourites=True).values())
+        return render(
+            request,
+            'saved_viewings/favourites.html',
+            {
+                'source_form': source_form,
+                "profile_data": profile_data,
+                "user_data": user_data,
+                'POSTER_PATH': POSTER_PATH,
+                'in_list': in_list
+            }
+        )
+
+    if list_type == 'watchlist':
+        in_list = list(MovieOrShow.objects.filter(is_in_watchlist=True).values())
 
         return render(
+            request,
+            'saved_viewings/watchlist.html',
+            {
+                'source_form': source_form,
+                "profile_data": profile_data,
+                "user_data": user_data,
+                'POSTER_PATH': POSTER_PATH,
+                'in_list': in_list
+            }
+        )
+
+    if list_type == 'seen_it':
+        in_list = list(MovieOrShow.objects.filter(is_in_seen_it=True).values())
+
+        return render(
+            request,
+            'saved_viewings/seen_it.html',
+            {
+                'source_form': source_form,
+                "profile_data": profile_data,
+                "user_data": user_data,
+                'POSTER_PATH': POSTER_PATH,
+                'in_list': in_list
+            }
+        )
+
+    if list_type == 'dont_show':
+        in_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+
+        return render(
+            request,
+            'saved_viewings/dont_show.html',
+            {
+                'source_form': source_form,
+                "profile_data": profile_data,
+                "user_data": user_data,
+                'POSTER_PATH': POSTER_PATH,
+                'in_list': in_list
+            }
+        )
+
+
+@login_required
+def load_selected_list(request):
+    type = request.GET.get('type')
+    selected_list = request.GET.get('list')
+
+    if type == 'Movies':
+        type = 0
+    
+    else:
+        type = 1
+
+    if selected_list == 'favourites':
+        in_list = list(MovieOrShow.objects.filter(type=type, is_in_favourites=True).values())
+    if selected_list == 'watchlist':
+        in_list = list(MovieOrShow.objects.filter(type=type, is_in_watchlist=True).values())
+    if selected_list == 'seen_it':
+        in_list = list(MovieOrShow.objects.filter(type=type, is_in_seen_it=True).values())
+    if selected_list == 'dont_show':
+        in_list = list(MovieOrShow.objects.filter(type=type, is_in_dont_show=True).values())
+
+    source_form = RouletteSourceForm(data=request.POST)
+    user_data = User.objects.get(pk=request.user.id)
+    profile_data = Profile.objects.get(user_id=request.user.id)
+
+    return render(
         request,
         'saved_viewings/favourites.html',
         {
@@ -390,51 +488,3 @@ def load_list(request, list_type=None):
             'in_list': in_list
         }
     )
-
-    if list_type == 'watchlist':
-        in_list = list(MovieOrShow.objects.filter(is_in_watchlist=True).values())
-
-        return render(
-        request,
-        'saved_viewings/watchlist.html',
-        {
-            'source_form': source_form,
-            "profile_data": profile_data,
-            "user_data": user_data,
-            'POSTER_PATH': POSTER_PATH,
-            'in_list': in_list
-        }
-    )
-
-    if list_type == 'seen_it':
-        in_list = list(MovieOrShow.objects.filter(is_in_seen_it=True).values())
-
-        return render(
-        request,
-        'saved_viewings/seen_it.html',
-        {
-            'source_form': source_form,
-            "profile_data": profile_data,
-            "user_data": user_data,
-            'POSTER_PATH': POSTER_PATH,
-            'in_list': in_list
-        }
-    )
-
-    if list_type == 'dont_show':
-        in_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
-
-        return render(
-        request,
-        'saved_viewings/dont_show.html',
-        {
-            'source_form': source_form,
-            "profile_data": profile_data,
-            "user_data": user_data,
-            'POSTER_PATH': POSTER_PATH,
-            'in_list': in_list
-        }
-    )
-
-
-    

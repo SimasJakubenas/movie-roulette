@@ -6,7 +6,8 @@
 <div class="row margin-top-25">
     <div class="col l2 push-l1 s12">
         <div class="row">
-            <form method="post" class="col l12 m3 push-m8 s6 push-s5 type-choice">
+            <form method="post" class="col l12 m3 push-m8 s6 push-s5 type-choice" id="list-type-form"
+                data-list-url="{% url 'list' %}">
                 {% csrf_token %}
                 <div class="row main-select individual-select list-type">
                     {{ source_form.type}}
@@ -15,37 +16,26 @@
             </form>
         </div>
         <ul class="lists-menu row">
-            <a href="{% url 'my_lists' 'favourites' %}"
-                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/favourites/' %}list-active"
-                aria-current="page{% endif %}">
+            <div class="col l12 m3 s2 push-s2 center-align">
                 <i class="far fa-heart hide-on-med-and-up"></i>
-                <li class="hide-on-small-only">Favourite</li>
-            </a>
-            <a href="{% url 'my_lists' 'watchlist' %}"
-                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/watchlist/' %}list-active"
-                aria-current="page{% endif %}">
+                <li class="hide-on-small-only list-menu-item list-active" data-list="favourites">Favourite</li>
+            </div>
+            <div class="col l12 m3 s2 push-s2 center-align">
                 <i class="fas fa-plus hide-on-med-and-up"></i>
-                <li class="hide-on-small-only">Watchlist</li>
-            </a>
-            <a href="{% url 'my_lists' 'seen_it' %}"
-                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/seen_it/' %}list-active"
-                aria-current="page{% endif %}">
+                <li class="hide-on-small-only list-menu-item" data-list="watchlist">Watchlist</li>
+            </div>
+            <div class="col l12 m3 s2 push-s2 center-align">
                 <i class="fas fa-check hide-on-med-and-up"></i>
-                <li class="hide-on-small-only">Seen It</li>
-            </a>
-            <a href="{% url 'my_lists' 'dont_show' %}"
-                class="col l12 m3 s2 push-s2 center-align {% if request.path == '/mylists/dont_show/' %}list-active"
-                aria-current="page{% endif %}">
+                <li class="hide-on-small-only list-menu-item" data-list="seen_it">Seen It</li>
+            </div>
+            <div class="col l12 m3 s2 push-s2 center-align">
                 <i class="fas fa-times hide-on-med-and-up"></i>
-                <li class="hide-on-small-only">Don't Show</li>
-            </a>
+                <li class="hide-on-small-only list-menu-item" data-list="dont_show">Don't Show</li>
+            </div>
         </ul>
     </div>
     <div class="col l9 push-l1 s12">
-        <div class="container list-container row relative">
-
-            {% block list %}
-            {% endblock %}
+        <div class="container row relative" id="list-container">
 
         </div>
     </div>

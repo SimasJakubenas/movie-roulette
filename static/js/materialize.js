@@ -50,11 +50,46 @@ $(document).ready(function () {
                 $("#id_streams").html(data);
             }
         });
-
     });
-    listIconToggle(this)
+    $(".list-menu-item").on('click', function () {
+
+        let type = $('#id_type').val();
+        let list = $(this).attr("data-list");
+        let url = $("#list-type-form").attr("data-list-url");
+        $.ajax({
+            url: url,
+            data: {
+                'type': type,
+                'list': list
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            success: function (data) {
+                $("#list-container").html(data);
+
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        }).then( () => overlayTrigger()).then( () => removeFromList())
+    });
+    // $("#id_type").change(function () {
+    //     let url = $("#list-type-form").attr("data-list-type-url");
+    //     let type = $(this).val();
+    //     $.ajax({
+    //         url: url,
+    //         data: {
+    //             'type': type
+    //         },
+    //         success: function (data) {
+    //             $("#list-container").html(data);
+    //         }
+    //     });
+    // });
+    listIconToggle()
     spinRoulette()
-    movieShowToggle()
+    // movieShowToggle()
     removeFromList()
     // Confirmation modal to clear all button
     $('.btn-red').on('click', function () {
@@ -67,6 +102,16 @@ $(document).ready(function () {
     // It allows for differentiation of actions in one view (load one title/load many titles)
     $('.main-select:last').children('input:last').attr('checked', 'checked')
 });
+
+function overlayTrigger() {
+    $('.overlay-trigger').on('click', function () {
+        console.log('sdsfdfs')
+        let titleID = $(this).attr('data-titleID')
+        let titleType = $(this).attr('data-titleType')
+        // Sends ID of the selected title to backend
+        sendTitleInfo(titleID, titleType)
+    });
+}
 
 /**
  * Initiates all carousels and add controls
@@ -344,7 +389,6 @@ function compileStreamList(titleInfo) {
     let userCountry = titleInfo['user_country']
     let streamContainer = $('#providers')
     let streamList = []
-    console.log(titleInfo.id)
     $.each(titleInfo.results[userCountry].flatrate, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
             appendStreamList(titleStreams, value, streamList, streamContainer)
@@ -425,22 +469,26 @@ function getCookie(name) {
 function removeFromList() {
     $('.remove-one-title').on('click', function () {
         let titleID = $(this).attr('data-titleID')
-        let list = $(this).attr('data-in-list')
-        $(this).parent().css('display', 'none')
-        $.ajax({
-            url: 'remove/',
-            type: 'POST',
-            data: {
-                'list': list,
-                'titleID': titleID,
-            },
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken"),
-            },
+    $('.list-menu-item').each(function () {
+        if ($(this).hasClass('list-active')) {
+            list = $(this).attr('data-list')
+        }
+    })
+    $(this).parent().css('display', 'none')
+    $.ajax({
+        url: 'remove/',
+        type: 'POST',
+        data: {
+            'list': list,
+            'titleID': titleID,
+        },
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
 
-            error: (error) => {
-                console.log(error);
-            }
-        });
+        error: (error) => {
+            console.log(error);
+        }
+    });
     })
 }

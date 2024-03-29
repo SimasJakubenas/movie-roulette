@@ -1,9 +1,8 @@
 from django.urls import include, path
-from allauth.account import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('accouny/logout/', views.logout_page, name='account_logout'),
+    path('account/logout/', views.logout_page, name='account_logout'),
     path('profile/', views.profile_page, name='profile'),
     path('profile/delete_profile/', views.delete_profile, name='delete_profile'),
     path('profile/edit_profile/', views.edit_profile, name='edit_profile'),

@@ -153,17 +153,17 @@ p {
     right: 0;
 }
 
-.container.list-container {
+#list-container {
     width: 90%;
     margin-left: 5%;
     min-height: 60vh;
 }
 
-.list-container .movie-poster {
+#list-container .movie-poster {
     padding: 7% 3%;
 }
 
-.list-container button {
+#list-container button {
     top: 20%;
 }
 

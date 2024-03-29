@@ -5,6 +5,7 @@
 {% url 'account_logout' as signout_url %}
 {% url 'account_reset_password' as reset_password %}
 {% url 'about' as about_url %}
+{% url 'roulette_list' as roulette_list_url %}
 {% url 'profile' as profile_url %}
 {% url 'edit_profile' as edit_profile %}
 {% url 'delete_profile' as delete_profile %}
@@ -39,8 +40,8 @@
         {% if user.is_authenticated %}
         <li><a href="{{ movie_releases }}">Movies</a></li>
         <li><a href="{{ show_releases }}">TV Shows</a></li>
-        <li><a href="/">Roulette</a></li>
-        <li><a href="/mylists/favourites">My Lists</a></li>
+        <li><a href="{{ roulette_list_url }}">Roulette</a></li>
+        <li><a href="/mylists/">My Lists</a></li>
         <li><a href="{{ about_url }}">About</a></li>
         <li><a href="#">Search</a></li>
         <li class="menu-profile">
@@ -70,7 +71,7 @@
         </li>
         <li><a href="{{ signout_url }}"><i class="fas fa-power-off log-out"> Sign Out</i></a></li>
         {% else %}
-        <li><a href="#">home</a></li>
+        <li><a href="/">home</a></li>
         <li><a href="{{ signin_url }}">Sign In</a></li>
         <li><a href="{{ signup_url }}">Sign Up</a></li>
         <li><a href="{{ about_url }}">About</a></li>
@@ -78,7 +79,11 @@
     </ul>
     <nav class="nav-extended">
         <div class="nav-wrapper">
-            <a href="#" style="float: left;">
+            {% if user.is_authenticated %}
+            <a href="/movies/" style="float: left;">
+            {% else %}
+            <a href="/" style="float: left;">
+            {% endif %}
                 <img id="roulette-logo" src="{% static 'images/movie-roulette-logo.png' %}" alt="Movie Roulette logo">
             </a>
             <ul id="nav-mobile" class="right">
@@ -121,12 +126,12 @@
                 {% if user.is_authenticated %}
                 <li><a href="{{ movie_releases }}">Movies</a></li>
                 <li><a href="{{ show_releases }}">TV Shows</a></li>
-                <li><a href="/">Roulette</a></li>
-                <li><a href="/mylists/favourites">My Lists</a></li>
+                <li><a href="{{ roulette_list_url }}">Roulette</a></li>
+                <li><a href="/mylists/">My Lists</a></li>
                 <li><a href="{{ about_url }}">About</a></li>
                 <li><a href="#">Search</a></li>
                 {% else %}
-                <li><a href="#">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="{{ signin_url }}">Sign In</a></li>
                 <li><a href="{{ signup_url }}">Sign Up</a></li>
                 <li><a href="{{ about_url }}">About</a></li>

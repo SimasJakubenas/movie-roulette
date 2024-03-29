@@ -180,7 +180,7 @@ def logout_page(request):
     if request.method == "POST":
         logout(request)
 
-        return HttpResponseRedirect("/about/home/")
+        return HttpResponseRedirect("/")
 
     return render(
         request,
