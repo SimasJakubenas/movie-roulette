@@ -39,6 +39,29 @@ $(document).ready(function () {
     })
     countryStreamingProviders()
     listMenuToggle()
+    listTypeToggle()
+    listIconToggle()
+    spinRoulette()
+    // movieShowToggle()
+    removeFromList()
+    // Confirmation modal to clear all button
+    $('.btn-red').on('click', function () {
+        let confirmClearAll = confirm('Are you sure you want to do this?')
+        if (confirmClearAll == false) event.preventDefault()
+    });
+    // Add classes to form imputs for responsivness
+    $('.individual-select').children('select').removeClass('col xl6 push-xl3 m10 push-m1')
+    // This is used to change forms boolean logic
+    // It allows for differentiation of actions in one view (load one title/load many titles)
+    $('.main-select:last').children('input:last').attr('checked', 'checked')
+});
+
+/**
+ * Runs async function triggered by title type select element change
+ * Passed data to backend which in turn returns data to be fild in streming providers select element
+ * * Awaits resutls and runs overlayTrigger and removeFromList functions
+ */
+function listTypeToggle() {
     $("#id_type").change(function () {
         let url = $("#list-type-form").attr("data-list-type-url");
         let type = $(this).val();
@@ -57,22 +80,8 @@ $(document).ready(function () {
                 $("#list-container").html(data);
             }
         }).then(() => overlayTrigger()).then(() => removeFromList());
-    });
-    listIconToggle()
-    spinRoulette()
-    // movieShowToggle()
-    removeFromList()
-    // Confirmation modal to clear all button
-    $('.btn-red').on('click', function () {
-        let confirmClearAll = confirm('Are you sure you want to do this?')
-        if (confirmClearAll == false) event.preventDefault()
-    });
-    // Add classes to form imputs for responsivness
-    $('.individual-select').children('select').removeClass('col xl6 push-xl3 m10 push-m1')
-    // This is used to change forms boolean logic
-    // It allows for differentiation of actions in one view (load one title/load many titles)
-    $('.main-select:last').children('input:last').attr('checked', 'checked')
-});
+    })
+}
 
 /**
  * Runs async function triggered by country select element change
