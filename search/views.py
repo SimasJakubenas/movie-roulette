@@ -1,4 +1,5 @@
 import requests
+import random
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -57,7 +58,7 @@ def search_results(request):
     runtime = request.GET.get('runtime')
     search_sorting_runtime(runtime)
 
-    age_limit = request.POST.get('age_limit')
+    age_limit = request.GET.get('age_limit')
     
     url = (
         f'{BASE_URL}{DISCOVER_MOVIE}' +
@@ -71,7 +72,21 @@ def search_results(request):
         "accept": "application/json",
     }
     response = requests.get(url, headers=headers)
-    search_result = response.json()['results']
+    pages_count = response.json()['total_pages']
+
+    random_number = random.randint(0, pages_count)
+
+    url2 = (
+        f'{BASE_URL}{DISCOVER_MOVIE}' +
+        f'?api_key={API_KEY}' +
+        f'&include_adult=false&include_video=false&language=en-US&page={random_number}&sort_by=popularity.desc' +
+        f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
+        f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
+        f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}'
+    )
+    response2 = requests.get(url2, headers=headers)
+    search_result = response2.json()['results']
+    print(random_number)
 
     return render(
         request,
