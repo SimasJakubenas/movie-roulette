@@ -24,6 +24,7 @@ class SearchForm(forms.Form):
     }
 
     RUNTIME_CHOICES = (
+        ('60min>', '60min>'),
         ('60min-90min', '60min-90min'),
         ('90min-120min', '90min-120min'),
         ('120min-150min', '120min-150min'),

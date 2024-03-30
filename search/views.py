@@ -13,11 +13,13 @@ class SearchFilterValues:
     """
     Class used to store API filters based of user input from a search page
     """
-    def __init__(self, release_year_min, release_year_max, rating_min, rating_max):
+    def __init__(self, release_year_min, release_year_max, rating_min, rating_max, runtime_min, runtime_max):
         self.release_year_min = release_year_min
         self.release_year_max = release_year_max
         self.rating_min = rating_min
         self.rating_max = rating_max
+        self.runtime_min = runtime_min
+        self.runtime_max = runtime_max
 
 
 @login_required
@@ -52,7 +54,9 @@ def search_results(request):
     rating = request.GET.get('rating')
     search_sorting_rating(rating)
 
-    runtime = request.POST.get('runtime')
+    runtime = request.GET.get('runtime')
+    search_sorting_runtime(runtime)
+
     age_limit = request.POST.get('age_limit')
     
     url = (
@@ -60,7 +64,8 @@ def search_results(request):
         f'?api_key={API_KEY}' +
         '&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc' +
         f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
-        f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}'
+        f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
+        f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}'
         )
     headers = {
         "accept": "application/json",
@@ -125,4 +130,28 @@ def search_sorting_rating(rating):
         SearchFilterValues.rating_max = ''
     if rating == 'all':
         SearchFilterValues.rating_min = ''
-        SearchFilterValues.rating_min = ''
+        SearchFilterValues.rating_max = ''
+
+
+def search_sorting_runtime(runtime):
+    """
+    Changes SearchFilterValues class attributes based on 'runtime' select element
+    """
+    if runtime == '60min>':
+        SearchFilterValues.runtime_min = ''
+        SearchFilterValues.runtime_max = '&with_runtime.lte=60'
+    if runtime == '60min-90min':
+        SearchFilterValues.runtime_min = '&with_runtime.gte=60'
+        SearchFilterValues.runtime_max = '&with_runtime.lte=90'
+    if runtime == '90min-120min':
+        SearchFilterValues.runtime_min = '&with_runtime.gte=90'
+        SearchFilterValues.runtime_max = '&with_runtime.lte=120'
+    if runtime == '120min-150min':
+        SearchFilterValues.runtime_min = '&with_runtime.gte=120'
+        SearchFilterValues.runtime_max = '&with_runtime.lte=150'
+    if runtime == '150min+':
+        SearchFilterValues.runtime_min = '&with_runtime.gte=150'
+        SearchFilterValues.runtime_max = ''
+    if runtime == 'all':
+        SearchFilterValues.runtime_min = ''
+        SearchFilterValues.runtime_max = ''
