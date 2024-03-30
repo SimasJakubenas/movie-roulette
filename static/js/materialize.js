@@ -54,6 +54,9 @@ $(document).ready(function () {
                 'runtime': runtime,
                 'age_limit': age_limit
             },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
             success: function (data) {
                 $("#search-results-container").html(data);
             },
