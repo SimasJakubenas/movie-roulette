@@ -79,9 +79,10 @@ def search_results(request):
                     f'&query={person}'
                 )
                 response_cast = requests.get(url_cast, headers=headers)
-                search_cast= response_cast.json()['results'][0]['id']
-                
-                SearchFilterValues.cast_list.append(str(search_cast))
+                search_cast= response_cast.json()['results']
+
+                if search_cast != []:
+                    SearchFilterValues.cast_list.append(str(search_cast))
             joint_ids = ",".join(str(id) for id in SearchFilterValues.cast_list)
             SearchFilterValues.cast += (str(joint_ids))
         else:
