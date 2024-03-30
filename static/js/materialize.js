@@ -44,7 +44,8 @@ $(document).ready(function () {
         let year = $('#id_year').val();
         let rating = $('#id_rating').val();
         let runtime = $('#id_runtime').val();
-        let age_limit = $('#id_age_limit').val();
+        let cast = $('#id_cast').val();
+        
         
         $.ajax({
             url: url,
@@ -52,7 +53,7 @@ $(document).ready(function () {
                 'year': year,
                 'rating': rating,
                 'runtime': runtime,
-                'age_limit': age_limit
+                'cast': cast
             },
             headers: {
                 "X-CSRFToken": getCookie("csrftoken"),

@@ -14,13 +14,15 @@ class SearchFilterValues:
     """
     Class used to store API filters based of user input from a search page
     """
-    def __init__(self, release_year_min, release_year_max, rating_min, rating_max, runtime_min, runtime_max):
+    def __init__(self, release_year_min, release_year_max, rating_min, rating_max, runtime_min, runtime_max, cast, cast_list):
         self.release_year_min = release_year_min
         self.release_year_max = release_year_max
         self.rating_min = rating_min
         self.rating_max = rating_max
         self.runtime_min = runtime_min
         self.runtime_max = runtime_max
+        self.cast = cest
+        self.cast_list = cast_list
 
 
 @login_required
@@ -58,7 +60,43 @@ def search_results(request):
     runtime = request.GET.get('runtime')
     search_sorting_runtime(runtime)
 
-    age_limit = request.GET.get('age_limit')
+    cast = request.GET.get('cast')
+
+    headers = {
+        "accept": "application/json",
+    }
+    SearchFilterValues.cast = '&with_cast='
+
+    if len(cast) > 0:
+        cast_split = cast.replace(" ", "+").split(',')
+        print(cast_split)
+        SearchFilterValues.cast_list = []
+        if len(cast_split) > 1:
+            for person in cast_split:
+                url_cast = (
+                    f'{BASE_URL}/search/person' +
+                    f'?api_key={API_KEY}' +
+                    f'&query={person}'
+                )
+                response_cast = requests.get(url_cast, headers=headers)
+                search_cast= response_cast.json()['results'][0]['id']
+                
+                SearchFilterValues.cast_list.append(str(search_cast))
+            joint_ids = ",".join(str(id) for id in SearchFilterValues.cast_list)
+            SearchFilterValues.cast += (str(joint_ids))
+        else:
+            url_cast = (
+                f'{BASE_URL}/search/person' +
+                f'?api_key={API_KEY}' +
+                f'&query={cast_split}'
+            )
+            response_cast = requests.get(url_cast, headers=headers)
+            search_cast= response_cast.json()['results'][0]['id']
+            SearchFilterValues.cast += str(search_cast)
+        print(SearchFilterValues.cast)
+
+    else:
+        SearchFilterValues.cast = ''
     
     url = (
         f'{BASE_URL}{DISCOVER_MOVIE}' +
@@ -66,15 +104,16 @@ def search_results(request):
         '&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc' +
         f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
-        f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}'
-        )
-    headers = {
-        "accept": "application/json",
-    }
+        f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
+        f'{SearchFilterValues.cast}'
+    )
     response = requests.get(url, headers=headers)
     pages_count = response.json()['total_pages']
-
-    random_number = random.randint(0, pages_count)
+    
+    if pages_count > 1:
+        random_number = random.randint(1, pages_count)
+    else:
+        random_number = 1
 
     url2 = (
         f'{BASE_URL}{DISCOVER_MOVIE}' +
@@ -82,11 +121,13 @@ def search_results(request):
         f'&include_adult=false&include_video=false&language=en-US&page={random_number}&sort_by=popularity.desc' +
         f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
-        f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}'
+        f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
+        f'{SearchFilterValues.cast}'
     )
     response2 = requests.get(url2, headers=headers)
     search_result = response2.json()['results']
-    print(random_number)
+
+    SearchFilterValues.cast = ''
 
     return render(
         request,

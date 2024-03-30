@@ -32,13 +32,6 @@ class SearchForm(forms.Form):
         ('all', 'all'),
         )
 
-    AGE_LIMIT_CHOICES = {
-        ('12', '12'),
-        ('PG-13', 'PG-13'),
-        ('R', 'R'),
-        ('all', 'all'),
-    }
-
     year = forms.CharField(
         widget=forms.Select(
             choices=YEAR_CHOICES,
@@ -50,15 +43,16 @@ class SearchForm(forms.Form):
             choices=RATING_CHOICES,
             attrs={'class': 'browser-default m12'}),
     )
-
     runtime = forms.CharField(
         widget=forms.Select(
             choices=RUNTIME_CHOICES,
             attrs={'class': 'browser-default m12'}),
             required=False
     )
-    age_limit = forms.CharField(
-        widget=forms.Select(
-            choices=AGE_LIMIT_CHOICES,
-            attrs={'class': 'browser-default m12'}),
-    )
+    cast = forms.CharField(max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cast'].widget.attrs.update({
+            'class': 'form-input'
+        })

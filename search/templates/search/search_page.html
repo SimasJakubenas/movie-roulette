@@ -29,11 +29,19 @@
                         {{ search_form.runtime }}
                     </div>
                 </div>
+            </div>
+            <div class="col m6 s12">
+                <div class="row">
+                    <label class="col l6 push-l1 s12" for="{{ field.auto_id }}">{{ search_form.cast.label }}</label>
+                    <div class="col l6 s12 padding-right-0">
+                        {{ search_form.cast }}
+                    </div>
+                </div>
                 <div class="row">
                     <label class="col l6 push-l1 s12"
-                        for="{{ field.auto_id }}">{{ search_form.age_limit.label }}</label>
+                        for="{{ field.auto_id }}">{{ search_form.keywords.label }}</label>
                     <div class="col l6 s12 padding-right-0">
-                        {{ search_form.age_limit }}
+                        {{ search_form.keywords }}
                     </div>
                 </div>
             </div>
