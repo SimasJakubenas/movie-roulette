@@ -11,7 +11,7 @@ class SearchForm(forms.Form):
         ('2000s', '2000s'),
         ('2010s', '2010s'),
         ('2020+', '2020+'),
-        ('all+', 'all+')
+        ('all', 'all')
         )
 
     RATING_CHOICES = {
