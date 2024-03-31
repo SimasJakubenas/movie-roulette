@@ -37,6 +37,37 @@ $(document).ready(function () {
     $('.deny-button').on('click', function () {
         location.reload();
     })
+    $('#outer').on('click', function () {
+        $('.type-toggle').each(function () {
+            if ($((this)).hasClass('type-active')) {
+                $((this)).removeClass('type-active')
+                $('#inner').css('left', '0')
+                $('#inner').css('right', 'unset')
+            } else {
+                $((this)).addClass('type-active')
+                $('#inner').css('right', '0')
+                $('#inner').css('left', 'unset')
+            }
+        })
+        let url = $("#genre-container").attr("data-search-genres-url");
+        let type = $('.type-active').attr('data-search-type')
+        $.ajax({
+            url: url,
+            data: {
+                'type': type,
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            success: function (data) {
+                $("#genre-container").html(data);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        }).then(() => genreToggle())
+
+    })
     $('#search-btn').on('click', function () {
         // let url = $("#search-form").attr("data-search-results-url");
         let url = $("#search-form").attr("data-search-results-url");
@@ -44,6 +75,7 @@ $(document).ready(function () {
         let year = $('#id_year').val();
         let rating = $('#id_rating').val();
         let runtime = $('#id_runtime').val();
+        let titleType = ''
         let cast = $('#id_cast').val();
         let genreList = []
         let jointGenreList = []
@@ -51,8 +83,10 @@ $(document).ready(function () {
             genreList.push($(this).attr('data-genre-id'))
             jointGenreList = genreList.join()
         })
-        console.log(jointGenreList)
-        
+        $('.type-active').each(function () {
+            titleType = $(this).attr('data-search-type')
+        })
+
         $.ajax({
             url: url,
             data: {
@@ -60,6 +94,7 @@ $(document).ready(function () {
                 'rating': rating,
                 'runtime': runtime,
                 'cast': cast,
+                'titleType': titleType,
                 'jointGenreList': jointGenreList
             },
             headers: {
@@ -73,14 +108,7 @@ $(document).ready(function () {
             }
         })
     })
-    $('.genre-box').on('click', function () {
-        if ($(this).hasClass('genre-active')) {
-            $(this).removeClass('genre-active')
-        }
-        else {
-            $(this).addClass('genre-active')
-        }
-    })
+    genreToggle()
     countryStreamingProviders()
     listMenuToggle()
     listTypeToggle()
@@ -99,6 +127,19 @@ $(document).ready(function () {
     // It allows for differentiation of actions in one view (load one title/load many titles)
     $('.main-select:last').children('input:last').attr('checked', 'checked')
 });
+
+/**
+ * Adds or removes active class for genres
+ */
+function genreToggle() {
+    $('.genre-box').on('click', function () {
+        if ($(this).hasClass('genre-active')) {
+            $(this).removeClass('genre-active')
+        } else {
+            $(this).addClass('genre-active')
+        }
+    })
+}
 
 /**
  * Runs async function triggered by title type select element change
@@ -177,7 +218,7 @@ function listMenuToggle() {
             error: (error) => {
                 console.log(error);
             }
-        }).then( () => overlayTrigger()).then( () => removeFromList())
+        }).then(() => overlayTrigger()).then(() => removeFromList())
     });
 }
 
@@ -515,7 +556,7 @@ function displayFavouriteTypeOfTitle(type) {
  */
 function appendStreamList(titleStreams, value, streamList, streamContainer) {
     if (titleStreams.includes(value.provider_name)) {
-        
+
         streamList.push(value.provider_id)
         streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`)
     }
@@ -548,25 +589,25 @@ function removeFromList() {
     let list = 'roulette'
     $('.remove-one-title').on('click', function () {
         let titleID = $(this).attr('data-titleID')
-    $('.list-menu-item').each(function () {
-        if ($(this).hasClass('list-active')) {
-            list = $(this).attr('data-list')
-        }
-    })
-    $(this).parent().css('display', 'none')
-    $.ajax({
-        url: 'remove/',
-        type: 'POST',
-        data: {
-            'list': list,
-            'titleID': titleID,
-        },
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-        },
-        error: (error) => {
-            console.log(error);
-        }
-    });
+        $('.list-menu-item').each(function () {
+            if ($(this).hasClass('list-active')) {
+                list = $(this).attr('data-list')
+            }
+        })
+        $(this).parent().css('display', 'none')
+        $.ajax({
+            url: 'remove/',
+            type: 'POST',
+            data: {
+                'list': list,
+                'titleID': titleID,
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
     })
 }

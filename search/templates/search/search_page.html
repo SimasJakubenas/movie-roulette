@@ -4,10 +4,17 @@
 
 {% block content %}
 
-<div class="container margin-top-25">
-    <h4>Genre</h4>
-    <div id="genre-container" class="col">
-        {% for genre in genre_list %}
+<div class="container margin-top-25 relative">
+    <div id="type-toggle" class="absolute">
+        <span class="type-toggle type-active" data-search-type="movie">Movie</span>
+        <div id="outer" class="relative">
+            <div id="inner" class="absolute"></div>
+        </div>
+        <span class="type-toggle" data-search-type="tv">Show</span>
+    </div>
+    <h4 class="margin-top">Genre</h4>
+    <div id="genre-container" class="col" data-search-genres-url="{% url 'genres' %}">
+        {% for genre in search_genre %}
         <div class="genre-box" data-genre-id="{{ genre.genre_id }}">
             {{ genre.name }}
         </div>

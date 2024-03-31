@@ -26,6 +26,26 @@ class SearchFilterValues:
         self.genre = genre
 
 
+def search_genres(request):
+    type = request.GET.get('type')
+
+    url_genre = (
+        f'{BASE_URL}/genre/{type}/list' +
+        f'?api_key={API_KEY}'
+    )
+    headers = {
+        "accept": "application/json",
+    }
+    response_genre = requests.get(url_genre, headers=headers)
+    search_genre= response_genre.json()['genres']
+
+    return render(
+        request,
+        'search/genres.html',
+        {'search_genre': search_genre}
+        )
+
+
 @login_required
 def search_page(request):
     """
@@ -34,7 +54,15 @@ def search_page(request):
     search_form = SearchForm(data=request.POST)
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
-    genre_list = Genre.objects.all()
+    url_genre = (
+        f'{BASE_URL}/genre/movie/list' +
+        f'?api_key={API_KEY}'
+    )
+    headers = {
+        "accept": "application/json",
+    }
+    response_genre = requests.get(url_genre, headers=headers)
+    search_genre= response_genre.json()['genres']
 
     return render(
         request,
@@ -44,7 +72,7 @@ def search_page(request):
             'user_data': user_data,
             'profile_data': profile_data,
             'POSTER_PATH': POSTER_PATH,
-            'genre_list': genre_list
+            'search_genre': search_genre
         }
     )
 
@@ -54,6 +82,8 @@ def search_results(request):
     """
     Loads  search results
     """
+    type = request.GET.get('titleType')
+
     genre_list = request.GET.get('jointGenreList')
     SearchFilterValues.genre = f'&with_genres={genre_list}'
 
@@ -104,7 +134,7 @@ def search_results(request):
         SearchFilterValues.cast = ''
     
     url = (
-        f'{BASE_URL}{DISCOVER_MOVIE}' +
+        f'{BASE_URL}/discover/{type}' +
         f'?api_key={API_KEY}' +
         '&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc' +
         f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
@@ -122,7 +152,7 @@ def search_results(request):
         random_number = 1
 
     url2 = (
-        f'{BASE_URL}{DISCOVER_MOVIE}' +
+        f'{BASE_URL}/discover/{type}' +
         f'?api_key={API_KEY}' +
         f'&include_adult=false&include_video=false&language=en-US&page={random_number}&sort_by=popularity.desc' +
         f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
@@ -132,7 +162,7 @@ def search_results(request):
         f'{SearchFilterValues.genre}'
     )
     response2 = requests.get(url2, headers=headers)
-    search_result = response2.json()['results']
+    search_result2 = response2.json()['results']
 
     SearchFilterValues.cast = ''
 
@@ -140,7 +170,7 @@ def search_results(request):
         request,
         'search/search_results.html',
         {
-            'search_result': search_result,
+            'search_result': search_result2,
             'POSTER_PATH': POSTER_PATH
         }
     )

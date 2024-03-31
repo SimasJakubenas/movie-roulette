@@ -179,7 +179,7 @@ h4,
 label {
     color: var(--off-white);
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .container label {
@@ -875,6 +875,35 @@ input[type='submit'] {
 
 #genre-container {
     margin-bottom: 5vh;
+}
+
+#type-toggle span {
+   font-size: 1.4em;
+}
+
+#type-toggle {
+    top: 3vh;
+    right: 5vw;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+#outer {
+    width: 100px;
+    height: 1em;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 1vh;
+    display: inline-block;
+    margin: 0 2vw;
+    outline: 0.15em solid #000;
+}
+
+#inner {
+    width: 60px;
+    height: 1em;
+    background-color: var(--highlight-blue);
+    border-radius: 1vh;
+    outline: 0.15em solid #000;
 }
 
 #genre-container .genre-active {
