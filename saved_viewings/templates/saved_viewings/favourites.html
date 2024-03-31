@@ -1,11 +1,11 @@
 {% load static %}
 
 {% for list_item in in_list reversed %}
-<div class="carousel-item relative listed-title col xl3 m4 s6">
+<div class="carousel-item relative listed-title col xl3 m4 s12">
     <img src="{{ POSTER_PATH }}{{ list_item.poster_link }}" alt="{{ list_item.title }} movie poster"
         class="movie-poster overlay-trigger" data-titleID="{{ list_item.title_id }}"
         data-titleType="{{ list_item.type }}">
-    <button type="submit" value="" class="remove-one-title absolute remove-from-list"
+    <button type="submit" value="" class="remove-one-title absolute remove-from-list absolute"
         data-titleID="{{ list_item.title_id }}">
         <i class="far fa-times-circle"></i>
     </button>

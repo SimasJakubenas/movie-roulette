@@ -167,8 +167,10 @@ p {
     padding: 7% 3%;
 }
 
-#list-container button {
-    top: 20%;
+.listed-title button {
+    top: 0;
+    left: 0;
+    height: fit-content;
 }
 
 h1,
@@ -288,8 +290,8 @@ input[type='submit'] {
 }
 
 .remove-one-title {
-    bottom: -25%;
-    right: 67%;
+    top:-5vh;
+    right: 40%;
 }
 
 .add-one-title {
@@ -309,10 +311,6 @@ input[type='submit'] {
 .close-button:hover,
 .movie-reel-button:hover {
     opacity: 1;
-}
-
-.remove-from-list {
-    top: 5vh !important;
 }
 
 .empty-carousel-item {
@@ -351,9 +349,15 @@ input[type='submit'] {
 
 .overlay-container {
     margin-top: 5%;
+    height: max-content;
+}
+
+img.overlay-trigger {
+    width: -webkit-fill-available;
 }
 
 .overlay, .contact-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     height: auto;

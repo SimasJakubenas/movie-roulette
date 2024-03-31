@@ -11,7 +11,8 @@
 <div class="carousel carousel-slider carousel-main">
     {% for show in shows_discover %}
     <div class="carousel-item relative">
-        <img src="{{POSTER_BASE_URL}}original/{{show.backdrop_path}}" alt="Image for {{show.name}}">
+        <img class="big-screen-poster" src="{{POSTER_BASE_URL}}original/{{show.backdrop_path}}" alt="Image for {{show.name}}">
+        <img class="small-screen-poster" src="{{POSTER_BASE_URL}}original/{{show.poster_path}}" alt="Image for {{show.title}}">
         <div class="shadow absolute"></div>
         <div class="info-container absolute">
             <h1>{{show.name}}</h1>
