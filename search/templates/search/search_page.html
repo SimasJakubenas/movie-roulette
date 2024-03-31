@@ -5,18 +5,26 @@
 {% block content %}
 
 <div class="container margin-top-25">
+    <h4>Genre</h4>
+    <div id="genre-container" class="col">
+        {% for genre in genre_list %}
+        <div class="genre-box" data-genre-id="{{ genre.genre_id }}">
+            {{ genre.name }}
+        </div>
+        {% endfor %}
+    </div>
     <form id="search-form" method="post" data-search-results-url="{% url 'search_results' %}">
         {% csrf_token %}
         <div class="row">
             <div class="col m6 s12">
                 <div class="row">
-                    <label class="col l6 push-l1 s12" for="{{ field.auto_id }}">{{ search_form.year.label }}</label>
+                    <label class="col l5 s12" for="{{ field.auto_id }}">{{ search_form.year.label }}</label>
                     <div class="col l6 s12">
                         {{ search_form.year }}
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col l6 push-l1 s12" for="{{ field.auto_id }}">{{ search_form.rating.label }}</label>
+                    <label class="col l5 s12" for="{{ field.auto_id }}">{{ search_form.rating.label }}</label>
                     <div class="col l6 s12">
                         {{ search_form.rating }}
                     </div>
@@ -35,13 +43,6 @@
                     <label class="col l6 push-l1 s12" for="{{ field.auto_id }}">{{ search_form.cast.label }}</label>
                     <div class="col l6 s12 padding-right-0">
                         {{ search_form.cast }}
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col l6 push-l1 s12"
-                        for="{{ field.auto_id }}">{{ search_form.keywords.label }}</label>
-                    <div class="col l6 s12 padding-right-0">
-                        {{ search_form.keywords }}
                     </div>
                 </div>
             </div>

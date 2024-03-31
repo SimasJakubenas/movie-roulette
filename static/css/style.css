@@ -174,6 +174,7 @@ p {
 h1,
 h2,
 h3,
+h4,
 .logos-heading,
 label {
     color: var(--off-white);
@@ -868,6 +869,27 @@ input[type='submit'] {
 .fa-chevron-right:focus {
     opacity: 1;
     cursor: pointer;
+}
+
+/*search page style*/
+
+#genre-container {
+    margin-bottom: 5vh;
+}
+
+#genre-container .genre-active {
+    background: var(--highlight-blue);
+    color: #000;
+}
+
+.genre-box {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1.5vh;
+    font-weight: 600;
+    padding: 1vh 1.5vw;
+    margin: 1vh 1vw;
+    height: fit-content;
+    display: inline-block;
 }
 
 @media only screen and (max-width: 992px) {

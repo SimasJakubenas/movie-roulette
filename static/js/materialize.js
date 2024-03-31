@@ -45,7 +45,13 @@ $(document).ready(function () {
         let rating = $('#id_rating').val();
         let runtime = $('#id_runtime').val();
         let cast = $('#id_cast').val();
-        
+        let genreList = []
+        let jointGenreList = []
+        $('.genre-box.genre-active').each(function () {
+            genreList.push($(this).attr('data-genre-id'))
+            jointGenreList = genreList.join()
+        })
+        console.log(jointGenreList)
         
         $.ajax({
             url: url,
@@ -53,7 +59,8 @@ $(document).ready(function () {
                 'year': year,
                 'rating': rating,
                 'runtime': runtime,
-                'cast': cast
+                'cast': cast,
+                'jointGenreList': jointGenreList
             },
             headers: {
                 "X-CSRFToken": getCookie("csrftoken"),
@@ -65,6 +72,14 @@ $(document).ready(function () {
                 console.log(error);
             }
         })
+    })
+    $('.genre-box').on('click', function () {
+        if ($(this).hasClass('genre-active')) {
+            $(this).removeClass('genre-active')
+        }
+        else {
+            $(this).addClass('genre-active')
+        }
     })
     countryStreamingProviders()
     listMenuToggle()

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from saved_viewings.views import API_KEY, BASE_URL, POSTER_PATH, DISCOVER_MOVIE, DISCOVER_SHOW
-from saved_viewings.models import StreamingService, MovieOrShow
+from saved_viewings.models import StreamingService, MovieOrShow, Genre
 from accounts.models import Profile
 from .forms import SearchForm
 
@@ -14,7 +14,7 @@ class SearchFilterValues:
     """
     Class used to store API filters based of user input from a search page
     """
-    def __init__(self, release_year_min, release_year_max, rating_min, rating_max, runtime_min, runtime_max, cast, cast_list):
+    def __init__(self, release_year_min, release_year_max, rating_min, rating_max, runtime_min, runtime_max, cast, cast_list, genre):
         self.release_year_min = release_year_min
         self.release_year_max = release_year_max
         self.rating_min = rating_min
@@ -23,6 +23,7 @@ class SearchFilterValues:
         self.runtime_max = runtime_max
         self.cast = cest
         self.cast_list = cast_list
+        self.genre = genre
 
 
 @login_required
@@ -33,6 +34,7 @@ def search_page(request):
     search_form = SearchForm(data=request.POST)
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
+    genre_list = Genre.objects.all()
 
     return render(
         request,
@@ -41,7 +43,8 @@ def search_page(request):
             'search_form': search_form,
             'user_data': user_data,
             'profile_data': profile_data,
-            'POSTER_PATH': POSTER_PATH
+            'POSTER_PATH': POSTER_PATH,
+            'genre_list': genre_list
         }
     )
 
@@ -51,6 +54,9 @@ def search_results(request):
     """
     Loads  search results
     """
+    genre_list = request.GET.get('jointGenreList')
+    SearchFilterValues.genre = f'&with_genres={genre_list}'
+
     year = request.GET.get('year')
     search_sorting_year(year)
 
@@ -69,7 +75,6 @@ def search_results(request):
 
     if len(cast) > 0:
         cast_split = cast.replace(" ", "+").split(',')
-        print(cast_split)
         SearchFilterValues.cast_list = []
         if len(cast_split) > 1:
             for person in cast_split:
@@ -94,7 +99,6 @@ def search_results(request):
             response_cast = requests.get(url_cast, headers=headers)
             search_cast= response_cast.json()['results'][0]['id']
             SearchFilterValues.cast += str(search_cast)
-        print(SearchFilterValues.cast)
 
     else:
         SearchFilterValues.cast = ''
@@ -106,7 +110,8 @@ def search_results(request):
         f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
-        f'{SearchFilterValues.cast}'
+        f'{SearchFilterValues.cast}' +
+        f'{SearchFilterValues.genre}'
     )
     response = requests.get(url, headers=headers)
     pages_count = response.json()['total_pages']
@@ -123,7 +128,8 @@ def search_results(request):
         f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
-        f'{SearchFilterValues.cast}'
+        f'{SearchFilterValues.cast}' +
+        f'{SearchFilterValues.genre}'
     )
     response2 = requests.get(url2, headers=headers)
     search_result = response2.json()['results']
