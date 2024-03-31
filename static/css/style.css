@@ -940,6 +940,29 @@ input[type='submit'] {
     display: inline-block;
 }
 
+/* Tooltip styling */
+/* Taken and altered from https://www.w3schools.com/css/css_tooltip.asp */
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--darker-grey);
+    color: #fff;
+    text-align: center;
+    padding: 1vh 1vw;
+    border-radius: 6px;
+    position: absolute;
+    top: 50px;
+    right: -40px;
+    width: fit-content;
+    z-index: 1;
+    border-radius: 0.5em;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
 @media only screen and (max-width: 992px) {
     nav {
       position: unset;
