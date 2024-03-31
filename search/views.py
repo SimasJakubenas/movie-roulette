@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from saved_viewings.views import API_KEY, BASE_URL, POSTER_PATH, DISCOVER_MOVIE, DISCOVER_SHOW
 from saved_viewings.models import StreamingService, MovieOrShow, Genre
-from accounts.models import Profile
+from accounts.models import Profile, Country
 from .forms import SearchForm
 
 
@@ -82,13 +82,21 @@ def search_results(request):
     """
     Loads  search results
     """
+    SearchFilterValues.release_year_min = ''
+    SearchFilterValues.release_year_max = ''
+    SearchFilterValues.rating_min = ''
+    SearchFilterValues.rating_max = ''
+    SearchFilterValues.runtime_min = ''
+    SearchFilterValues.runtime_max = ''
+    SearchFilterValues.cast = ''
+    SearchFilterValues.cast_list = ''
     type = request.GET.get('titleType')
-    print(type)
 
     genre_list = request.GET.get('jointGenreList')
-    print(genre_list)
+    updated_genre_list = genre_list.replace(",", '|')
+    print(updated_genre_list)
     if len(genre_list) != 0 :
-        SearchFilterValues.genre = f'&with_genres={genre_list}'
+        SearchFilterValues.genre = f'&with_genres={updated_genre_list}'
     else:
          SearchFilterValues.genre = ''
     print(SearchFilterValues.genre)
@@ -137,7 +145,14 @@ def search_results(request):
 
     else:
         SearchFilterValues.cast = ''
-    
+
+    get_profile = Profile.objects.get(user_id=request.user.id)
+    stream_list = ''
+    stream_list_query = list(get_profile.streams.all().values())
+
+    for stream in stream_list_query:
+        stream_list += (str(stream['provider_id']) + '|')
+    print(stream_list)
     url = (
         f'{BASE_URL}/discover/{type}' +
         f'?api_key={API_KEY}' +
@@ -146,7 +161,8 @@ def search_results(request):
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
         f'{SearchFilterValues.cast}' +
-        f'{SearchFilterValues.genre}'
+        f'{SearchFilterValues.genre}' +
+        f'&with_watch_providers={stream_list[:-1]}'
     )
     response = requests.get(url, headers=headers)
     pages_count = response.json()['total_pages']
@@ -164,12 +180,11 @@ def search_results(request):
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
         f'{SearchFilterValues.cast}' +
-        f'{SearchFilterValues.genre}'
+        f'{SearchFilterValues.genre}' +
+        f'&with_watch_providers={stream_list[:-1]}'
     )
     response2 = requests.get(url2, headers=headers)
     search_result2 = response2.json()['results']
-
-    SearchFilterValues.cast = ''
 
     return render(
         request,

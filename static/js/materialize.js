@@ -65,7 +65,7 @@ $(document).ready(function () {
             error: (error) => {
                 console.log(error);
             }
-        }).then(() => genreToggle()).tehn(() => searchFunctionality())
+        }).then(() => genreToggle())
 
     })
     searchFunctionality()
