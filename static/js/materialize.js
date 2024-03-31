@@ -65,9 +65,35 @@ $(document).ready(function () {
             error: (error) => {
                 console.log(error);
             }
-        }).then(() => genreToggle())
+        }).then(() => genreToggle()).tehn(() => searchFunctionality())
 
     })
+    searchFunctionality()
+    genreToggle()
+    countryStreamingProviders()
+    listMenuToggle()
+    listTypeToggle()
+    listIconToggle()
+    spinRoulette()
+    // movieShowToggle()
+    removeFromList()
+    // Confirmation modal to clear all button
+    $('.btn-red').on('click', function () {
+        let confirmClearAll = confirm('Are you sure you want to do this?')
+        if (confirmClearAll == false) event.preventDefault()
+    });
+    // Add classes to form imputs for responsivness
+    $('.individual-select').children('select').removeClass('col xl6 push-xl3 m10 push-m1')
+    // This is used to change forms boolean logic
+    // It allows for differentiation of actions in one view (load one title/load many titles)
+    $('.main-select:last').children('input:last').attr('checked', 'checked')
+});
+
+/**
+ * Gathers all data from user input and sends it to backend via async function
+ * Recieves relevant data back and fills search results container
+ */
+function searchFunctionality() {
     $('#search-btn').on('click', function () {
         // let url = $("#search-form").attr("data-search-results-url");
         let url = $("#search-form").attr("data-search-results-url");
@@ -82,6 +108,7 @@ $(document).ready(function () {
         $('.genre-box.genre-active').each(function () {
             genreList.push($(this).attr('data-genre-id'))
             jointGenreList = genreList.join()
+            console.log(jointGenreList)
         })
         $('.type-active').each(function () {
             titleType = $(this).attr('data-search-type')
@@ -108,25 +135,7 @@ $(document).ready(function () {
             }
         })
     })
-    genreToggle()
-    countryStreamingProviders()
-    listMenuToggle()
-    listTypeToggle()
-    listIconToggle()
-    spinRoulette()
-    // movieShowToggle()
-    removeFromList()
-    // Confirmation modal to clear all button
-    $('.btn-red').on('click', function () {
-        let confirmClearAll = confirm('Are you sure you want to do this?')
-        if (confirmClearAll == false) event.preventDefault()
-    });
-    // Add classes to form imputs for responsivness
-    $('.individual-select').children('select').removeClass('col xl6 push-xl3 m10 push-m1')
-    // This is used to change forms boolean logic
-    // It allows for differentiation of actions in one view (load one title/load many titles)
-    $('.main-select:last').children('input:last').attr('checked', 'checked')
-});
+}
 
 /**
  * Adds or removes active class for genres

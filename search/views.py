@@ -83,9 +83,14 @@ def search_results(request):
     Loads  search results
     """
     type = request.GET.get('titleType')
+    print(type)
 
     genre_list = request.GET.get('jointGenreList')
-    SearchFilterValues.genre = f'&with_genres={genre_list}'
+    print(genre_list)
+    if len(genre_list) > 0:
+        SearchFilterValues.genre = f'&with_genres={genre_list}'
+    else:
+         SearchFilterValues.genre = ''
 
     year = request.GET.get('year')
     search_sorting_year(year)
@@ -101,9 +106,9 @@ def search_results(request):
     headers = {
         "accept": "application/json",
     }
-    SearchFilterValues.cast = '&with_cast='
 
     if len(cast) > 0:
+        SearchFilterValues.cast = '&with_cast='
         cast_split = cast.replace(" ", "+").split(',')
         SearchFilterValues.cast_list = []
         if len(cast_split) > 1:
