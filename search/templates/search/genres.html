@@ -1,7 +1,7 @@
 {% load static %}
 
 {% for genre in search_genre %}
-<div class="genre-box" data-genre-id="{{ genre.genre_id }}">
+<div class="genre-box" data-genre-id="{{ genre.id }}">
     {{ genre.name }}
 </div>
 {% endfor %}

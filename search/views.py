@@ -87,11 +87,11 @@ def search_results(request):
 
     genre_list = request.GET.get('jointGenreList')
     print(genre_list)
-    if len(genre_list) > 0:
+    if len(genre_list) != 0 :
         SearchFilterValues.genre = f'&with_genres={genre_list}'
     else:
          SearchFilterValues.genre = ''
-
+    print(SearchFilterValues.genre)
     year = request.GET.get('year')
     search_sorting_year(year)
 

@@ -97,18 +97,16 @@ function searchFunctionality() {
     $('#search-btn').on('click', function () {
         // let url = $("#search-form").attr("data-search-results-url");
         let url = $("#search-form").attr("data-search-results-url");
-        console.log(url)
         let year = $('#id_year').val();
         let rating = $('#id_rating').val();
         let runtime = $('#id_runtime').val();
         let titleType = ''
         let cast = $('#id_cast').val();
         let genreList = []
-        let jointGenreList = []
+        let jointGenreList = ""
         $('.genre-box.genre-active').each(function () {
             genreList.push($(this).attr('data-genre-id'))
             jointGenreList = genreList.join()
-            console.log(jointGenreList)
         })
         $('.type-active').each(function () {
             titleType = $(this).attr('data-search-type')
@@ -233,7 +231,6 @@ function listMenuToggle() {
 
 function overlayTrigger() {
     $('.overlay-trigger').on('click', function () {
-        console.log('sdsfdfs')
         let titleID = $(this).attr('data-titleID')
         let titleType = $(this).attr('data-titleType')
         // Sends ID of the selected title to backend

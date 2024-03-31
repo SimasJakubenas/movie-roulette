@@ -15,7 +15,7 @@
     <h4 class="margin-top">Genre</h4>
     <div id="genre-container" class="col" data-search-genres-url="{% url 'genres' %}">
         {% for genre in search_genre %}
-        <div class="genre-box" data-genre-id="{{ genre.genre_id }}">
+        <div class="genre-box" data-genre-id="{{ genre.id }}">
             {{ genre.name }}
         </div>
         {% endfor %}
