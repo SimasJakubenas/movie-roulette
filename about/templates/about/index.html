@@ -11,13 +11,47 @@
     </p>
     <p>Watch a preview to have a glance at the featured or sign in if you have an account already.</p>
     <div class="row">
-        <button class="btn col l3 m4 s6">Preview</button>
+        <!-- Modal Trigger -->
+        <button data-target="modal1" class="btn col l3 m4 s6 waves-effect waves-light modal-trigger">Modal</button>
+        </a>
+
         <a href="{{ signin_url }}">
             <button class="btn col l3 push-l6 m4 push-m4 s6">
                 Sign In
             </button>
         </a>
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <div class="modal-content" style="overflow-x: hidden;">
+                <h4>Movie Roulette</h4>
+                <div>
+                    <div class="modal-content-wrapper">
+                        <h5>Watch latest releases for movies and TV shows</h4>
+                        <img src="{% static 'images/preview-movies.jpg' %}" alt="Screenshot of movies page">
+                    </div>
+                    <div class="modal-content-wrapper">
+                        <h5>Look up title info and add to lists</h5>
+                        <img src="{% static 'images/preview-overlay.jpg' %}" alt="Screenshot of title info overlay">
+                    </div>
+                    <div class="modal-content-wrapper">
+                        <h5>Visit lists pages and amend them</h5>
+                        <img src="{% static 'images/preview-lists.jpg' %}" alt="Screenshot of lists page">
+                    </div>
+                    <div class="modal-content-wrapper">
+                        <h5>Search for titles with a search tool</h5>
+                        <img src="{% static 'images/preview-search.jpg' %}" alt="Screenshot of search page">
+                    </div>
+                    <div class="modal-content-wrapper">
+                        <h5>Load movie roulette and let it select your next watch</h5>
+                        <img src="{% static 'images/preview-roulette.jpg' %}" alt="Screenshot of roulette page">
+                    </div>
+                        <h5>And more...</h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-blue modal-close waves-effect waves-green btn-flat">Close</button>
+            </div>
+        </div>
     </div>
-</div>
 
-{% endblock content %}
+    {% endblock content %}

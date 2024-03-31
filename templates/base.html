@@ -13,6 +13,7 @@
 {% url 'delete_profile' as delete_profile %}
 {% url 'movie_releases' as movie_releases %}
 {% url 'show_releases' as show_releases %}
+{% url 'preview' as preview_url %}
 
 
 <!DOCTYPE html>
@@ -131,7 +132,7 @@
                 <li><a href="{{ roulette_list_url }}">Roulette</a></li>
                 <li><a href="{{ my_lists }}">My Lists</a></li>
                 <li><a href="{{ about_url }}">About</a></li>
-                <li><a href="[{ search_url }]">Search</a></li>
+                <li><a href="{{ search_url }}">Search</a></li>
                 {% else %}
                 <li><a href="/">Home</a></li>
                 <li><a href="{{ signin_url }}">Sign In</a></li>

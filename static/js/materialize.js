@@ -5,6 +5,7 @@
  */
 $(document).ready(function () {
     menuFadeInAndOut()
+    $('.modal').modal();
     $(".dropdown-trigger").dropdown();
     $('.carousel-item').on('click', function (e) {
         e.stopPropagation()

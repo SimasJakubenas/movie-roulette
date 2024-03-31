@@ -330,6 +330,25 @@ input[type='submit'] {
     padding: 0.2em 0 0 0.4em;
 }
 
+/* Modal style */
+
+.modal {
+    background-color: rgba(44, 42, 42, 0.94);
+}
+
+.modal .modal-footer {
+    background-color: unset;
+}
+
+.modal-content-wrapper {
+    margin: 5vh 0 2vh 0;
+}
+
+.modal-content-wrapper img {
+    width: -webkit-fill-available;
+}
+
+
 .overlay-container {
     margin-top: 5%;
 }

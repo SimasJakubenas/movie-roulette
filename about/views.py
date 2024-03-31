@@ -59,3 +59,4 @@ def index(request):
     Renders index page
     """
     return render(request, "about/index.html")
+    
