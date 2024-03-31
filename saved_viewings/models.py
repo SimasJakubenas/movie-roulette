@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -5,7 +6,8 @@ TYPE = ((0, "Movie"), (1, "TV-Show"))
 
 
 class MovieOrShow(models.Model):
-    title_id = models.IntegerField(primary_key=True)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title_id = models.IntegerField()
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="viewings"
     )

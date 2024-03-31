@@ -51,7 +51,10 @@ def movie_releases(request):
     movies_top_rated_amended = response_top_rated.json()['results']
 
     dont_show = []
-    dont_show_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+    get_user = User.objects.get(pk=request.user.id)
+    dont_show_list = list(
+        MovieOrShow.objects.filter(user_id=request.user.id, is_in_dont_show=True).values()
+        )
     for title in dont_show_list:
         dont_show.append(title['title_id'])
 
@@ -128,7 +131,9 @@ def show_releases(request):
     shows_top_rated_amended = response_top_rated.json()['results']
 
     dont_show = []
-    dont_show_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+    dont_show_list = list(
+        MovieOrShow.objects.filter(user_id=request.user.id, is_in_dont_show=True).values()
+        )
     for title in dont_show_list:
         dont_show.append(title['title_id'])
 

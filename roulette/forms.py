@@ -1,5 +1,4 @@
 from django import forms
-from saved_viewings.models import MovieOrShow
         
 
 class RouletteSourceForm(forms.Form):

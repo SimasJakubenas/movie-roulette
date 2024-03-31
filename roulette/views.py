@@ -28,7 +28,9 @@ def tmdb_api_connect(request, type):
     result = response.json()['results']
 
     dont_show = []
-    dont_show_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+    dont_show_list = list(
+        MovieOrShow.objects.filter(user_id=request.user.id, is_in_dont_show=True).values()
+    )
     for title in dont_show_list:
         dont_show.append(title['title_id'])
 
@@ -62,7 +64,9 @@ def roulette_list(request):
     'saved_viewings/roulette_list.html`
     """
     source_form = RouletteSourceForm(data=request.POST)
-    in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+    in_list = list(
+        MovieOrShow.objects.filter(user_id=request.user.id, is_in_roulette=True).values()
+    )
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
 
@@ -74,14 +78,22 @@ def roulette_list(request):
             if (source == 'Random'):
                 result = tmdb_api_connect(request, type)
             elif (source =='Favourites'):
-                result = list(MovieOrShow.objects.filter(is_in_favourites=True).values()) 
+                result = list(
+                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_favourites=True).values()
+                ) 
             elif (source =='Watchlist'):
-                result = list(MovieOrShow.objects.filter(is_in_watchlist=True).values()) 
+                result = list(
+                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_watchlist=True).values()
+                ) 
             else:
-                result = list(MovieOrShow.objects.filter(is_in_seen_it=True).values()) 
+                result = list(MovieOrShow.objects.filter(
+                    user_id=request.user.id, is_in_seen_it=True).values()
+                ) 
             roulette_load(request, result, source_form, source, type, load_all)
             
-    in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())     
+    in_list = list(
+        MovieOrShow.objects.filter(user_id=request.user.id, is_in_roulette=True).values()
+    )     
     empty_card_count = range(5 - len(in_list))
     
     return render(
@@ -123,7 +135,9 @@ def roulette_load(request, result, source_form, source, type, load_all):
                 result_pick = result[random_number]
                 result_pick['id'] = result_pick['title_id']
 
-            in_list = list(MovieOrShow.objects.filter(is_in_roulette=True).values())
+            in_list = list(MovieOrShow.objects.filter(
+                user_id=request.user.id, is_in_roulette=True).values()
+            )
             if len(in_list) == 0:
                 add_title_instance(request, result, result_pick, source, type)
                 if load_all == False: return False
@@ -157,7 +171,9 @@ def roulette_clear(request):
     Returns to roulette page
     """
     if request.method == 'POST':
-        get_query = MovieOrShow.objects.filter(is_in_roulette=True)
+        get_query = MovieOrShow.objects.filter(
+            user_id=request.user.id, is_in_roulette=True
+        )
         get_list = list(get_query.values())
         for list_item in get_list:
             if (list_item['is_in_favourites'] or
@@ -166,7 +182,9 @@ def roulette_clear(request):
                 list_item['is_in_dont_show']) == True:
                 pass
             else:
-                get_title = MovieOrShow.objects.filter(pk=list_item['title_id'])
+                get_title = MovieOrShow.objects.filter(
+                    user_id=request.user.id, title_id=list_item['title_id']
+                )
                 get_title.delete()
 
         return HttpResponseRedirect(reverse('roulette_list'))
@@ -181,9 +199,9 @@ def clear_one_title(request, title_id):
     Redirects to roulete page
     """
     if request.method == 'POST':
-        get_title = MovieOrShow.objects.filter(pk=title_id)
+        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=title_id)
         update_title = get_title.update(is_in_roulette=False)
-        clear_title(get_title,title_id)
+        clear_title(request, get_title,title_id)
         return HttpResponseRedirect(reverse('roulette_list'))
 
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))

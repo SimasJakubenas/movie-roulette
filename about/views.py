@@ -58,10 +58,11 @@ def index(request):
     """
     Renders index page
     """
-    user_data = User.objects.get(pk=request.user.id)
-    profile_data = Profile.objects.get(user_id=request.user.id)
+    if request.user.is_authenticated:
+        user_data = User.objects.get(pk=request.user.id)
+        profile_data = Profile.objects.get(user_id=request.user.id)
 
-    return render(
+        return render(
         request,
         "about/index.html",
         {
@@ -69,4 +70,6 @@ def index(request):
             'profile_data': profile_data
         }
     )
+
+    return render( request, "about/index.html")
     

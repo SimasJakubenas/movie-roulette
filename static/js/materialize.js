@@ -515,6 +515,7 @@ function compileStreamList(titleInfo) {
     let userCountry = titleInfo['user_country']
     let streamContainer = $('#providers')
     let streamList = []
+    console.log(titleInfo)
     $.each(titleInfo.results[userCountry].flatrate, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
             appendStreamList(titleStreams, value, streamList, streamContainer)

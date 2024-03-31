@@ -27,31 +27,29 @@ def add_title_instance(request, result, result_pick, source, type):
     Otherwise adds a title to roulette from database by changing it's boolean value
     """
     if source == 'Random':
-        new_entry = MovieOrShow(
+        new_entry = MovieOrShow.objects.get_or_create(
             title_id=result_pick['id'],
             user_id=request.user,
-            description=result_pick['overview'],
-            tmdb_rating=result_pick['vote_average'],
-            poster_link=result_pick['poster_path'],
-            backdrop_link=result_pick['backdrop_path'],
-            is_in_roulette=True
+            defaults={
+                'description': result_pick['overview'],
+                'tmdb_rating': result_pick['vote_average'],
+                'poster_link': result_pick['poster_path'],
+                'backdrop_link': result_pick['backdrop_path'],
+                'is_in_roulette': True
+            }
         )
+        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=result_pick['id'])
         if ( type == 'Movies'):
-            new_entry.title=  result_pick['title']
-            new_entry.type = 0
-            slice_date = slice(4)
-            new_entry.date = result_pick['release_date'][slice(4)]
-            new_entry.save()
+            update_title = get_title.update(title=result_pick['title'])
+            update_title = get_title.update(type=0)
+            update_title = get_title.update(date=result_pick['release_date'][slice(4)])
         else:
-            new_entry.title = result_pick['name']
-            new_entry.type = 1
-            slice_date = slice(4)
-            new_entry.date = result_pick['first_air_date'][slice(4)]
-            new_entry.save()
-        new_entry.save()
+            update_title = get_title.update(title=result_pick['name'])
+            update_title = get_title.update(type=1)
+            update_title = get_title.update(date=result_pick['first_air_date'][slice(4)])
     
     else:
-        get_query = MovieOrShow.objects.get(pk=result_pick['id'])
+        get_query = MovieOrShow.objects.filter(user_id=request.user.id, title_id=result_pick['id'])
         get_query.is_in_roulette = True
         get_query.save()
         for index in result:
@@ -68,7 +66,7 @@ def clear_one_listed_title(request, title_id, list_type=None):
     Redirects to mylists page
     """
     if request.method == 'POST':
-        get_title = MovieOrShow.objects.filter(pk=title_id)
+        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=title_id)
 
         if list_type == 'favourites':
             update_title = get_title.update(is_in_favourites=False)
@@ -78,7 +76,7 @@ def clear_one_listed_title(request, title_id, list_type=None):
             update_title = get_title.update(is_in_seen_it=False)
         if list_type == 'dont_show':
             update_title = get_title.update(is_in_dont_show=False)
-        clear_title(get_title, title_id)
+        clear_title(request, get_title, title_id)
 
         if list_type:
             return HttpResponse('Title removed from list')
@@ -88,12 +86,14 @@ def clear_one_listed_title(request, title_id, list_type=None):
     return HttpResponseRedirect(reverse('my_lists', args=[title_id]))
 
 
-def clear_title(get_title, title_id):
+def clear_title(request, get_title, title_id):
     """
     Queries the database for a specific title
     If title is in database and not in any of the lists - deletes the title
     """
-    title_object = list(MovieOrShow.objects.filter(pk=title_id).values())
+    title_object = list(MovieOrShow.objects.filter(user_id=request.user.id, title_id=title_id).values())
+    print(get_title)
+    print('safd')
     if len(title_object) > 0:
         if (title_object[0]['is_in_roulette'] or 
             title_object[0]['is_in_favourites'] or
@@ -116,7 +116,6 @@ def title_info(request, list_type=None):
     Pulls MovieOrShow instance from database/ creates new instance
     Appends this data to API response and passes all colective data back to async function
     """
-    print('sdfdsf')
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         titleType = request.POST.get('titleType')
@@ -145,20 +144,15 @@ def title_info(request, list_type=None):
                 'backdrop_link': title_details['backdrop_path'],
             }
         )
-        get_title = MovieOrShow.objects.get(pk=titleID)
+        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=titleID)
         if ( titleType == '0'):
-            get_title.title=  title_details['title']
-            get_title.type = 0
-            slice_date = slice(4)
-            get_title.date = title_details['release_date'][slice(4)]
-            get_title.save()
+            update_title = get_title.update(title=title_details['title'])
+            update_title = get_title.update(type=0)
+            update_title = get_title.update(date=title_details['release_date'][slice(4)])
         else:
-            get_title.title = title_details['name']
-            get_title.type = 1
-            slice_date = slice(4)
-            get_title.date = title_details['first_air_date'][slice(4)]
-            get_title.save()
-        get_title.save()
+            update_title = get_title.update(title = title_details['name'])
+            update_title = get_title.update(type=1)
+            update_title = get_title.update(date=title_details['first_air_date'][slice(4)])
         
         for each_genre in title_details['genres']:
             genre, created  = Genre.objects.get_or_create(
@@ -167,23 +161,23 @@ def title_info(request, list_type=None):
                     'name': each_genre['name'],
                     }
             )
-            get_title.genres.add(genre)
+            get_title[0].genres.add(genre)
 
         get_title_providers(request, titleType, titleID, get_title, available_stream_details)
        
         get_title.status = title_details['status']
         if ( titleType == '0' ):
             get_all_movie_people(title_details, get_title)
-            get_title.runtime = title_details['runtime']
-            get_title.age_limit = title_details['releases']['countries'][0]['certification']
-            get_title.save()
+            get_title[0].runtime = title_details['runtime']
+            get_title[0].age_limit = title_details['releases']['countries'][0]['certification']
+            get_title[0].save()
         else:
             get_all_tv_people(title_details, get_title)
-            get_title.seasons = title_details['last_episode_to_air']['season_number']
-            get_title.save()
+            get_title[0].seasons = title_details['last_episode_to_air']['season_number']
+            get_title[0].save()
         
-        get_title = list(MovieOrShow.objects.filter(pk=titleID).values())
-
+        get_title = list(MovieOrShow.objects.filter(user_id=request.user.id, title_id=titleID).values())
+        del get_title[0]['uuid']
         title_details.update(get_title[0])
 
         get_profile = Profile.objects.get(user_id=request.user.id)
@@ -212,13 +206,21 @@ def add_to_list(request, list_type=None):
         titleID = request.POST.get('titleID')
         list = request.POST.get('list')
         if list == 'favourites':
-            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_favourites=True)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=titleID).update(is_in_favourites=True
+            )
         if list == 'watchlist':
-            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_watchlist=True)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=titleID).update(is_in_watchlist=True
+            )
         if list == 'seen_it':
-            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_seen_it=True)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=titleID).update(is_in_seen_it=True
+            )
         if list == 'dont_show':
-            det_title = MovieOrShow.objects.filter(pk=titleID).update(is_in_dont_show=True)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=titleID).update(is_in_dont_show=True
+            )
 
         return HttpResponse('add to list')
 
@@ -234,21 +236,31 @@ def remove_from_list(request):
         list_type = request.POST.get('list')
 
         if list_type == 'roulette':
-            get_title = MovieOrShow.objects.filter(pk=title_id)
-            get_title.update(is_in_favourites=False)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=title_id
+            )
+            get_title.is_in_favourites=False
         if list_type == 'favourites':
-            get_title = MovieOrShow.objects.filter(pk=title_id)
-            get_title.update(is_in_favourites=False)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=title_id
+            )
+            get_title.is_in_favourites=False
         if list_type == 'watchlist':
-            get_title = MovieOrShow.objects.filter(pk=title_id)
-            get_title.update(is_in_watchlist=False)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=title_id
+            )
+            get_title.is_in_watchlist=False
         if list_type == 'seen_it':
-            get_title = MovieOrShow.objects.filter(pk=title_id)
-            get_title.update(is_in_seen_it=False)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=title_id
+            )
+            get_title.is_in_seen_it=False
         if list_type == 'dont_show':
-            get_title = MovieOrShow.objects.filter(pk=title_id)
-            get_title.update(is_in_dont_show=False)
-        clear_title(get_title, title_id)
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=title_id
+            )
+            get_title.is_in_dont_show=False
+        clear_title(request, get_title, title_id)
 
         return HttpResponse('Removed from list')
 
@@ -275,7 +287,7 @@ def get_all_movie_people(title_details, get_title):
                 director_id=each_person['credit_id'],
                 person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
             )
-            get_title.directors.add(director)
+            get_title[0].directors.add(director)
 
 
 def get_all_tv_people(title_details, get_title):
@@ -300,7 +312,7 @@ def get_all_tv_people(title_details, get_title):
             creator_id=each_person['credit_id'],
             person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
         )
-        get_title.creators.add(creator)
+        get_title[0].creators.add(creator)
 
 
 def get_title_providers(request, titleType, titleID, get_title, available_stream_details):
@@ -335,7 +347,7 @@ def stream_instance(each_stream, get_title):
         'logo_path': each_stream['logo_path']
         }
     )
-    get_title.streaming_services.add(stream)
+    get_title[0].streaming_services.add(stream)
 
 
 def new_person_instance(each_person):
@@ -358,7 +370,7 @@ def new_actor_instance(each_person, get_title):
         actor_id=each_person['credit_id'],
         person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
     )
-    get_title.actors.add(actor)
+    get_title[0].actors.add(actor)
 
 
 @login_required
@@ -385,8 +397,9 @@ def load_list(request, list_type=None):
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
 
-    in_list = list(MovieOrShow.objects.filter(is_in_favourites=True, type=1).values())
-    print(in_list)
+    in_list = list(MovieOrShow.objects.filter(
+        user_id=request.user.id, is_in_favourites=True, type=1).values()
+    )
     return render(
         request,
         'saved_viewings/lists_initial.html',
@@ -413,7 +426,9 @@ def load_list(request, list_type=None):
         )
 
     if list_type == 'watchlist':
-        in_list = list(MovieOrShow.objects.filter(is_in_watchlist=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, is_in_watchlist=True).values()
+        )
 
         return render(
             request,
@@ -428,7 +443,9 @@ def load_list(request, list_type=None):
         )
 
     if list_type == 'seen_it':
-        in_list = list(MovieOrShow.objects.filter(is_in_seen_it=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, is_in_seen_it=True).values()
+        )
 
         return render(
             request,
@@ -443,7 +460,9 @@ def load_list(request, list_type=None):
         )
 
     if list_type == 'dont_show':
-        in_list = list(MovieOrShow.objects.filter(is_in_dont_show=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, is_in_dont_show=True).values()
+            )
 
         return render(
             request,
@@ -462,20 +481,27 @@ def load_list(request, list_type=None):
 def load_selected_list(request):
     type = request.GET.get('type')
     selected_list = request.GET.get('list')
-    print(selected_list)
     if type == 'Movies':
         type = 0
     else:
         type = 1
 
     if selected_list == 'favourites':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_favourites=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_favourites=True).values()
+        )
     if selected_list == 'watchlist':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_watchlist=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_watchlist=True).values()
+        )
     if selected_list == 'seen_it':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_seen_it=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_seen_it=True).values()
+        )
     if selected_list == 'dont_show':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_dont_show=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_dont_show=True).values()
+        )
 
     source_form = RouletteSourceForm(data=request.POST)
     user_data = User.objects.get(pk=request.user.id)
@@ -506,13 +532,21 @@ def load_list_type(request):
         type = 1
 
     if selected_list == 'favourites':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_favourites=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_favourites=True).values()
+        )
     if selected_list == 'watchlist':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_watchlist=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_watchlist=True).values()
+        )
     if selected_list == 'seen_it':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_seen_it=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_seen_it=True).values()
+        )
     if selected_list == 'dont_show':
-        in_list = list(MovieOrShow.objects.filter(type=type, is_in_dont_show=True).values())
+        in_list = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, type=type, is_in_dont_show=True).values()
+        )
 
     source_form = RouletteSourceForm(data=request.POST)
     user_data = User.objects.get(pk=request.user.id)

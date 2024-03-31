@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from saved_viewings.views import API_KEY, BASE_URL, POSTER_PATH, DISCOVER_MOVIE, DISCOVER_SHOW
-from saved_viewings.models import StreamingService, MovieOrShow, Genre
+from saved_viewings.models import StreamingService, Genre
 from accounts.models import Profile, Country
 from .forms import SearchForm
 

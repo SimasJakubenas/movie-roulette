@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from allauth.account.forms import SignupForm, LoginForm
 from saved_viewings.models import StreamingService
 from .models import Country, Profile
-from saved_viewings.models import StreamingService
 
 
 class CustomSigninForm(LoginForm):
