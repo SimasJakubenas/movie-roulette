@@ -234,32 +234,33 @@ def remove_from_list(request):
     if request.method == 'POST':
         title_id = request.POST.get('titleID')
         list_type = request.POST.get('list')
+        print(list_type)
 
         if list_type == 'roulette':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            get_title.is_in_favourites=False
+            update_title = get_title.ipdate(is_in_favourites=False)
         if list_type == 'favourites':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            get_title.is_in_favourites=False
+            update_title = get_title.update(is_in_favourites=False)
         if list_type == 'watchlist':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            get_title.is_in_watchlist=False
+            update_title = get_title.update(is_in_watchlist=False)
         if list_type == 'seen_it':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            get_title.is_in_seen_it=False
+            update_title = get_title.update(is_in_seen_it=False)
         if list_type == 'dont_show':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            get_title.is_in_dont_show=False
+            update_title = get_title.update(is_in_dont_show=False)
         clear_title(request, get_title, title_id)
 
         return HttpResponse('Removed from list')
