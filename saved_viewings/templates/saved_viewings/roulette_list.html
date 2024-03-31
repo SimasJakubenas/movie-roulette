@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="col xl4 l12 m12 s12">
-                <button class="btn btn-blue col xl8 push-xl2 m4 push-m4 s8 push-s2">Load Roulette</button>
+                <button class="btn btn-blue col xl8 push-xl2 m4 push-m4 s8 push-s2 waves-effect waves-green">Load Roulette</button>
             </div>
         </form>
     </div>
@@ -69,12 +69,12 @@
     <div class="col s6">
         <form action="{% url 'clear_list' %}" method="post">
             {% csrf_token %}
-            <button class="btn btn-red col xl4 l5 m6 s12">Clear All</button>
+            <button class="btn btn-red col xl4 l5 m6 s12 waves-effect waves-red">Clear All</button>
             <!-- <input type="submit" value="Delete cat"> -->
         </form>
     </div>
     <div class="col s6">
-        <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12" id="spin-it">
+        <button class="btn btn-blue-bright col xl4 push-xl8 l5 push-l7 m6 push-m6 s12 waves-effect waves-green" id="spin-it">
             Spin It!!!
         </button>
     </div>
