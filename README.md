@@ -826,3 +826,34 @@ Tools and technologies are listed in order of use during the development of this
 [Nu HTML Checker](https://validator.w3.org/nu/) - Used to validate the HTML code.
 
 [IrfanView](https://www.irfanview.com/) - Used to turn screenshots to jpg images.
+
+
+## Deployment
+
+This website has been deployed using Heroku.
+
+Instructions to deploy using Heroku:
+
+1 - While in Heroku, navigate to dashboard and then click on the new button in the top right corner choosing: create new app.
+
+2 - Input a name for your app (this name will need to be unique) and choose the correct region for where you are located. Click create app.
+
+3 - Your app has been created, now click on the settings tab.
+
+4 - Click reveal config vars to add any keys the application will need. For this project I added:
+- DISABLE_COLLECTSTATIC : 0
+- PORT : 800
+- All the key value pairs from my env.py file.
+
+5 - Click add buildpack to install any interdependecies needed. For this project I installed 'python'.
+
+6 - Click on deploy tab. Select deploy method, in this case Git Hub. Confirm connection to git hub by searching for the correct repository and then connecting to it.
+
+7 - To manually deploy project click 'Deploy Branch'. Once built a message will appear saying: Your app was successfully deployed. Click the view button to view the deployed page making a note of it's url.
+
+8 - You can also set up automatic deployment.
+
+9 - If you find your css is not showing correctly on the deployed site running the following command while in your workspace may help:
+./manage.py collectstatic
+
+10 - Don't forget to turn Debug back to False before final deployment.
