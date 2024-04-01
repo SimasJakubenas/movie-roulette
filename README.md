@@ -417,3 +417,163 @@ Text colours:
 * off-white (250, 250, 250) for most text
 * off-white (250, 250, 250, 0.85) for unselected menu items
 * highlight-blue (108, 229, 232) user to highlight selected main menu item
+
+## Agile Methodology
+
+Agile values and principleswhile were followed (where possible) during developing of this project. However I have to admit working on a project as a solo contributer I was constantly fiting the urge to neglect these.
+
+The Agile practices I've utilised were: user stories, story points and team velocity, product backlog, time boxing, prioritization and information radiators.
+
+### User Stories
+
+The User Storries are defined in The Scope Plane of this README. They were derived by breakdown the Epics detailing the main features of the platform into parts suitable for iterations..
+
+The issues tool on GitHub has been used to record all user stories. I made a mistake of breaking down EPICS and defining User Stories acceptance criteria and tasks at the begining of the development which caused some inaccuracies (for expample allauth authomaticly generating certain things that I've listed in User Stories tasks).
+
+### Story Points and Team Velocity
+
+Story Points were used as an estimate to how long it would take to complete it. I used Fibonacci numbers (1, 2, 3, 5, 8) as a reference. Story points were recorded using labels attached to the user story. 
+
+Team velocity was estimated and set to 25 for the first iteration and was lowered to 20 afterwards as I struggled more than I enticipated and didn't compleate all the 'must haves' on time. All of this was a shot in the dark at the beginning but got easier as I got more comfortable with Django.
+
+### Product Backlog
+
+A product backlog was used in which User Stories were stored and from which these User Stories were assigned to iterations. At the end of the iteration any User Stories that weren't closed were transfered back to backlog. I have to admit I could have done a better job at managing and prioritasing (this goes hand in hand with my mistake of breaking down EPICs at the start of the development)
+
+The product backlog is visible on GitHub through the use of a milestone titled "Backlog" and a specific backlog column in the project board.
+
+### Final Backlog
+
+<details>
+<summary>
+Final Backlog
+</summary>
+
+![Final Backlog](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/67dc8c5e-a487-421a-9973-690b0c029da7)
+
+</details>
+
+### Time Boxing
+
+Developement of the project was split into five iterations. Each iteration (with exeption of iteration IV which was shorted due to me having more free tiem) was set to a period of one week.
+And I managed to go over the set time period for every iteration which I need to tighten up in the future work.
+
+### Iteration I
+
+<details>
+<summary>
+Closed Issues
+</summary>
+
+![Iteration I closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/5da266c0-ef80-4412-b1e4-b2c015b66a07)
+
+<details>
+
+<details>
+<summary>
+Open Issues
+</summary>
+
+![Iteration I open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/ea3e325f-565a-4425-800c-4928e1dc5e37)
+
+<details>
+
+### Iteration II
+
+<details>
+<summary>
+Closed Issues
+</summary>
+
+![Iteration II closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/90104c9b-be6f-4ef6-9104-9573cc47577f)
+
+<details>
+
+<details>
+<summary>
+Open Issues
+</summary>
+
+![Iteration II open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/eeaf4543-ddea-415a-9a52-8983ef2e71c5)
+
+<details>
+
+### Iteration III
+
+<details>
+<summary>
+Closed Issues
+</summary>
+
+![Iteration III closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/8ddf23f1-3a77-45b8-b781-2120c9720d4a)
+
+<details>
+
+<details>
+<summary>
+Open Issues
+</summary>
+
+![Iteration III open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/735e1029-f0c8-4c0a-a19c-00ef5c23c92f)
+
+<details>
+
+### Iteration IV
+
+<details>
+<summary>
+Closed Issues
+</summary>
+
+![Iteration IV closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/c1c121de-9780-445a-b30f-e30bffe1b073)
+
+<details>
+
+<details>
+<summary>
+Open Issues
+</summary>
+
+![Iteration IV open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/86718e8f-98c8-47b7-ba28-05f3ec29cdeb)
+
+<details>
+
+### Iteration V
+
+<details>
+<summary>
+Closed Issues
+</summary>
+
+![Iteration V closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/ce3a3ea5-a571-4af9-a612-5ecdd9519063)
+
+<details>
+
+<details>
+<summary>
+Open Issues
+</summary>
+
+![Iteration V open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/89704025-31d3-4e6d-899c-02af1b4d7a35)
+
+<details>
+
+#### MoSCoW Prioritisation
+
+MoSCoW prioritisation was used throughout the project. At the beginning of each new iteration the project backlog was assessed and each user story categorised for the current iteration, thus allowing for the correct balance of prioritisation for each iteration. This process was repeated for each new iteration, being mindful at all times of the overall remaining project time left.
+
+These are the prioritisation tags
+
+* 'Must Have' the user stories essential for compleating iteration.
+
+* 'Should Have' the user stories important, but not essential for compleating iteration.
+
+* 'Could Have' user stories with low importance to compleating iteration.
+
+* 'Wont Have' user stories that won't be completed in this iteration.
+
+### Information Radiators
+
+GitHub projects was utilised as a kanban board for this project.
+
+![Kanban board](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/7772dd8d-422e-4851-9dee-d947e8225f43)
