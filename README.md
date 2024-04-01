@@ -577,3 +577,198 @@ These are the prioritisation tags
 GitHub projects was utilised as a kanban board for this project.
 
 ![Kanban board](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/7772dd8d-422e-4851-9dee-d947e8225f43)
+
+
+## Features
+
+### Existing Features
+
+#### Landing Page
+
+![image](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/729acf7e-9f30-4e81-a2e8-22c8f9532fb0)
+
+Contains information to a new user what the websites purpose is.
+Two buttons are present at the bottom.
+'Sign in' button brings user to the Sign In Page
+'Preview' button opens preview modal.
+
+<details>
+<summary>
+Preview Modal
+</summary>
+
+![Preview modal](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/97935ce4-aa98-45fa-89c4-a89fd64991db)
+
+</details>
+
+Preview modal contains images info detailing the type of functionality this website has so the user can make a decision weather it's suitable form them prior to registration.
+
+#### Sign In Page
+
+![Sign in page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/f383909e-8903-46eb-99f7-10f173a95aad)
+
+* Sign in form with username and password fields for already registered users.
+* A checkbox for autofilling the fields uppon registration.
+* A ling to Sign Up page for new users.
+* Sign In button that authenticates user and redirects to Movies page.
+
+#### Sign Up Page
+
+![image](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/1af4dfc3-19c1-4131-8f84-b4b7ef238e69)
+
+ Sign Up form with fields: 'First name', 'Last name', 'Username', 'Email', 'Country', 'Providers', 'Password', 'Password2'
+
+ Things to no note:
+
+* Authentication handdled by allauth.
+* Emails are unique and can't be duplicated
+* Country field pulls data from the database t display countries list.
+* Providers field is updated when country is selected to display a list of streaming providers available in that country. This selection will filter the titles being displayed in all pages.
+* User can amend the providers list in their provile after signin in.
+
+#### About Page
+
+![About page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/3557c5ec-19a0-4d17-b3d7-32f55ff82b2a)
+
+Site owners word and API accreditation
+'Contact Us' button opens up contact form
+
+#### Contact Form Page
+
+![Contact form page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/8bae9855-fad7-42c6-996c-128e757981fb)
+
+Offers a way to reach out to the Admin
+
+#### Movies Page
+
+![Movies Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/1ca033ff-ee38-4e88-9799-d3869bb88f8c)
+
+Movies page is a landing page after user authentication.
+* User is presendted with slideshow of recently released movies.
+* Most relevant information (name, release date, rating) is presented in the bottom left corner of the slideshow.
+* 'More Info' button opens up an overlay with more information about the movie.
+* slideshow is operated with arrow buttons
+
+![Movies page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/0ba0d4a9-7f86-42d7-aafa-8739e38730a5)
+
+Bottom of the page user is presented with 2 carousels (top rated, popular) that user can use to arrow buttons to navigate.
+
+#### Shows Page
+
+![Shows page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/b6f8ef02-2867-40e9-ac5b-57a7475ee748)
+
+![Shows page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/916ba26a-a82b-4cb6-985b-86e5219bd573)
+
+Exactly same concept as Movies page.
+
+#### overlay
+
+![Overlay](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/cd11c673-6964-4cfd-bc4f-60940d0a061e)
+
+Displays a variaety of information about the title taken from an API.
+* Title/name
+* Runtime (movies only)
+* Seasons (shows oly)
+* Genres
+* Description
+* Cast list
+* Director (movies only)
+* Creators (show only)
+
+And lso some extra Features
+* Button with a youtube link for movie trailer
+* Uppon 'My Lists' icons user saved the movie/show to their prefered Lists
+* 'Available On' section displays the streaming providers the title is available on prom the streaming providers that the user has selected.
+
+#### Roulette page
+
+![Roulette page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/2ebd7439-8410-4a7d-89fe-c7e7198ce9a1)
+
+Main feature of the site. User is presented with the ability to 'load' the roulette and 'spin' it to randomly determine their next watch.
+
+* Source field has options to load the roulette from 'random' titles or from titles saved in user lists
+* Type field lets user determine wheather they want to load movies or shows* 'Load Roulette' fills all roulette slots based on user selection
+* User can manually add/remove titles from the roulette with icons
+* 'Clear All' throws an alert uppon verifying it clears all roulette slots
+* 'Spin It' button rotates roulette carousel and stops at a random title.
+
+#### My Lists 
+
+![Lists page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/d5c1e755-07b5-4ca9-98c1-5aa3444e0ef8)
+
+Displays titles that the user would have saved. Presends an ability to toggle between different lists and type of titles (movie, show)
+
+#### Search Page
+
+![Search page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/0ead7db5-e2a6-4104-b7fe-4b027e3febc0)
+
+Gives a user an ability search for titles utilising API calls based on their selection
+
+* Movie/Show slider determins type of tiles in the results
+* Genres can be selected b clicking on genre boxes. The results will have either of the genres selected
+* Selection by year range
+* Selection by duration range
+* selection by rating range
+^ Selection by actors name (this field is restricted to letters and commas only, names have to be comma separated)
+* 'Search' button sends API call and populates the field bellow with resuts
+
+![Search page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/3959fa24-7d28-4ecd-80d2-b2d1c8c21a99)
+
+#### Profile Page
+
+![image](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/33fd21a7-1f9c-4de3-9bbe-b487d7f227f4)
+
+User is presented with information they filled in during sign up
+* User is able to add/change profile picture
+^ 'Delete' button promts an alert which, uppon confirming, deletes user profile. User is then redirected to pre validation landing page
+* 'Update' button opens up a page for editing users profile
+
+![Edit profile](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/c1eef818-cade-46ca-875b-5a1141afa074)
+
+Here user can edit their name, surname and streaming providers.Unlike in the sign up pageIn user has ability to change streaming providers without the constraints of their country incase they have the ability to access these providers.
+
+#### Sign Out Page
+
+![Sign out page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/a89f328d-f233-4dde-9923-ab94a4ed3d40)
+
+Ends session and relocates the user to the pre authorization landing page.
+
+#### Admin Panel
+
+![Admin panel](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/64fa602d-45d8-4749-8cc0-baddfb8c08e1)
+
+Has an ability to create/edit/delete/ user profiles
+Create titles (although this is not very functional)
+Amend about page text
+Review contact form submisions
+
+### Future Features
+
+#### Authorisation
+
+Offer a way for the user to reset their password USER STORY #8 (wasn't working as intended initialy so is currently removed)
+
+#### Preview Modal
+
+Create a slideshow for the images (tried to implement same materialize carousel as per other pages but it wasn't working in the modal)
+
+#### Movies/Shows pages
+
+Add more carousels for a display of diffrent selections
+
+#### Overlay
+
+Make it into modal (wasn't able to do it initialy as triggering the modal was clashing with the way the materialize carousel operates)
+Add links to streaming providers websites for the particular title (I've looked into this, but requeres great API manipulation and permision by API provider)
+
+#### Roulette Page
+
+Add multiple list selection. TASK #40 (couldn't get it working for the life of me)
+
+#### Search page
+
+Add search field in the nav element to search for titles byname USER STORY #15
+For mobile devices hide all genres and add them from a dropdown list USER STORY #18 (most of this user story is complete only the mentioned part is missing as I ran out of time)
+Add age-restriction selection USER STORY #22
+Add keyword field USER Story #24
+Add page that takes user input and utilises ChatGPT to give users movie suggestions USER STORY #32
