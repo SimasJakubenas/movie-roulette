@@ -30,7 +30,7 @@ def movie_releases(request):
     stream_list = ''
     stream_list_query = list(get_profile.streams.all().values())
     for stream in stream_list_query:
-        stream_list += (str(stream['provider_id']) + ',')
+        stream_list += (str(stream['provider_id']) + '|')
     
     ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
     url_discover = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
@@ -110,8 +110,8 @@ def show_releases(request):
     stream_list = ''
     stream_list_query = list(get_profile.streams.all().values())
     for stream in stream_list_query:
-        stream_list += (str(stream['provider_id']) + ',')
-    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&include_null_first_air_dates=false&watch_region={get_country.country_iso}&with_watch_providers=8'
+        stream_list += (str(stream['provider_id']) + '|')
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&include_null_first_air_dates=false&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
     url_discover = f"{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_popular = f"{BASE_URL}/tv/popular?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     url_top_rated = f"{BASE_URL}/tv/top_rated?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"

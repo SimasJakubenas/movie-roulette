@@ -98,7 +98,8 @@ def clear_title(request, get_title, title_id):
             title_object[0]['is_in_favourites'] or
             title_object[0]['is_in_watchlist'] or
             title_object[0]['is_in_seen_it'] or
-            title_object[0]['is_in_dont_show']
+            title_object[0]['is_in_dont_show'] or
+            title_object[0]['is_in_roulette']
             in title_object) == True:
             pass
         else:
@@ -238,7 +239,8 @@ def remove_from_list(request):
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            update_title = get_title.ipdate(is_in_favourites=False)
+            print(get_title)
+            update_title = get_title.update(is_in_favourites=False)
         if list_type == 'favourites':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id

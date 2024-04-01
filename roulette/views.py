@@ -15,7 +15,15 @@ def tmdb_api_connect(request, type):
     """
     get_profile = Profile.objects.get(user_id=request.user.id)
     get_country = Country.objects.get(name=get_profile.country)
-    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page=1&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers=8'
+
+    stream_list = ''
+    stream_list_query = list(get_profile.streams.all().values())
+
+    for stream in stream_list_query:
+        stream_list += (str(stream['provider_id']) + '|')
+    page = 1
+
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page={page}&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
     if ( type == 'Movies'):
         url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     else:
@@ -23,6 +31,21 @@ def tmdb_api_connect(request, type):
     headers = {
         "accept": "application/json",
     }
+    response = requests.get(url, headers=headers)
+    pages_count = response.json()['total_pages']
+    
+    if pages_count > 1:
+        random_number = random.randint(1, pages_count)
+    else:
+        random_number = 1
+
+    page = random_number
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page={page}&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
+    if ( type == 'Movies'):
+        url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+    else:
+        url = f"{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+
     response = requests.get(url, headers=headers)
     result_initial = response.json()['results']
     result = response.json()['results']
@@ -176,10 +199,8 @@ def roulette_clear(request):
         )
         
         get_list = list(get_query.values())
-        print(get_list)
         get_query.update(is_in_roulette=False)
         for list_item in get_list:
-            list_item['is_in_roulette'] = False
             if (list_item['is_in_favourites'] or
                 list_item['is_in_watchlist'] or
                 list_item['is_in_seen_it'] or
