@@ -772,3 +772,57 @@ For mobile devices hide all genres and add them from a dropdown list USER STORY 
 Add age-restriction selection USER STORY #22
 Add keyword field USER Story #24
 Add page that takes user input and utilises ChatGPT to give users movie suggestions USER STORY #32
+
+## Utility
+
+### Languages
+
+HTML, CSS, jQuery, JavaScript, Python
+
+###Frameworks and Libraries
+
+[Django 3.2](https://www.djangoproject.com) - A high-level Python web framework that encourages rapid development and clean, pragmatic design.
+
+[Gunicorn 21.2](https://gunicorn.org) - A Python WSGI HTTP Server for UNIX.
+
+[Psycopg2 2.9](https://www.psycopg.org/docs/#) - A PostgreSQL database adapter for the Python programming language.
+
+[Materialize](https://materializecss.com/) - A utility-first CSS framework.
+
+## Tools and Technologies
+
+Tools and technologies are listed in order of use during the development of this project.
+
+[Code Institute Template](https://github.com/Code-Institute-Org/ci-full-template) - Provided me with a familiar base from which to build my project.
+
+[GitHub](https://github.com/) - Stores the repository for this project so that it can be viewed by others.
+
+[git](https://git-scm.com/) - Controlled the building of this project in a series of versions which can be tracked.
+
+[LucidChart](https://www.lucidchart.com/pages/) - Used to plan the models to be included in the database and how they connect together.
+
+[Figma](https://www.figma.com/) - Used to create wireframes showing the skeleton plane of the design phase.
+
+[Cloudinary](https://cloudinary.com) - Image and video API platform.
+
+[Heroku](https://www.heroku.com) - Used to host and deploy the project.
+
+[ElephantSQL](https://www.elephantsql.com) - Used to store the PostgreSQL database.
+
+[Canva](https://www.canva.com) - Used to create the logo.
+
+[ColorMind](http://colormind.io/) - Used to create the image showing the colour scheme.
+
+[WebAim contrast checker](https://webaim.org/resources/contrastchecker/) - Used to test contrast between text and background.
+
+[GitPod](https://www.gitpod.io/) - Code editor used during development.
+
+[Jshint](https://jshint.com/) - Used to validate the JavaScript code.
+
+[W3C - CSS Validation Service](https://jigsaw.w3.org/css-validator/) - Used to validate the CSS code. Please see [TESTING.md](TESTING.md) for notes on this.
+
+[CI Python Linter](https://pep8ci.herokuapp.com/) - Used to validate the Python code.
+
+[Nu HTML Checker](https://validator.w3.org/nu/) - Used to validate the HTML code.
+
+[IrfanView](https://www.irfanview.com/) - Used to turn screenshots to jpg images.
