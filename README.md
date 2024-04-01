@@ -857,3 +857,65 @@ Instructions to deploy using Heroku:
 ./manage.py collectstatic
 
 10 - Don't forget to turn Debug back to False before final deployment.
+
+
+## Cloning Repository
+
+In order to work on this repository you will first need to clone it.
+
+**Instructions to clone the repository**:
+
+1 - While in the GitHub repository, click on the green code button.
+
+2 - Copy the link.
+
+3 - In your IDE or local coding environment use the link to open the repository. 
+
+For example: in VScode 
+- clicking on 'Clone Git Repository...' will bring up a box in which to paste the link. 
+- once vscode has the link, you will then be asked where you would like the repo saving.
+- You should now be set up ready to work on the repository.
+
+For example: in CodeAnywhere
+- Click on 'Add new workspace'
+- You will then be given the option to 'Create from your project repository' and a box in which to paste the link
+- CodeAnywhere will now open a new workspace containing the repository.
+- You should now be set up ready to work on the repository.
+
+4 - If you are working in VSCode I would then recommend creating a virtual environment:
+-  I use the following command to do this: python3 -m venv .venv
+- Agreeing to select as workspace folder.
+- I move into the virutal environment with the command: source .venv/bin/activate
+
+5 - Import all dependencies. I use the command: pip3 install -r requirements.txt.
+
+6 - Create an env.py file in the main directory.
+
+7 - Enter key data, such as: DATABASE_URL, SECRET_KEY, CLOUDINARY_URL, SITE_OWNER_EMAIL and EMAIL_PASSWORD.
+
+8 - Check that both the virtual environment and env.py are named in the .gitignore file.
+
+9 - In settings.py change Debug to True while developing. You make also want to change to Django's inbuilt sqlite database.
+
+10 - In order to get Tailwind re-running, you will need to:
+
+- Add the following code to settings.py:
+
+COMPRESS_ROOT = BASE_DIR / 'static'
+
+COMPRESS_ENABLED = True
+
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+
+- Add the following at the top of base.html:
+{% load compress %}
+
+- Add the following around the link to output.css:
+{% compress css %}
+{% endcompress %}
+
+11 - Run Tailwind by using the command:
+npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch
+
+12 - Check it's all working by running the program. I used the command:
+python3 manage.py runserver
