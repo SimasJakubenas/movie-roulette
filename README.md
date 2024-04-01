@@ -919,3 +919,27 @@ npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch
 
 12 - Check it's all working by running the program. I used the command:
 python3 manage.py runserver
+
+## Forking a Branch
+
+In order to protect the main branch while you work on something new, essential when working as part of a team or when you want to experiment with a new feature, you will need to fork a branch. 
+
+**Instructions to fork the repository**:
+
+1 - While in the GitHub repository, click on the branch symbol and text indicating the number of branches.
+
+2 - This will load details on current branches. Click on the green 'New branch' button.
+
+3 - Enter a name for the new branch and then click the green 'create new branch' button.
+
+4 - Your new branch should now have appeared on the screen.
+
+5 - Clicking on the new branch and then following the steps for cloning will allow you to open up and work on this branch.
+
+**Instructions to fork directly from an issue**:
+
+1 - Click to view an issue, either from the issues list or from the project board. From the project board you will need to click once to bring up the issue and then again on the title to go into it fully.
+
+2 - Partway down the right hand side (on desktop) you should see the heading 'Development' and under this a link to 'create a branch for this issue or link a pull request'.
+
+3 - Click on the link to create a forked branch that is tied to the issue.
