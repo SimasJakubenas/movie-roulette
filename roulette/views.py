@@ -174,8 +174,12 @@ def roulette_clear(request):
         get_query = MovieOrShow.objects.filter(
             user_id=request.user.id, is_in_roulette=True
         )
+        
         get_list = list(get_query.values())
+        print(get_list)
+        get_query.update(is_in_roulette=False)
         for list_item in get_list:
+            list_item['is_in_roulette'] = False
             if (list_item['is_in_favourites'] or
                 list_item['is_in_watchlist'] or
                 list_item['is_in_seen_it'] or

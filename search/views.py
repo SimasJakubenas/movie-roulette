@@ -152,7 +152,6 @@ def search_results(request):
 
     for stream in stream_list_query:
         stream_list += (str(stream['provider_id']) + '|')
-    print(stream_list)
     url = (
         f'{BASE_URL}/discover/{type}' +
         f'?api_key={API_KEY}' +

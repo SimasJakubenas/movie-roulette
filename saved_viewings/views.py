@@ -92,8 +92,7 @@ def clear_title(request, get_title, title_id):
     If title is in database and not in any of the lists - deletes the title
     """
     title_object = list(MovieOrShow.objects.filter(user_id=request.user.id, title_id=title_id).values())
-    print(get_title)
-    print('safd')
+
     if len(title_object) > 0:
         if (title_object[0]['is_in_roulette'] or 
             title_object[0]['is_in_favourites'] or
@@ -234,7 +233,6 @@ def remove_from_list(request):
     if request.method == 'POST':
         title_id = request.POST.get('titleID')
         list_type = request.POST.get('list')
-        print(list_type)
 
         if list_type == 'roulette':
             get_title = MovieOrShow.objects.filter(
