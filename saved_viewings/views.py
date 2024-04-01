@@ -38,6 +38,7 @@ def add_title_instance(request, result, result_pick, source, type):
                 'is_in_roulette': True
             }
         )
+        type = 'Movies' if type == 0 else 'TV Shows'
         get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=result_pick['id'])
         if ( type == 'Movies'):
             update_title = get_title.update(title=result_pick['title'])
@@ -50,11 +51,10 @@ def add_title_instance(request, result, result_pick, source, type):
     
     else:
         get_query = MovieOrShow.objects.filter(user_id=request.user.id, title_id=result_pick['id'])
-        get_query.is_in_roulette = True
-        get_query.save()
-        for index in result:
-            if index['title_id'] == result_pick['id']:
-                result.remove(index)
+        get_query.update(is_in_roulette = True)
+        for title in result:
+            if title['title_id'] == result_pick['id']:
+                result.remove(title)
                 return result
 
 

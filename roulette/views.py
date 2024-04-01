@@ -19,11 +19,18 @@ def tmdb_api_connect(request, type):
     stream_list = ''
     stream_list_query = list(get_profile.streams.all().values())
 
+    if type == 0:
+        type = 'Movies'
+        mandatory_filter = '&include_video=false'
+    else:
+        type = 'TV Shows'
+        mandatory_filter = '&include_null_first_air_dates=false'
+
     for stream in stream_list_query:
         stream_list += (str(stream['provider_id']) + '|')
     page = 1
 
-    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page={page}&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
+    ENDPOINT_POPULAR_TITLES = f'include_adult=false{mandatory_filter}&language=en-US&page={page}&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
     if ( type == 'Movies'):
         url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     else:
@@ -40,7 +47,7 @@ def tmdb_api_connect(request, type):
         random_number = 1
 
     page = random_number
-    ENDPOINT_POPULAR_TITLES = f'include_adult=false&language=en-US&page={page}&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
+    
     if ( type == 'Movies'):
         url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
     else:
@@ -86,6 +93,8 @@ def roulette_list(request):
         
     'saved_viewings/roulette_list.html`
     """
+    # get_all = MovieOrShow.objects.all()
+    # get_all.delete()
     source_form = RouletteSourceForm(data=request.POST)
     in_list = list(
         MovieOrShow.objects.filter(user_id=request.user.id, is_in_roulette=True).values()
@@ -97,16 +106,19 @@ def roulette_list(request):
         if source_form.is_valid():
             source = source_form.cleaned_data["source"]
             type = source_form.cleaned_data["type"]
+            print(type)
+            type = 0 if type == 'Movies' else 1
+            print(type)
             load_all = source_form.cleaned_data["load_all"]
             if (source == 'Random'):
                 result = tmdb_api_connect(request, type)
             elif (source =='Favourites'):
                 result = list(
-                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_favourites=True).values()
+                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_favourites=True, type=type).values()
                 ) 
             elif (source =='Watchlist'):
                 result = list(
-                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_watchlist=True).values()
+                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_watchlist=True, type=type).values()
                 ) 
             else:
                 result = list(MovieOrShow.objects.filter(
