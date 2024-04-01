@@ -29,6 +29,23 @@ body {
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     background-color: var(--darker-grey);
+    color: var(--off-white);
+}
+
+input {
+    height: 30px !important;
+}
+
+p {
+    margin-bottom: 5%;
+    font-size:1em;
+    line-height:1.5em;
+    height:4.5em;
+    width:100%;
+    overflow:hidden;
+}
+.hidden {
+    display:none;
 }
 
 .relative {
@@ -43,38 +60,128 @@ body {
     display: inline;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
+.flex {
+    display: flex;
+}
+
+.fit-content {
+    width: fit-content;
+}
+
+.margin-top {
+    margin-top: 5%;
+}
+
+.margin-bottom {
+    margin-bottom: 5%;
+}
+
+.margin-top-25 {
+    margin-top: 35vh;
+}
+
+.padding-right-0 {
+    padding-right: 0 !important;
+}
+
 .header-padding {
     padding: 3vh 2vw;
     margin: 0;
 }
 
-.container {
+.bold {
+    font-weight: 700;
+    margin: 0 1.5vw 0 0.5vw;
+}
+
+.container, #edit-profile-pic-confirm {
     background-color: rgba(108, 229, 232, 0.1);
     padding: 0 5vw 1vh;
     border: rgba(108, 229, 232, 0.51) solid 0.1em;
     border-radius: 1vh;
+    margin-bottom: 5%
 }
 
-.container.list-container {
+.offerings-container {
+    background-color: rgba(108, 229, 232, 0.1);
+    border-top: rgba(108, 229, 232, 0.51) solid 0.1em;
+    border-bottom: rgba(108, 229, 232, 0.51) solid 0.1em;
+    border-radius: 1vh;
+    height: 300px;
+    margin-bottom: 5vh;
+}
+
+.offerings-container::before,
+.offerings-container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 10vw;
+    background-image: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)) 
+}
+
+.offerings-container::after {
+    top: 0;
+    right: 0;
+    background-image: linear-gradient(270deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)) 
+}
+
+.carousel-tag {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: 0.5vw 0 0 4vw;
+    z-index: 6;
+    position: relative;
+}
+
+.carousel-offerings ~ i {
+    top: 50px;
+    width: 8vw;
+    height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+}
+
+.carousel-offerings ~ .fa-chevron-left {
+    flex-direction: column-reverse;
+    text-align: end;
+}
+
+.carousel-offerings ~ .fa-chevron-right {
+    right: 0;
+}
+
+#list-container {
     width: 90%;
     margin-left: 5%;
+    min-height: 60vh;
 }
 
-.list-container .movie-poster {
+#list-container .movie-poster {
     padding: 7% 3%;
 }
 
-.list-container button {
-    top: 20%;
+.listed-title button {
+    top: 0;
+    left: 0;
+    height: fit-content;
 }
 
 h1,
 h2,
 h3,
+h4,
+.logos-heading,
 label {
     color: var(--off-white);
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .container label {
@@ -90,12 +197,53 @@ select {
     border: none;
 }
 
+/* Sign In page */
+
+.row .form-input:-webkit-autofill,
+.row .form-input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s;
+  border: none;
+}
+
+.signup-container {
+    width: fit-content;
+    min-width: 50%;
+}
+
+.login input[type="checkbox"] {
+    opacity: 1 !important;
+    margin: 0.5% 0 0 0.9%;
+}
+
+label[for="id_remember"] {
+    cursor: pointer;
+}
+
+.hightlight-link {
+    font-size: 1.2em;
+    color: var(--highlight-blue);
+}
+
+.hightlight-link:hover, .hightlight-link:focus {
+    text-decoration: underline;
+}
+
+.row .form-input {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-radius: 0.7em !important;
+    color: var(--off-white);
+    padding-left: 4% !important;
+    max-height: fit-content !important;
+}
+
 /* Button style */
 
-button.btn {
+button.btn,
+input[type='button'],
+input[type='submit'] {
     border-radius: 0.5em;
-    box-shadow: 0 0 10px 5px #000000;
-    box-shadow: 0 0 10px 5px #000000 inset;
+    box-shadow: 0 0 6px #000000,
+                0 0 5px 5px #000000 inset;
     color: #000000;
     font-family: 'Be Vietnam Pro', sans-serif;
     font-weight: 700;
@@ -116,6 +264,10 @@ button.btn {
 /* Roulette carousel style */
 
 .carousel {
+    margin-bottom: 5vh;
+}
+
+.carousel-roulette {
     perspective: 500px;
     height: 300px;
     max-width: 620px !important;
@@ -124,12 +276,6 @@ button.btn {
 .carousel .carousel-item {
     width: 150px;
     opacity: 1 !important;
-}
-
-.active {
-    box-shadow: 0 0 0.7em 0.7em var(--highlight-blue),
-                0 0 1.5em 2em rgba(108, 229, 232, 0.3);
-    border: 0.15em var(--off-white) solid;
 }
 
 .remove-one-title,
@@ -144,8 +290,8 @@ button.btn {
 }
 
 .remove-one-title {
-    bottom: -25%;
-    right: 67%;
+    top:-5vh;
+    right: 40%;
 }
 
 .add-one-title {
@@ -167,10 +313,6 @@ button.btn {
     opacity: 1;
 }
 
-.remove-from-list {
-    top: 5vh !important;
-}
-
 .empty-carousel-item {
     background-color: #000000;
     color: #ffffff;
@@ -186,24 +328,73 @@ button.btn {
     padding: 0.2em 0 0 0.4em;
 }
 
-.overlay {
+/* Modal style */
+
+.modal {
+    background-color: rgba(44, 42, 42, 0.94);
+}
+
+.modal .modal-footer {
+    background-color: unset;
+}
+
+.modal-content-wrapper {
+    margin: 5vh 0 2vh 0;
+}
+
+.modal-content-wrapper img {
+    width: -webkit-fill-available;
+}
+
+
+.overlay-container {
+    margin-top: 5%;
+    height: max-content;
+}
+
+img.overlay-trigger {
+    width: -webkit-fill-available;
+}
+
+.overlay, .contact-overlay {
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: auto;
     width: 100vw;
     background-color: rgba(44, 42, 42, 0.94);
     color: var(--off-white);
     display: none;
+    z-index: 10;
 }
 
 .overlay-img {
     margin: 13% 0;
 }
 
-.overlay-heading {
+#overlay-heading {
     font-family: 'Be Vietnam Pro', sans-serif;
     font-weight: 500;
     padding-bottom: 0.5em;
+}
+
+#star {
+    color: gold;
+}
+
+#tmdb {
+    color: #000;
+    border-radius: 0.4em;
+    background-color: rgb(63, 238, 238);
+    font-weight: 700;
+    padding: 0.3em;
+}
+
+.overlay-highlight {
+    padding: 0.3em 1.4em;
+    border-radius: 0.4em;
+    background-color: var(--darker-grey);
+    border: var(--highlight-blue) solid 0.2em;
 }
 
 .my-lists-overlay {
@@ -216,6 +407,11 @@ button.btn {
 .my-lists-overlay i {
     font-size: 1.2em;
     padding: 5%;
+}
+
+#providers img {
+    border-radius: 20%;
+    margin-right: 3%;
 }
 
 i[data-listed="true"] { 
@@ -248,12 +444,57 @@ select option {
     font-size: 1.1em;
 }
 
+.lists-menu .list-menu-item,
+.lists-menu .list-menu-item i {
+    padding: 1vh 0;
+}
+
 .lists-menu a li {
     padding: 3% 15%;
 }
 .lists-menu a i {
     font-size: 1.5em;
     margin: 0.6em 0;
+}
+
+.menu-profile {
+    flex-wrap: wrap;
+    align-content: flex-end !important;
+}
+
+.menu-profile a {
+    width: fit-content;
+}
+
+.menu-profile-image {
+    width: 3em;
+    top: -0.5em
+}
+
+.menu-profile-placeholder-image {
+    width: 3em
+}
+
+.menu-profile-image-container {
+    height: 3em;
+    width: 3em;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.menu-profile-status {
+    line-height: 1em;
+}
+
+.menu-profile-status-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 0.5em 0 0;
+    text-align: end;
+}
+
+.menu-profile-wrapper {
+    justify-content: flex-end;
 }
 
 a {
@@ -268,7 +509,6 @@ a {
     background-color: var(--highlight-blue);
     color: #000;
     border-radius: 0.3em;
-    box-shadow: 0 0 10px 5px #000000;
     box-shadow: 0 0 5px 5px #000000 inset;
 }
 
@@ -281,6 +521,7 @@ a {
 footer {
     color: var(--off-white);
     font-size: 1.2em;
+    bottom: 0;
 }
 
 footer i {
@@ -293,47 +534,79 @@ footer i:hover {
     color: var(--highlight-blue);
     cursor: pointer;
 }
-.dropdown-trigger {
-    float: none !important;
-}
 
 /* Navigation styling */
 
+#roulette-logo {
+    height: 22vh;
+    max-height: max-content;
+    position: absolute;
+    top: -30%;
+    padding-left: 2%
+}
+
 nav {
     background-color: unset;
-    margin-bottom: 1.5em;
+    height: 15vh;
+    padding-bottom: 5%;
     list-style: none;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    box-shadow: none;
 }
 
-nav ul {
+.nav-wrapper {
+    height: 13vh !important;
+    z-index: 3;
+}
+
+#nav-mobile {
+    margin-top: 2vh;
+}
+
+.nav-content ul {
+    width: 100%;
     display: flex;
-    justify-content: center !important;
+    justify-content: center;
+    box-shadow: 0 0 2em 0.6em, 
+                0 0 2em 1.2em inset;
+    color: #000;
+    height: 5em;
+    background-color: rgba(44, 42, 42, 0.6);
+    visibility: visible;
 }
 
-nav li {
-    display: flex;
-    justify-content: right !important;
-}
-
-nav ul li {
+.nav-content ul li {
+    width: fit-content;
+    height: fit-content;
     padding: 0.5em;
-    font-size: 2vh;
     font-family: 'Be Vietnam Pro', sans-serif;
     opacity: 0.7;
 }
 
-nav ul li:hover {
+.nav-content ul li a, #nav-mobile .log-out {
+    font-size: 120%;
+}
+
+.fa-power-off {
+    font-size: 150%;
+}
+
+nav ul li, .nav-mobile li a i {
+    font-size: 140%;
+}
+
+nav ul li:hover, nav ul li:focus {
     opacity: 1;
 }
 
 .dropdown-trigger {
-    float: right;
-    font-size: 2em;
-    padding: 0 0.6em;
-    margin: 0.6em 1.6em 0 0;
+    font-size: 5vh;
+    margin-right: 2vw;
     background-color: rgba(108, 229, 232, 0.2);
     color: var(--highlight-blue);
-    border: 0.15em #000000 solid;;
+    border: 0.15em #000000 solid;
 }
 
 .dropdown-trigger:hover, .dropdown-trigger:focus {
@@ -342,17 +615,404 @@ nav ul li:hover {
 
 #dropdown1 {
     background-color: var(--darker-grey);
-    width: 50vw !important;
+    width: auto;
+    min-width: 50vw !important;
     border-radius: 0.5em;
+    color: var(--off-white);
 }
 
 #dropdown1 li {
     display: flex;
     flex-direction: column;
     align-content: flex-start;
-    border-bottom: 0.15em var(--highlight-blue) solid;
+    border-bottom: 0.15em var(--dark-grey) solid;
+}
+
+#dropdown1 li:hover, #dropdown1 li:focus {
+    border-bottom: 0.15em var(--highlight-blue) solid !important;
+    background-color: rgba(108, 229, 232, 0.7) !important;
+}
+
+#dropdown1 li:nth-child(8),
+#dropdown1 li:nth-child(8):hover,
+#dropdown1 li:nth-child(8):focus {
+    border-bottom: none !important;
+}
+
+#dropdown1 li:nth-child(8) a:hover {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+#dropdown1 li:nth-child(8):hover {
+    background-color: unset !important;
+}
+
+#dropdown1 li:nth-child(8) {
+    width: fit-content;
+    margin-left: 10%;
+}
+
+#dropdown1 li>a>i {
+    width: fit-content;
+}
+
+.dropdown-content li>a {
+    color: var(--off-white);
 }
 
 #dropdown1 li:hover, #dropdown1 li:focus {
     border-bottom: 0.15 var(--highlight-blue) solid;
 }
+
+.log-out {
+    color: var(--highlight-red);
+}
+
+.select2-container--default {
+    background-color: #000 !important;
+}
+
+.select2-container,
+.select2-container--below,
+.selectmultiple,
+.select2-hidden-accessible,
+.select2-container--focus,
+.select2-container--below {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.7em;
+}
+
+.select2-results {
+    background-color: var(--darker-grey);
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.select2-container {
+    height: 2em;
+}
+
+.select2-selection__rendered {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 0.2em;
+}
+
+.select2-selection__choice {
+    margin-right: 0.2em;
+}
+
+.select2-selection__choice__remove {
+    background-color: unset;
+    color: white;
+    border-radius: 0.5em;
+    padding: 0 0.2em;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.5) inset !important;
+}
+
+/* Change text color in autofill textbox*/
+input:-webkit-autofill{
+    -webkit-text-fill-color: var(--off-white) !important;
+}
+
+/* About style */
+
+.about-logo {
+    margin-bottom: -25%;
+}
+
+.contact {
+    padding-top: 15vh;
+}
+
+textarea {
+    height: unset;
+}
+
+/* Profile style */
+
+.profile-container {
+    padding-top: 5%;
+}
+
+.profile-inputs .form-input {
+    opacity: 0.7;
+}
+
+.profile-pic {
+    border-radius: 2em;
+    width: -webkit-fill-available;
+    padding-bottom: 10%;
+}
+
+.services-used {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.services-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1em;
+    margin-top: 2%;
+    padding: 3% 5%;
+}
+
+.stream-logo {
+    margin-right: 3%;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+label[for='id_profile_pic'] {
+    cursor: pointer;
+}
+
+input[type='button'],
+input[type='submit'] {
+    padding: 1% 2%;
+}
+
+.confirm-continer {
+    width: 100vh;
+    height: 100vh;
+}
+
+#edit-profile-pic-confirm {
+    position: fixed;
+    top: 20%;
+    left: 5%;
+    width: 91%;
+    background-color: rgba(44, 42, 42, 0.94);
+    z-index: 15;
+    padding-top: 5%;
+    display: none;
+}
+
+#profile-pic_label {
+    top: 30%;
+    bottom: 30px;
+    left: 85%;
+}
+
+#profile-pic_label i {
+    font-size: 150%;
+}
+
+#profile-pic_label i:hover,
+#profile-pic_label i:focus {
+    color: var(--highlight-blue);
+}
+
+/* Movies Page style */
+
+.carousel-main {
+    box-shadow: 0 0 8vw 8vw #000;
+}
+
+.info-container {
+    bottom: 5vh;
+    left: 5vw;
+    line-height: 50%;
+    z-index: 5;
+
+}
+
+.info-container,
+.info-container button i {
+    font-size: 2vw;
+}
+
+.info-container h1 {
+    font-size: 4vw;
+    margin: 0;
+    background-color: #000;
+    width: fit-content;
+    padding: 0.3vh 1.5vw;
+    border-radius: 0.5em;
+}
+
+.darken-background {
+    background-color: #000;
+    border-radius: 0.5em;
+    padding: 0.3em;
+    line-height: normal;
+    width: fit-content;
+}
+
+.info-container button {
+    margin-top: 1vw;
+    height: fit-content;
+    font-size: 3vh;
+}
+
+.shadow {
+    top: 0;
+    width: inherit;
+    height: 100vh;
+    box-shadow: 0 0 8vw 8vw #000 inset;
+    z-index: 4;
+    height: -webkit-fill-available;
+}
+
+.carousel-item ~ i,
+.carousel ~ i {
+    opacity: 0.6;
+    font-size: 6vw;
+    z-index: 6;
+}
+
+.carousel-main i {
+    left: 95vw;
+    bottom: 4vw;
+    z-index: 6;
+}
+
+.carousel-main .fa-chevron-right {
+    left: 82vw;
+}
+
+.carousel-main .fa-chevron-left {
+    left: 68vw;
+}
+
+.small-screen-poster {
+    display: none;
+}
+
+.fa-chevron-left:hover,
+.fa-chevron-left:focus,
+.fa-chevron-right:hover,
+.fa-chevron-right:focus {
+    opacity: 1;
+    cursor: pointer;
+}
+
+/*search page style*/
+
+#genre-container {
+    margin-bottom: 5vh;
+}
+
+#type-toggle span {
+   font-size: 1.4em;
+}
+
+#type-toggle {
+    top: 3vh;
+    right: 5vw;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+#outer {
+    width: 100px;
+    height: 1em;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 1vh;
+    display: inline-block;
+    margin: 0 2vw;
+    outline: 0.15em solid #000;
+}
+
+#inner {
+    width: 60px;
+    height: 1em;
+    background-color: var(--highlight-blue);
+    border-radius: 1vh;
+    outline: 0.15em solid #000;
+}
+
+#genre-container .genre-active {
+    background: var(--highlight-blue);
+    color: #000;
+}
+
+.genre-box {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1.5vh;
+    font-weight: 600;
+    padding: 1vh 1.5vw;
+    margin: 1vh 1vw;
+    height: fit-content;
+    display: inline-block;
+}
+
+/* Tooltip styling */
+/* Taken and altered from https://www.w3schools.com/css/css_tooltip.asp */
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--darker-grey);
+    color: #fff;
+    text-align: center;
+    padding: 1vh 1vw;
+    border-radius: 6px;
+    position: absolute;
+    top: 50px;
+    right: -40px;
+    width: fit-content;
+    z-index: 1;
+    border-radius: 0.5em;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+@media only screen and (max-width: 992px) {
+    nav {
+      position: unset;
+    }
+
+    .margin-top-25 {
+        margin-top: 0;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .carousel .carousel-item>img {
+        height: 100%;
+    }
+
+    .info-container h1 {
+        font-size: 4vh;
+    }
+
+    .info-container {
+        font-size: 2vh;
+    }
+  }
+
+  @media only screen and (max-width: 430px) {
+    .big-screen-poster {
+        display: none;
+    }
+    
+    .small-screen-poster {
+        display: unset;
+    }
+    
+    .carousel-main {
+        min-height: 500px !important;
+    }
+
+    #dropdown1 {
+        width: 100% !important;
+    }
+
+    .carousel-main i, .carousel-offerings ~ i {
+        font-size: 8vh;
+    }
+  }

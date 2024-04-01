@@ -4,33 +4,83 @@
  * https://materializecss.com/carousel.html
  */
 $(document).ready(function () {
+    menuFadeInAndOut()
+    $('.modal').modal();
     $(".dropdown-trigger").dropdown();
     $('.carousel-item').on('click', function (e) {
         e.stopPropagation()
     })
-    $('.carousel').carousel({
-        dist: -50,
-        padding: 60
-    });
+    carouselControls()
     // Reveals overlay based on the clicked carousels item
-    $('.carousel-item img').on('click', function () {
+    $('.overlay-trigger').on('click', function () {
         let titleID = $(this).attr('data-titleID')
         let titleType = $(this).attr('data-titleType')
         // Sends ID of the selected title to backend
-        let carouselIteNr = $('img').index($(this))
-        sendTitleInfo(titleID, titleType, carouselIteNr)
+        sendTitleInfo(titleID, titleType)
     });
     // Closes the overlay
     $('.close-button').on('click', function () {
         $(this).parent().parent().css('display', 'none')
+        $('#providers').html('')
     });
-    listIconToggle(this)
+    $('.contact-btn').on('click', function () {
+        $('.contact').css('display', 'unset')
+    })
+    $('#id_streams').select2({
+        theme: "material",
+        width: "100%"
+    })
+    // Reveals confirmation modal for updating profile picture
+    $('#id_profile_pic').on('change', function () {
+        $('#edit-profile-pic-confirm').css('display', 'unset')
+    })
+    // Reloads the page when 'No' button is clicked in confirmation modal
+    $('.deny-button').on('click', function () {
+        location.reload();
+    })
+    $('#outer').on('click', function () {
+        $('.type-toggle').each(function () {
+            if ($((this)).hasClass('type-active')) {
+                $((this)).removeClass('type-active')
+                $('#inner').css('left', '0')
+                $('#inner').css('right', 'unset')
+            } else {
+                $((this)).addClass('type-active')
+                $('#inner').css('right', '0')
+                $('#inner').css('left', 'unset')
+            }
+        })
+        let url = $("#genre-container").attr("data-search-genres-url");
+        let type = $('.type-active').attr('data-search-type')
+        $.ajax({
+            url: url,
+            data: {
+                'type': type,
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            success: function (data) {
+                $("#genre-container").html(data);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        }).then(() => genreToggle())
+
+    })
+    searchFunctionality()
+    genreToggle()
+    countryStreamingProviders()
+    listMenuToggle()
+    listTypeToggle()
+    listIconToggle()
     spinRoulette()
-    movieShowToggle()
+    // movieShowToggle()
     removeFromList()
     // Confirmation modal to clear all button
     $('.btn-red').on('click', function () {
-        let confirmClearAll = confirm('Are you sure you want to clear the roulette?')
+        let confirmClearAll = confirm('Are you sure you want to do this?')
         if (confirmClearAll == false) event.preventDefault()
     });
     // Add classes to form imputs for responsivness
@@ -39,6 +89,215 @@ $(document).ready(function () {
     // It allows for differentiation of actions in one view (load one title/load many titles)
     $('.main-select:last').children('input:last').attr('checked', 'checked')
 });
+
+/**
+ * Gathers all data from user input and sends it to backend via async function
+ * Recieves relevant data back and fills search results container
+ */
+function searchFunctionality() {
+    $('#search-btn').on('click', function () {
+        // let url = $("#search-form").attr("data-search-results-url");
+        let url = $("#search-form").attr("data-search-results-url");
+        let year = $('#id_year').val();
+        let rating = $('#id_rating').val();
+        let runtime = $('#id_runtime').val();
+        let titleType = ''
+        let cast = $('#id_cast').val();
+        let genreList = []
+        let jointGenreList = ""
+        $('.genre-box.genre-active').each(function () {
+            genreList.push($(this).attr('data-genre-id'))
+            jointGenreList = genreList.join()
+        })
+        $('.type-active').each(function () {
+            titleType = $(this).attr('data-search-type')
+        })
+
+        $.ajax({
+            url: url,
+            data: {
+                'year': year,
+                'rating': rating,
+                'runtime': runtime,
+                'cast': cast,
+                'titleType': titleType,
+                'jointGenreList': jointGenreList
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            success: function (data) {
+                $("#search-results-container").html(data);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        })
+    })
+}
+
+/**
+ * Adds or removes active class for genres
+ */
+function genreToggle() {
+    $('.genre-box').on('click', function () {
+        if ($(this).hasClass('genre-active')) {
+            $(this).removeClass('genre-active')
+        } else {
+            $(this).addClass('genre-active')
+        }
+    })
+}
+
+/**
+ * Runs async function triggered by title type select element change
+ * Passed data to backend which in turn returns data to be fild in streming providers select element
+ * * Awaits resutls and runs overlayTrigger and removeFromList functions
+ */
+function listTypeToggle() {
+    $("#id_type").change(function () {
+        let url = $("#list-type-form").attr("data-list-type-url");
+        let type = $(this).val();
+        $(".list-menu-item").each(function () {
+            if ($(this).hasClass('list-active')) {
+                list = $(this).attr('data-list')
+            }
+        })
+        $.ajax({
+            url: url,
+            data: {
+                'type': type,
+                'list': list
+            },
+            success: function (data) {
+                $("#list-container").html(data);
+            }
+        }).then(() => overlayTrigger()).then(() => removeFromList());
+    })
+}
+
+/**
+ * Runs async function triggered by country select element change
+ * Passed data to backend which in turn returns data to be fild in streming providers select element
+ */
+function countryStreamingProviders() {
+    $("#id_country").change(function () {
+        var url = $("#signup_form").attr("data-providers-url");
+        var countryName = $(this).val();
+        $.ajax({
+            url: url,
+            data: {
+                'country': countryName
+            },
+            success: function (data) {
+                $("#id_streams").html(data);
+            }
+        });
+    });
+}
+
+/**
+ * Creates functionality for toggling list menu with async function
+ * Passes data to backend  which in turn returns data to be loaded on the page
+ * Awaits resutls and runs overlayTrigger and removeFromList functions
+ */
+function listMenuToggle() {
+    $(".list-menu-item").on('click', function () {
+        let type = $('#id_type').val();
+        let list = $(this).attr("data-list");
+        let url = $("#list-type-form").attr("data-list-type-url");
+        $(".list-menu-item").each(function () {
+            $(this).removeClass('list-active')
+        })
+        $(this).addClass('list-active')
+        $.ajax({
+            url: url,
+            data: {
+                'type': type,
+                'list': list
+            },
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            success: function (data) {
+                $("#list-container").html(data);
+
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        }).then(() => overlayTrigger()).then(() => removeFromList())
+    });
+}
+
+function overlayTrigger() {
+    $('.overlay-trigger').on('click', function () {
+        let titleID = $(this).attr('data-titleID')
+        let titleType = $(this).attr('data-titleType')
+        // Sends ID of the selected title to backend
+        sendTitleInfo(titleID, titleType)
+    });
+}
+
+/**
+ * Initiates all carousels and add controls
+ */
+function carouselControls() {
+    $('#roulette').carousel({
+        dist: -50,
+        padding: 60
+    });
+    $('#carousel-popular').carousel({
+        dist: 0,
+        padding: 20
+    });
+    $('#carousel-top-rated').carousel({
+        dist: 0,
+        padding: 20
+    });
+    $('.popular-container .fa-chevron-left').on("click", function () {
+        $('#carousel-popular').carousel('prev');
+    })
+    $('.popular-container .fa-chevron-right').on("click", function () {
+        $('#carousel-popular').carousel('next');
+    })
+    $('.top-rated-container .fa-chevron-left').on("click", function () {
+        $('#carousel-top-rated').carousel('prev');
+    })
+    $('.top-rated-container .fa-chevron-right').on("click", function () {
+        $('#carousel-top-rated').carousel('next');
+    })
+    $('.carousel.carousel-slider').carousel({
+        fullWidth: true
+    });
+    $('.carousel-main .fa-chevron-left').on("click", function () {
+        $('.carousel-main').carousel('prev');
+    })
+    $('.carousel-main .fa-chevron-right').on("click", function () {
+        $('.carousel-main').carousel('next');
+    })
+}
+
+/**
+ * Changes menu visibility with mouse wheel
+ * Taken and altered from https://stackoverflow.com/questions/8189840/get-mouse-wheel-events-in-jquery
+ */
+function menuFadeInAndOut() {
+    $('body').on('wheel', function (event) {
+        if (event.originalEvent.wheelDelta <= 0) {
+            $('.nav-content ul').css('visibility', 'hidden')
+            $('.nav-wrapper').css('background-color', '#000')
+        } else
+            // Menu is made visible on scrolling to top of the page
+            // Taken from https://stackoverflow.com/questions/15123081/how-can-i-launch-a-javascript-or-jquery-event-when-i-reach-the-top-of-my-page
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() == 0) {
+                    $('.nav-content ul').css('visibility', 'visible')
+                    $('.nav-wrapper').css('background-color', 'unset')
+                }
+            });
+    })
+}
 
 /**
  * Picks a random number and sets the carousel in motion
@@ -74,7 +333,7 @@ function spinRoulette() {
  * https://copyprogramming.com/howto/pass-array-to-backend-using-ajax-django
  * Returns data from the backend and fills in required title info
  */
-function sendTitleInfo(titleID, titleType, carouselIteNr) {
+function sendTitleInfo(titleID, titleType) {
     $.ajax({
         url: 'info/',
         type: 'POST',
@@ -86,28 +345,52 @@ function sendTitleInfo(titleID, titleType, carouselIteNr) {
             "X-CSRFToken": getCookie("csrftoken"),
         },
         success: function (getTitle) {
-            let openOverlay = function (index, getTitle) {
-                $('.overlay').eq(index).css('display', 'unset');
+            let openOverlay = function (getTitle) {
+                $('.overlay').css('display', 'unset');
                 let titleInfo = JSON.parse(getTitle)
                 let genreList = []
                 let castList = []
+                $('.add-to-list').each(function () {
+                    $(this).css('background-color', 'unset')
+                })
+                $('.add-to-list').attr('data-titleID', titleInfo['id'])
+                $('#title-description').expander('destroy');
+                $('#cast').expander('destroy');
+                $('#crew-list').expander('destroy')
+                $('#title-description').html(titleInfo['overview']).expander()
+
+                $('.overlay-img').attr('src', 'https://image.tmdb.org/t/p/w154' + titleInfo.poster_path)
+                $('#rating').html(Math.round(titleInfo.vote_average * 10) / 10)
                 $.each(titleInfo.genres, function (key, value) {
                     genreList.push(value.name)
                 });
-                $('.genres').eq(index).html(`${genreList.join(', ')}`)
+                $('#genres').html(genreList.join(', '))
                 if (titleType == 0) {
-                    fill_movie_details(index, titleInfo, castList)
+                    fill_movie_details(titleInfo, castList)
                 } else {
-                    fill_tv_details(index, titleInfo, castList)
+                    fill_tv_details(titleInfo, castList)
                 }
-                compileStreamList(index, titleInfo)
+                compileStreamList(titleInfo)
+                // changes background color of list icons if title in that list
+                if (titleInfo['is_in_favourites'] === true) {
+                    $('.add-to-favourites').css('background-color', '#6CE5E8')
+                }
+                if (titleInfo['is_in_watchlist'] === true) {
+                    $('.add-to-watchlist').css('background-color', '#6CE5E8')
+                }
+                if (titleInfo['is_in_seen_it'] === true) {
+                    $('.add-to-seen-it').css('background-color', '#6CE5E8')
+                }
+                if (titleInfo['is_in_dont_show'] === true) {
+                    $('.add-to-dont-show').css('background-color', '#6CE5E8')
+                }
             }
-            openOverlay(carouselIteNr, getTitle)
+            openOverlay(getTitle)
         },
         error: (error) => {
             console.log(error);
         }
-    });
+    })
 }
 
 /**
@@ -123,7 +406,7 @@ function listIconToggle() {
         if ($(this).attr('data-listed')) {
             $(this).removeAttr('data-listed')
             $(this).css('background-color', 'unset')
-            $('.listed-title img').each( function () {
+            $('.listed-title img').each(function () {
                 if ($(this).attr('data-titleID') == titleID) {
                     $(this).css('display', 'none')
                     $(this).siblings().css('display', 'none')
@@ -166,62 +449,85 @@ function listIconToggle() {
     })
 };
 
-function fill_movie_details(index, titleInfo, castList) {
+function fill_movie_details(titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
     let directorList = []
-    $('.runtime').eq(index).html(`${titleInfo.runtime}`)
-    $('.age-limit').eq(index).html(`${titleInfo.releases.countries[0].certification}`)
+    $('#overlay-heading span').html(titleInfo.title)
+    $('#release-year').html('Release Year')
+    $('#first-aired').html('')
+    $('#seasons').html('')
+    $('#seasons-count').css('display', 'none')
+    $('#status').css('display', 'none')
+    $('#date').html((titleInfo.release_date).slice(0, 4))
+    $('#runtime').html('Runtime')
+    $('#runtime-minutes').css('display', 'unset')
+    $('#runtime-minutes').html(titleInfo.runtime)
+    $('#age-limit').css('display', 'unset')
+    $('#age-limit').html(titleInfo.releases.countries[0].certification)
     $.each(titleInfo.casts.cast, function (key, value) {
         castList.push(value.name)
     });
-    $('.cast').eq(index).html(`${castList.join(', ')}`)
+    $('#cast').html(castList.join(', ')).expander()
     $(titleInfo.casts.crew).each(function () {
         if ($(this)[0].job === 'Director') {
             directorList.push($(this)[0].name)
         }
     });
-    $('.director').eq(index).html(`${directorList.join(', ')}`)
+    $('#crew').html('Directed By:').expander()
+    $('#crew-list').html(directorList.join(', '))
 }
 
-function fill_tv_details(index, titleInfo, castList) {
+function fill_tv_details(titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
     let creatorList = []
-    $('.seasons').eq(index).html(`${titleInfo.last_episode_to_air.season_number}`)
-    $('.status').eq(index).html(`${titleInfo.status}`)
+    $('#overlay-heading span').html(titleInfo.name)
+    $('#first-aired').html('First Aired')
+    $('#date').html((titleInfo.first_air_date).slice(0, 4))
+    $('#seasons').html('Seasons')
+    $('#seasons-count').css('display', 'unset')
+    $('#seasons-count').html(titleInfo.last_episode_to_air.season_number)
+    $('#status').css('display', 'unset')
+    $('#status').html(titleInfo.status)
+    $('#runtime').html('')
+    $('#runtime-minutes').css('display', 'none')
+    $('#age-limit').css('display', 'none')
     $.each(titleInfo.credits.cast, function (key, value) {
         castList.push(value.name)
     });
-    $('.cast').eq(index).html(`${castList.join(', ')}`)
+    $('#cast').html(castList.join(', '))
     $(titleInfo.created_by).each(function () {
         creatorList.push($(this)[0].name)
     });
-    $('.creator').eq(index).html(`${creatorList.join(', ')}`)
+    $('#crew').html('Created By:')
+    $('#crew-list').html(creatorList.join(', '))
 }
 
 /**
  * Loops through different sections of ajax request responce
  * Fills providers container with images of service providers
  */
-function compileStreamList(index, titleInfo) {
-    let streamContainer = $('.providers').eq(index)
+function compileStreamList(titleInfo) {
+    let titleStreams = titleInfo['provider_name']
+    let userCountry = titleInfo['user_country']
+    let streamContainer = $('#providers')
     let streamList = []
-    $.each(titleInfo.results.IE.flatrate, function (key, value) {
+    $.each(titleInfo.results[userCountry].flatrate, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer)
         }
     });
-    $.each(titleInfo.results.IE.rent, function (key, value) {
+    $.each(titleInfo.results[userCountry].rent, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer)
         }
     });
-    $.each(titleInfo.results.IE.buy, function (key, value) {
+    $.each(titleInfo.results[userCountry].buy, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer)
         }
     });
 }
@@ -239,6 +545,9 @@ function movieShowToggle() {
     })
 }
 
+/**
+ * Changes display property in a corresponding elements based on movie or show selection
+ */
 function displayFavouriteTypeOfTitle(type) {
     if (type === 'Movies') {
         $('.movies-list').css('display', 'unset')
@@ -252,9 +561,12 @@ function displayFavouriteTypeOfTitle(type) {
 /**
  * Adds streaming providers logos to providers container 
  */
-function appendStreamList(value, streamList, streamContainer) {
-    streamList.push(value.provider_id)
-    streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`)
+function appendStreamList(titleStreams, value, streamList, streamContainer) {
+    if (titleStreams.includes(value.provider_name)) {
+
+        streamList.push(value.provider_id)
+        streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`)
+    }
 }
 
 /**
@@ -281,9 +593,14 @@ function getCookie(name) {
  * is used to carry out CRUD funtionalities on the backend
  */
 function removeFromList() {
+    let list = 'roulette'
     $('.remove-one-title').on('click', function () {
         let titleID = $(this).attr('data-titleID')
-        let list = $(this).attr('data-in-list')
+        $('.list-menu-item').each(function () {
+            if ($(this).hasClass('list-active')) {
+                list = $(this).attr('data-list')
+            }
+        })
         $(this).parent().css('display', 'none')
         $.ajax({
             url: 'remove/',
@@ -295,7 +612,6 @@ function removeFromList() {
             headers: {
                 "X-CSRFToken": getCookie("csrftoken"),
             },
-
             error: (error) => {
                 console.log(error);
             }

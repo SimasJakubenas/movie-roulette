@@ -28,11 +28,11 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-simasjakube-movieroulet-tr6c4w6c672.ws-eu110.gitpod.io',
-    'movie-roulette-828048507284.herokuapp.com'
+    '.herokuapp.com'
 ]
 
 
