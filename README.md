@@ -943,3 +943,49 @@ In order to protect the main branch while you work on something new, essential w
 2 - Partway down the right hand side (on desktop) you should see the heading 'Development' and under this a link to 'create a branch for this issue or link a pull request'.
 
 3 - Click on the link to create a forked branch that is tied to the issue.
+
+# Credits
+
+### Code
+
+[Code Institute](https://codeinstitute.net) - "I think therefore I Blog" walkthrough followed when installing dependencies, deploying to Heroku, creating about page and contact form.
+
+[Django docs](https://docs.djangoproject.com/en/5.0/) - used to get an understanding of authentication, form rendering and form field rendering and form field modification.
+
+[Right way to use ManyToMany field in Django](https://www.sankalpjonna.com/learn-django/the-right-way-to-use-a-manytomanyfield-in-django) - post was used as a reference for setting up bridge tables and addding/fetching their data.
+
+[Sending data to backend with ajax](https://copyprogramming.com/howto/pass-array-to-backend-using-ajax-django) - introduced me with ajax asynchronous functions.
+
+[Materialize carousel](https://materializecss.com/carousel.html) - materialize docs for carousel.
+
+[StackOverflow](https://stackoverflow.com/questions/53579946/materializecss-carousel-next-method-using-button-inside-the-slider-javascript) - this improved my uderstanding of materialize carousel initiation and customisation.
+
+[Select input tag in Django](https://github.com/Dogfalo/materialize/issues/4904) - helped me to solve an issue with Django loading form inputs and introduced me to widgets.
+
+[Get_or_create method](https://stackoverflow.com/questions/1941212/how-to-use-get-or-create-in-django) - found a solution for creating a new db instance based on cerrtain attributes.
+
+[HTTPResponse](https://stackoverflow.com/questions/31832635/django-get-and-use-multiple-results-by-using-return-httpresponse-fro) - leaned how to send multiple parameters via HTTPResponse.
+
+[HTML5 restricting input characters](https://stackoverflow.com/questions/13607278/html5-restricting-input-characters/74549710#74549710) - FWDekker answer was used to limit cast input characters in Search page.
+
+[Mouse wheel events](https://stackoverflow.com/questions/8189840/get-mouse-wheel-events-in-jquery) - mouse event handlers for menu functionality.
+
+[Scroll event](https://stackoverflow.com/questions/15123081/how-can-i-launch-a-javascript-or-jquery-event-when-i-reach-the-top-of-my-page) - used to hide menu on scrolling down
+
+[Inspiring Young Writers](https://github.com/GeorginaCarlisle/inspiring-young-writers) - heavily influenced this projects README structure and content.
+
+### Images
+
+All movie and TV show images are provided by [TMDB](https://www.themoviedb.org/) API.
+
+Websites logo was created using [Cava](https://www.canva.com/).
+
+Roulette page background image was created by myself using CSS.
+
+## Acknowledgements
+
+My family - for being understanding and supportive of me while I was absent in their lifes during the development of this project
+
+[Code Institute](https://codeinstitute.net) - for providing me with an opportunity to grow and learn.
+
+My mentor Oluwafemi Medale - for providing me with valuable insight.
