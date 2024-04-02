@@ -1,8 +1,8 @@
-# SImas's Personal Website - Testing
+# Movie Roulette
 
-[amiresponsive-picture]
+[Roulette Page Image](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/ad305a9e-7228-4c4b-9aae-aa2dd5ed7714)
 
-Visit the deployed site: [Movie Roulette]
+Visit the deployed site: [Movie Roulette](https://movie-roulette-828048507284.herokuapp.com/)
 
 Get latest movie and TV show releases, store them to your lists and use an exclusive 'roulette' feature to select your next watch for you. Created as my portfolio project 4.
 
@@ -997,6 +997,37 @@ In order to protect the main branch while you work on something new, essential w
 2 - Partway down the right hand side (on desktop) you should see the heading 'Development' and under this a link to 'create a branch for this issue or link a pull request'.
 
 3 - Click on the link to create a forked branch that is tied to the issue.
+
+## Testing
+
+See [TESTING.md](TESTING.md) for all testing and validation.
+
+### Solved Bugs
+
+| # | Bug | Fix |
+| --- | --- | --- |
+| 1 | select element wasn't rendered on the roulette page | Issue resolved by passing 'browser-default' class to the element with the help of a widget |
+| 2 | My own event listeners won't work with materialize carousel | Set e.stopPropagation() methon on carousel-item (this also stopped the carousel rotating on click which was exactly what I needed) |
+| 3 | Unable to pass title_id from frontend to backend | Utilized ajax async funtions |
+| 4 | CSS not loading to a new template | changed relative file path to absolute |
+| 5 | User model extension (Profile) not saving even though it has OTO relationship | Had to create a view to saved it manually. It still doesn't behave correctly (in admin panel you can see first name and second name on both model) , but it's ok for now |
+| 6 | Overlay wouldn't open on roulette page | Caused by 2 URl paths using the same view, but only one of those paths passing a variable to a view
+Fixed by setting variable=None in the the views attribute list|
+| 7 | Deleting title from list throws error | Passed a list_type variable in return statement of clear_one_favourite_title method |
+| 8 | Input color doesnt change | used input:-webkit-autofill css selector |
+| 9 | Heroku throwing an error while launching application | This occured afted changind projects name. I done all the necessary changes, yet forgot to change projects name in Procfile |
+
+### known Bugs
+
+| # | Bug | Fix | Comment
+| --- | --- | --- |
+| 1 | In the sign in page users login is automaticly 'remembered' even if the 'Remember Me' checkbox is not clicked | I ran into multitude of issues with authentication so this bug wasn't ranked high on the priority list |
+| 2 | one can't only click 'Remember Me' by cliking on the text and not the checkbox itself | Couln't get it working right for the life of me |
+| 3 | In the sign Up page when doing autofill username inut gets filled with email| |
+| 4 | In the sign Up page when doing autofill country select element changes color| I got to the point where I managed to change the colour but it was also changing the colour of the dropdown list making it unreadable so I left it as is for now |
+| 5 | In Movies and show pages the main slideshow accupies only abot half the height sometimes | this is due to matrialize carousel requiring a fixed height instead of responsive units of measurement and that wasn't suitable for me. One can get rid of the effect by toggling to other pages |
+| 7 | Overlay is fixed to the top which is not ideal | I tried using modal however I couldn't trigger it from the carousel my best guess it is clashing with materialize somehow |
+| 8 | In searrch page some titles appear blank | It's due to href  keys being empty in the API |
 
 ## Credits
 
