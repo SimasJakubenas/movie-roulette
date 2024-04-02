@@ -165,16 +165,14 @@ def title_info(request, list_type=None):
 
         get_title_providers(request, titleType, titleID, get_title, available_stream_details)
        
-        get_title.status = title_details['status']
+        get_title.update(status=title_details['status'])
         if ( titleType == '0' ):
             get_all_movie_people(title_details, get_title)
-            get_title[0].runtime = title_details['runtime']
-            get_title[0].age_limit = title_details['releases']['countries'][0]['certification']
-            get_title[0].save()
+            get_title.update(runtime = title_details['runtime'])
+            get_title.update(age_limit = title_details['releases']['countries'][0]['certification'])
         else:
             get_all_tv_people(title_details, get_title)
-            get_title[0].seasons = title_details['last_episode_to_air']['season_number']
-            get_title[0].save()
+            get_title.update(seasons = title_details['last_episode_to_air']['season_number'])
         
         get_title = list(MovieOrShow.objects.filter(user_id=request.user.id, title_id=titleID).values())
         del get_title[0]['uuid']

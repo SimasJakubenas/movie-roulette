@@ -354,6 +354,9 @@ function sendTitleInfo(titleID, titleType) {
                     $(this).css('background-color', 'unset')
                 })
                 $('.add-to-list').attr('data-titleID', titleInfo['id'])
+                $('#trailer-button').attr(
+                    'href', 'https://www.youtube.com/watch?v=' + titleInfo['videos']['results'][0]['key']
+                )
                 $('#title-description').expander('destroy');
                 $('#cast').expander('destroy');
                 $('#crew-list').expander('destroy')
