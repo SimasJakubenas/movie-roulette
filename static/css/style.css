@@ -916,7 +916,9 @@ input[type='submit'] {
 }
 
 #type-toggle {
-    width: max-content;;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     margin: 2vh 0;
     font-size: 1.2em;
     font-weight: 600;

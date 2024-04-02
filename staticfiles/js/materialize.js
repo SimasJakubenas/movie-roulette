@@ -1,57 +1,52 @@
-/**
- * Controls carousel ite movement and placement
- * Copied and adjusted as required from Materialize official docs 
- * https://materializecss.com/carousel.html
- */
-$(document).ready(function () {
-    menuFadeInAndOut()
+  /**
+   * Controls carousel ite movement and placement
+   * Copied and adjusted as required from Materialize official docs 
+   * https://materializecss.com/carousel.html
+   */
+  $(document).ready(function () {
+    menuFadeInAndOut();
     $('.modal').modal();
     $(".dropdown-trigger").dropdown();
     $('.carousel-item').on('click', function (e) {
-        e.stopPropagation()
-    })
-    carouselControls()
-    // Reveals overlay based on the clicked carousels item
-    $('.overlay-trigger').on('click', function () {
-        let titleID = $(this).attr('data-titleID')
-        let titleType = $(this).attr('data-titleType')
-        // Sends ID of the selected title to backend
-        sendTitleInfo(titleID, titleType)
+        e.stopPropagation();
     });
+    carouselControls();
+    // Reveals overlay based on the clicked carousels item
+    overlayTrigger();
     // Closes the overlay
     $('.close-button').on('click', function () {
-        $(this).parent().parent().css('display', 'none')
-        $('#providers').html('')
+        $(this).parent().parent().css('display', 'none');
+        $('#providers').html('');
     });
     $('.contact-btn').on('click', function () {
-        $('.contact').css('display', 'unset')
-    })
+        $('.contact').css('display', 'unset');
+    });
     $('#id_streams').select2({
         theme: "material",
         width: "100%"
-    })
+    });
     // Reveals confirmation modal for updating profile picture
     $('#id_profile_pic').on('change', function () {
-        $('#edit-profile-pic-confirm').css('display', 'unset')
-    })
+        $('#edit-profile-pic-confirm').css('display', 'unset');
+    });
     // Reloads the page when 'No' button is clicked in confirmation modal
     $('.deny-button').on('click', function () {
         location.reload();
-    })
+    });
     $('#outer').on('click', function () {
         $('.type-toggle').each(function () {
             if ($((this)).hasClass('type-active')) {
-                $((this)).removeClass('type-active')
-                $('#inner').css('left', '0')
-                $('#inner').css('right', 'unset')
+                $((this)).removeClass('type-active');
+                $('#inner').css('left', '0');
+                $('#inner').css('right', 'unset');
             } else {
-                $((this)).addClass('type-active')
-                $('#inner').css('right', '0')
-                $('#inner').css('left', 'unset')
+                $((this)).addClass('type-active');
+                $('#inner').css('right', '0');
+                $('#inner').css('left', 'unset');
             }
-        })
+        });
         let url = $("#genre-container").attr("data-search-genres-url");
-        let type = $('.type-active').attr('data-search-type')
+        let type = $('.type-active').attr('data-search-type');
         $.ajax({
             url: url,
             data: {
@@ -66,28 +61,27 @@ $(document).ready(function () {
             error: (error) => {
                 console.log(error);
             }
-        }).then(() => genreToggle())
-
-    })
-    searchFunctionality()
-    genreToggle()
-    countryStreamingProviders()
-    listMenuToggle()
-    listTypeToggle()
-    listIconToggle()
-    spinRoulette()
+        }).then(() => genreToggle());
+    });
+    searchFunctionality();
+    genreToggle();
+    countryStreamingProviders();
+    listMenuToggle();
+    listTypeToggle();
+    listIconToggle();
+    spinRoulette();
     // movieShowToggle()
-    removeFromList()
+    removeFromList();
     // Confirmation modal to clear all button
     $('.btn-red').on('click', function () {
-        let confirmClearAll = confirm('Are you sure you want to do this?')
-        if (confirmClearAll == false) event.preventDefault()
+        let confirmClearAll = confirm('Are you sure you want to do this?');
+        if (confirmClearAll == false) event.preventDefault();
     });
     // Add classes to form imputs for responsivness
-    $('.individual-select').children('select').removeClass('col xl6 push-xl3 m10 push-m1')
+    $('.individual-select').children('select').removeClass('col xl6 push-xl3 m10 push-m1');
     // This is used to change forms boolean logic
     // It allows for differentiation of actions in one view (load one title/load many titles)
-    $('.main-select:last').children('input:last').attr('checked', 'checked')
+    $('.main-select:last').children('input:last').attr('checked', 'checked');
 });
 
 /**
@@ -101,17 +95,17 @@ function searchFunctionality() {
         let year = $('#id_year').val();
         let rating = $('#id_rating').val();
         let runtime = $('#id_runtime').val();
-        let titleType = ''
+        let titleType = '';
         let cast = $('#id_cast').val();
-        let genreList = []
-        let jointGenreList = ""
+        let genreList = [];
+        let jointGenreList = "";
         $('.genre-box.genre-active').each(function () {
-            genreList.push($(this).attr('data-genre-id'))
-            jointGenreList = genreList.join()
-        })
+            genreList.push($(this).attr('data-genre-id'));
+            jointGenreList = genreList.join();
+        });
         $('.type-active').each(function () {
-            titleType = $(this).attr('data-search-type')
-        })
+            titleType = $(this).attr('data-search-type');
+        });
 
         $.ajax({
             url: url,
@@ -132,9 +126,9 @@ function searchFunctionality() {
             error: (error) => {
                 console.log(error);
             }
-        })
-    })
-}
+        }).then(() => overlayTrigger());
+    });
+  }
 
 /**
  * Adds or removes active class for genres
@@ -142,11 +136,11 @@ function searchFunctionality() {
 function genreToggle() {
     $('.genre-box').on('click', function () {
         if ($(this).hasClass('genre-active')) {
-            $(this).removeClass('genre-active')
+            $(this).removeClass('genre-active');
         } else {
-            $(this).addClass('genre-active')
+            $(this).addClass('genre-active');
         }
-    })
+    });
 }
 
 /**
@@ -158,11 +152,12 @@ function listTypeToggle() {
     $("#id_type").change(function () {
         let url = $("#list-type-form").attr("data-list-type-url");
         let type = $(this).val();
+              let list 
         $(".list-menu-item").each(function () {
             if ($(this).hasClass('list-active')) {
-                list = $(this).attr('data-list')
+                list = $(this).attr('data-list');
             }
-        })
+        });
         $.ajax({
             url: url,
             data: {
@@ -173,7 +168,7 @@ function listTypeToggle() {
                 $("#list-container").html(data);
             }
         }).then(() => overlayTrigger()).then(() => removeFromList());
-    })
+    });
 }
 
 /**
@@ -207,9 +202,9 @@ function listMenuToggle() {
         let list = $(this).attr("data-list");
         let url = $("#list-type-form").attr("data-list-type-url");
         $(".list-menu-item").each(function () {
-            $(this).removeClass('list-active')
-        })
-        $(this).addClass('list-active')
+            $(this).removeClass('list-active');
+        });
+        $(this).addClass('list-active');
         $.ajax({
             url: url,
             data: {
@@ -233,9 +228,9 @@ function listMenuToggle() {
 function overlayTrigger() {
     $('.overlay-trigger').on('click', function () {
         let titleID = $(this).attr('data-titleID')
-        let titleType = $(this).attr('data-titleType')
+        let titleType = $(this).attr('data-titleType');
         // Sends ID of the selected title to backend
-        sendTitleInfo(titleID, titleType)
+        sendTitleInfo(titleID, titleType);
     });
 }
 
@@ -257,25 +252,25 @@ function carouselControls() {
     });
     $('.popular-container .fa-chevron-left').on("click", function () {
         $('#carousel-popular').carousel('prev');
-    })
+    });
     $('.popular-container .fa-chevron-right').on("click", function () {
         $('#carousel-popular').carousel('next');
-    })
+    });
     $('.top-rated-container .fa-chevron-left').on("click", function () {
         $('#carousel-top-rated').carousel('prev');
-    })
+    });
     $('.top-rated-container .fa-chevron-right').on("click", function () {
         $('#carousel-top-rated').carousel('next');
-    })
+    });
     $('.carousel.carousel-slider').carousel({
         fullWidth: true
     });
     $('.carousel-main .fa-chevron-left').on("click", function () {
         $('.carousel-main').carousel('prev');
-    })
+    });
     $('.carousel-main .fa-chevron-right').on("click", function () {
         $('.carousel-main').carousel('next');
-    })
+    });
 }
 
 /**
@@ -285,15 +280,26 @@ function carouselControls() {
 function menuFadeInAndOut() {
     $('body').on('wheel', function (event) {
         if (event.originalEvent.wheelDelta <= 0) {
-            $('.nav-content ul').css('visibility', 'hidden')
-            $('.nav-wrapper').css('background-color', '#000')
+            $('.nav-content ul').css('position', 'absolute');
+            $('.nav-content ul').css('top', '-10vh');
+            $('.nav-wrapper').css('background-color', '#000');
+            $('.nav-wrapper').on('mouseenter', function () {
+                $('.nav-content ul').css('position', 'unset');
+                $('.nav-content ul').css('top', '0');
+            });
+            $('nav').on('mouseleave', function () {
+                $('.nav-content ul').css('position', 'absolute');
+                $('.nav-content ul').css('top', '-10vh');
+                $('.nav-wrapper').css('background-color', '#000');
+            });
         } else
             // Menu is made visible on scrolling to top of the page
             // Taken from https://stackoverflow.com/questions/15123081/how-can-i-launch-a-javascript-or-jquery-event-when-i-reach-the-top-of-my-page
             $(window).on('scroll', function () {
                 if ($(this).scrollTop() == 0) {
-                    $('.nav-content ul').css('visibility', 'visible')
-                    $('.nav-wrapper').css('background-color', 'unset')
+                    $('.nav-content ul').css('position', 'unset');
+                    $('.nav-content ul').css('top', '0');
+                    $('.nav-wrapper').css('background-color', 'unset');
                 }
             });
     })
@@ -308,8 +314,8 @@ function spinRoulette() {
     $('#spin-it').on('click', function (e) {
         let totalSlides = 0;
         let oneSlide = setInterval(individualSpin, 300);
-        let randomPick = Math.floor(Math.random() * 10) + 5
-        $("#spin-it").attr("disabled", 'disabled')
+        let randomPick = Math.floor(Math.random() * 10) + 5;
+        $("#spin-it").attr("disabled", 'disabled');
         $('#spin-it').html('In Motion!');
 
         // Traverses through carousel items and stops it based on random number
@@ -319,11 +325,11 @@ function spinRoulette() {
             if (totalSlides > randomPick) {
                 clearInterval(oneSlide);
                 // Enables 'Spin It!!!' button and changes it's value back
-                $("#spin-it").removeAttr("disabled", 'disabled')
+                $("#spin-it").removeAttr("disabled", 'disabled');
                 $('#spin-it').html('Spin It!!!');
             }
         }
-    })
+    });
 }
 
 /**
@@ -347,50 +353,60 @@ function sendTitleInfo(titleID, titleType) {
         success: function (getTitle) {
             let openOverlay = function (getTitle) {
                 $('.overlay').css('display', 'unset');
-                let titleInfo = JSON.parse(getTitle)
-                let genreList = []
-                let castList = []
+                let titleInfo = JSON.parse(getTitle);
+                let genreList = [];
+                let castList = [];
                 $('.add-to-list').each(function () {
-                    $(this).css('background-color', 'unset')
-                })
-                $('.add-to-list').attr('data-titleID', titleInfo['id'])
+                    $(this).css('background-color', 'unset');
+                });
+                $('.add-to-list').attr('data-titleID', titleInfo.id);
+                if (titleInfo.videos.results > 0) {
+                    $('#trailer-button').attr(
+                    'href', 'https://www.youtube.com/watch?v=' + titleInfo.videos.results[0].key
+                    );
+                }
+                else {
+                    $('#trailer-button').attr('href', 'https://www.youtube.com/');
+                }
+                
                 $('#title-description').expander('destroy');
                 $('#cast').expander('destroy');
-                $('#crew-list').expander('destroy')
-                $('#title-description').html(titleInfo['overview']).expander()
+                $('#crew-list').expander('destroy');
+                $('#title-description').html(titleInfo.overview).expander();
 
-                $('.overlay-img').attr('src', 'https://image.tmdb.org/t/p/w154' + titleInfo.poster_path)
-                $('#rating').html(Math.round(titleInfo.vote_average * 10) / 10)
+                $('.overlay-img').attr('src', 'https://image.tmdb.org/t/p/w154' + titleInfo.poster_path);
+                $('#rating').html(Math.round(titleInfo.vote_average * 10) / 10);
                 $.each(titleInfo.genres, function (key, value) {
-                    genreList.push(value.name)
+                    genreList.push(value.name);
                 });
-                $('#genres').html(genreList.join(', '))
-                if (titleType == 0) {
-                    fill_movie_details(titleInfo, castList)
+                $('#genres').html(genreList.join(', '));
+                if (titleType == 0 || titleType == 'movie' ) {
+                    fill_movie_details(titleInfo, castList);
                 } else {
-                    fill_tv_details(titleInfo, castList)
+                    fill_tv_details(titleInfo, castList);
                 }
-                compileStreamList(titleInfo)
+                  compileStreamList(titleInfo)
                 // changes background color of list icons if title in that list
-                if (titleInfo['is_in_favourites'] === true) {
-                    $('.add-to-favourites').css('background-color', '#6CE5E8')
+                if (titleInfo.is_in_favourites === true) {
+                    $('.add-to-favourites').css('background-color', '#6CE5E8');
                 }
-                if (titleInfo['is_in_watchlist'] === true) {
-                    $('.add-to-watchlist').css('background-color', '#6CE5E8')
+                if (titleInfo.is_in_watchlist === true) {
+                    $('.add-to-watchlist').css('background-color', '#6CE5E8');
                 }
-                if (titleInfo['is_in_seen_it'] === true) {
-                    $('.add-to-seen-it').css('background-color', '#6CE5E8')
+                if (titleInfo.is_in_seen_it === true) {
+                    $('.add-to-seen-it').css('background-color', '#6CE5E8');
                 }
-                if (titleInfo['is_in_dont_show'] === true) {
-                    $('.add-to-dont-show').css('background-color', '#6CE5E8')
+                if (titleInfo.is_in_dont_show === true) {
+                    $('.add-to-dont-show').css('background-color', '#6CE5E8');
                 }
-            }
-            openOverlay(getTitle)
+            };
+            openOverlay(getTitle);
         },
         error: (error) => {
             console.log(error);
         }
-    })
+    });
+    console.log('safasd');
 }
 
 /**
@@ -400,18 +416,21 @@ function sendTitleInfo(titleID, titleType) {
  */
 function listIconToggle() {
     $('.add-to-list').on('click', function () {
-        let titleID = $(this).attr('data-titleID')
-        let list = $(this).attr('data-in-list')
+        let titleID = $(this).attr('data-titleID');
+        let list = $(this).attr('data-in-list');
 
         if ($(this).attr('data-listed')) {
-            $(this).removeAttr('data-listed')
-            $(this).css('background-color', 'unset')
-            $('.listed-title img').each(function () {
-                if ($(this).attr('data-titleID') == titleID) {
-                    $(this).css('display', 'none')
-                    $(this).siblings().css('display', 'none')
-                }
-            })
+            $(this).removeAttr('data-listed');
+            $(this).css('background-color', 'unset');
+            if (list !== 'roulette') {
+                
+                $('.listed-title img').each(function () {
+                    if ($(this).attr('data-titleID') == titleID) {
+                        $(this).css('display', 'none');
+                        $(this).siblings().css('display', 'none');
+                    }
+                });
+            }
             $.ajax({
                 url: 'remove/',
                 type: 'POST',
@@ -428,8 +447,10 @@ function listIconToggle() {
                 }
             });
         } else {
-            $(this).attr('data-listed', 'true')
-            $(this).css('background-color', '#6CE5E8')
+            $(this).attr('data-listed', 'true');
+            if (list !== 'roulette') {
+                $(this).css('background-color', '#6CE5E8');
+            }
             $.ajax({
                 url: 'add/',
                 type: 'POST',
@@ -446,64 +467,64 @@ function listIconToggle() {
                 }
             });
         }
-    })
-};
+    });
+}
 
 function fill_movie_details(titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
-    let directorList = []
-    $('#overlay-heading span').html(titleInfo.title)
-    $('#release-year').html('Release Year')
-    $('#first-aired').html('')
-    $('#seasons').html('')
-    $('#seasons-count').css('display', 'none')
-    $('#status').css('display', 'none')
-    $('#date').html((titleInfo.release_date).slice(0, 4))
-    $('#runtime').html('Runtime')
-    $('#runtime-minutes').css('display', 'unset')
-    $('#runtime-minutes').html(titleInfo.runtime)
-    $('#age-limit').css('display', 'unset')
-    $('#age-limit').html(titleInfo.releases.countries[0].certification)
+    let directorList = [];
+    $('#overlay-heading span').html(titleInfo.title);
+    $('#release-year').html('Release Year');
+    $('#first-aired').html('');
+    $('#seasons').html('');
+    $('#seasons-count').css('display', 'none');
+    $('#status').css('display', 'none');
+    $('#date').html((titleInfo.release_date).slice(0, 4));
+    $('#runtime').html('Runtime');
+    $('#runtime-minutes').css('display', 'unset');
+    $('#runtime-minutes').html(titleInfo.runtime);
+    $('#age-limit').css('display', 'unset');
+    $('#age-limit').html(titleInfo.releases.countries[0].certification);
     $.each(titleInfo.casts.cast, function (key, value) {
-        castList.push(value.name)
+        castList.push(value.name);
     });
-    $('#cast').html(castList.join(', ')).expander()
+    $('#cast').html(castList.join(', ')).expander();
     $(titleInfo.casts.crew).each(function () {
         if ($(this)[0].job === 'Director') {
-            directorList.push($(this)[0].name)
+            directorList.push($(this)[0].name);
         }
     });
-    $('#crew').html('Directed By:').expander()
-    $('#crew-list').html(directorList.join(', '))
+    $('#crew').html('Directed By:').expander();
+    $('#crew-list').html(directorList.join(', '));
 }
 
 function fill_tv_details(titleInfo, castList) {
     /**
      * Fills respective html elements with recieved data from ajax request responce
      */
-    let creatorList = []
-    $('#overlay-heading span').html(titleInfo.name)
-    $('#first-aired').html('First Aired')
-    $('#date').html((titleInfo.first_air_date).slice(0, 4))
-    $('#seasons').html('Seasons')
-    $('#seasons-count').css('display', 'unset')
-    $('#seasons-count').html(titleInfo.last_episode_to_air.season_number)
-    $('#status').css('display', 'unset')
-    $('#status').html(titleInfo.status)
-    $('#runtime').html('')
-    $('#runtime-minutes').css('display', 'none')
-    $('#age-limit').css('display', 'none')
+    let creatorList = [];
+    $('#overlay-heading span').html(titleInfo.name);
+    $('#first-aired').html('First Aired');
+    $('#date').html((titleInfo.first_air_date).slice(0, 4));
+    $('#seasons').html('Seasons');
+    $('#seasons-count').css('display', 'unset');
+    $('#seasons-count').html(titleInfo.last_episode_to_air.season_number);
+    $('#status').css('display', 'unset');
+    $('#status').html(titleInfo.status);
+    $('#runtime').html('');
+    $('#runtime-minutes').css('display', 'none');
+    $('#age-limit').css('display', 'none');
     $.each(titleInfo.credits.cast, function (key, value) {
-        castList.push(value.name)
+        castList.push(value.name);
     });
-    $('#cast').html(castList.join(', '))
+    $('#cast').html(castList.join(', '));
     $(titleInfo.created_by).each(function () {
-        creatorList.push($(this)[0].name)
+        creatorList.push($(this)[0].name);
     });
-    $('#crew').html('Created By:')
-    $('#crew-list').html(creatorList.join(', '))
+    $('#crew').html('Created By:');
+    $('#crew-list').html(creatorList.join(', '));
 }
 
 /**
@@ -511,51 +532,25 @@ function fill_tv_details(titleInfo, castList) {
  * Fills providers container with images of service providers
  */
 function compileStreamList(titleInfo) {
-    let titleStreams = titleInfo['provider_name']
-    let userCountry = titleInfo['user_country']
-    let streamContainer = $('#providers')
-    let streamList = []
+    let titleStreams = titleInfo['provider_name'];
+    let userCountry = titleInfo['user_country'];
+    let streamContainer = $('#providers');
+    let streamList = [];
     $.each(titleInfo.results[userCountry].flatrate, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(titleStreams, value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer);
         }
     });
     $.each(titleInfo.results[userCountry].rent, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(titleStreams, value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer);
         }
     });
     $.each(titleInfo.results[userCountry].buy, function (key, value) {
         if (streamList.includes(value.provider_id)) {} else {
-            appendStreamList(titleStreams, value, streamList, streamContainer)
+            appendStreamList(titleStreams, value, streamList, streamContainer);
         }
     });
-}
-
-/**
- * Acuires forms type value and displays/hides titles accordingly
- */
-function movieShowToggle() {
-    $('.list-type select').addClass('type-select')
-    type = $('.type-select').val()
-    displayFavouriteTypeOfTitle(type)
-    $('.type-select').on('change', function () {
-        type = $(this).val()
-        displayFavouriteTypeOfTitle(type)
-    })
-}
-
-/**
- * Changes display property in a corresponding elements based on movie or show selection
- */
-function displayFavouriteTypeOfTitle(type) {
-    if (type === 'Movies') {
-        $('.movies-list').css('display', 'unset')
-        $('.shows-list').css('display', 'none')
-    } else {
-        $('.shows-list').css('display', 'unset')
-        $('.movies-list').css('display', 'none')
-    }
 }
 
 /**
@@ -564,8 +559,8 @@ function displayFavouriteTypeOfTitle(type) {
 function appendStreamList(titleStreams, value, streamList, streamContainer) {
     if (titleStreams.includes(value.provider_name)) {
 
-        streamList.push(value.provider_id)
-        streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`)
+        streamList.push(value.provider_id);
+        streamContainer.append(`<img src="https://image.tmdb.org/t/p/h100${value.logo_path}">`);
     }
 }
 
@@ -593,15 +588,15 @@ function getCookie(name) {
  * is used to carry out CRUD funtionalities on the backend
  */
 function removeFromList() {
-    let list = 'roulette'
+    let list = 'roulette';
     $('.remove-one-title').on('click', function () {
-        let titleID = $(this).attr('data-titleID')
+        let titleID = $(this).attr('data-titleID');
         $('.list-menu-item').each(function () {
             if ($(this).hasClass('list-active')) {
-                list = $(this).attr('data-list')
+                list = $(this).attr('data-list');
             }
-        })
-        $(this).parent().css('display', 'none')
+        });
+        $(this).parent().css('display', 'none');
         $.ajax({
             url: 'remove/',
             type: 'POST',
@@ -616,5 +611,5 @@ function removeFromList() {
                 console.log(error);
             }
         });
-    })
+    });
 }

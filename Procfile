@@ -1,1 +1,1 @@
-web: gunicorn roulette.wsgi
+web: gunicorn movie-roulette.wsgi

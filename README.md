@@ -1,3 +1,54 @@
+# SImas's Personal Website - Testing
+
+[amiresponsive-picture]
+
+Visit the deployed site: [Movie Roulette]
+
+Get latest movie and TV show releases, store them to your lists and use an exclusive 'roulette' feature to select your next watch for you. Created as my portfolio project 4.
+
+# Contents
+[UX Design](#ux-design)
+* [The Strategy Plane](#the-strategy-plane)
+  * [Problem Statement](#problem-statement)
+  * [Target Audience](#target-audience)
+  * [Competitor Analysis](#competitor-analysis)
+    * [Big name streaming providers](#big-name-streaming-providers)
+    * [Movie / TV show tracker websites](#movie-tv-show-tracker-websites)
+* [The Scope Plan   e](#the-scope-plane)
+* [The Structure Plane](#the-structure-plane)
+* [The Skeleton Plane](#the-skeleton-plane)
+* [The Surface Plane](#the-surface-plane)
+* [Agile Methodology](#agile-methodology)
+[Features](#features)
+* [Existing Features](#existing-features)
+  * [Landing Pagee](#landing-page)
+  * [Preview Modal](#preview-modal)
+  * [Sign In Page](#sign-up-page)
+  * [Sign Up Page](#sign-up-page)
+  * [About Page](#about-page)
+  * [Contact Form Page](contact-form-page)
+  * [Movies Page](#movies-page)
+  * [Shows Page](#shows-page)
+  * [Overlay](#overlay)
+  * [Roulette page](#roulette-page)
+  * [My Lists ](#my-lists)
+  * [Search Page](#search-page)
+  * [Profile Page](9#profile-page)
+  * [Sign Out Page](#sign-out-page)
+  * [Admin Panel](#admin-panel)
+* [future Features](#future-features)
+* [Utility](#utility)
+* [Deployment](#deployment)
+* [Cloning Repository](#cloning-repository)
+* [Forking a Branch](#forking-a-branch)
+* [Testing](#testing)
+  * [Solved Bugs](#solved-bugs)
+  * [Known Bugs](#known-bugs)
+* [Credits](#credits)
+* [Acknowledgments](#acknowledgments)
+
+## UX Design
+
 ### The Strategy Plane
 
 For my personal project 4 with [Code Institute](https://codeinstitute.net/) I decided to tackle a simple yet very annoying and persistent problem my partner and I encounter on a weekly basis - picking a movie or a new TV show to watch on a sunday.
@@ -277,6 +328,8 @@ Sign Up Page
 Accessed through menu.
 
 ![Wireframes for a Sign Up Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/583514a9-d674-47d6-ad86-07b55e05a0d3)
+
+<details>
 
 <details>
 <summary>
@@ -661,7 +714,7 @@ Bottom of the page user is presented with 2 carousels (top rated, popular) that 
 
 Exactly same concept as Movies page.
 
-#### overlay
+#### Overlay
 
 ![Overlay](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/cd11c673-6964-4cfd-bc4f-60940d0a061e)
 
@@ -679,6 +732,7 @@ And lso some extra Features
 * Button with a youtube link for movie trailer
 * Uppon 'My Lists' icons user saved the movie/show to their prefered Lists
 * 'Available On' section displays the streaming providers the title is available on prom the streaming providers that the user has selected.
+* Press movie-reel icon to add title to movie roulette!
 
 #### Roulette page
 
@@ -944,7 +998,7 @@ In order to protect the main branch while you work on something new, essential w
 
 3 - Click on the link to create a forked branch that is tied to the issue.
 
-# Credits
+## Credits
 
 ### Code
 

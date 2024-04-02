@@ -128,7 +128,7 @@ p {
 .offerings-container::after {
     top: 0;
     right: 0;
-    background-image: linear-gradient(270deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)) 
+    background-image: linear-gradient(270deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 
 .carousel-tag {
@@ -354,6 +354,7 @@ input[type='submit'] {
 
 img.overlay-trigger {
     width: -webkit-fill-available;
+    cursor: pointer;
 }
 
 .overlay, .contact-overlay {
@@ -462,6 +463,10 @@ select option {
     align-content: flex-end !important;
 }
 
+.menu-active {
+    color: var(--highlight-blue);
+}
+
 .menu-profile a {
     width: fit-content;
 }
@@ -542,13 +547,14 @@ footer i:hover {
     max-height: max-content;
     position: absolute;
     top: -30%;
-    padding-left: 2%
+    padding-left: 2%;
+    opacity: 0.8;
 }
 
 nav {
     background-color: unset;
     height: 15vh;
-    padding-bottom: 5%;
+    margin-bottom: 5%;
     list-style: none;
     z-index: 5;
     position: fixed;
@@ -575,6 +581,7 @@ nav {
     height: 5em;
     background-color: rgba(44, 42, 42, 0.6);
     visibility: visible;
+    transition: ease-in-out 0.5s;
 }
 
 .nav-content ul li {
@@ -661,7 +668,7 @@ nav ul li:hover, nav ul li:focus {
 }
 
 #dropdown1 li:hover, #dropdown1 li:focus {
-    border-bottom: 0.15 var(--highlight-blue) solid;
+    border-bottom: 0.15em var(--highlight-blue) solid;
 }
 
 .log-out {
@@ -909,8 +916,10 @@ input[type='submit'] {
 }
 
 #type-toggle {
-    top: 3vh;
-    right: 5vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 2vh 0;
     font-size: 1.2em;
     font-weight: 600;
 }
@@ -971,6 +980,8 @@ input[type='submit'] {
     visibility: visible;
   }
 
+/* Media Queries */
+
 @media only screen and (max-width: 992px) {
     nav {
       position: unset;
@@ -999,7 +1010,10 @@ input[type='submit'] {
     .big-screen-poster {
         display: none;
     }
-    
+    #type-toggle {
+        scale: 0.7;
+    }
+
     .small-screen-poster {
         display: unset;
     }
