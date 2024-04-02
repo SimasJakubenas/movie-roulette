@@ -94,12 +94,11 @@ def search_results(request):
 
     genre_list = request.GET.get('jointGenreList')
     updated_genre_list = genre_list.replace(",", '|')
-    print(updated_genre_list)
+
     if len(genre_list) != 0 :
         SearchFilterValues.genre = f'&with_genres={updated_genre_list}'
     else:
          SearchFilterValues.genre = ''
-    print(SearchFilterValues.genre)
     year = request.GET.get('year')
     search_sorting_year(year)
 
@@ -147,6 +146,7 @@ def search_results(request):
         SearchFilterValues.cast = ''
 
     get_profile = Profile.objects.get(user_id=request.user.id)
+    get_country = Country.objects.get(name=get_profile.country)
     stream_list = ''
     stream_list_query = list(get_profile.streams.all().values())
 
@@ -161,7 +161,8 @@ def search_results(request):
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
         f'{SearchFilterValues.cast}' +
         f'{SearchFilterValues.genre}' +
-        f'&with_watch_providers={stream_list[:-1]}'
+        f'&with_watch_providers={stream_list[:-1]}' +
+        f'&watch_region={get_country.country_iso}'
     )
     response = requests.get(url, headers=headers)
     pages_count = response.json()['total_pages']
@@ -180,7 +181,8 @@ def search_results(request):
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
         f'{SearchFilterValues.cast}' +
         f'{SearchFilterValues.genre}' +
-        f'&with_watch_providers={stream_list[:-1]}'
+        f'&with_watch_providers={stream_list[:-1]}' +
+        f'&watch_region={get_country.country_iso}'
     )
     response2 = requests.get(url2, headers=headers)
     search_result2 = response2.json()['results']
@@ -190,7 +192,8 @@ def search_results(request):
         'search/search_results.html',
         {
             'search_result': search_result2,
-            'POSTER_PATH': POSTER_PATH
+            'POSTER_PATH': POSTER_PATH,
+            'type': type
         }
     )
 

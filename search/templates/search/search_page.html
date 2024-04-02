@@ -72,6 +72,10 @@
 
 {% endblock content %}
 
+{% block overlay %}
+{% include 'overlay.html' %}
+{% endblock %}
+
 {% block extras %}
 <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 {% endblock %}

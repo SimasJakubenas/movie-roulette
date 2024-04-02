@@ -119,7 +119,7 @@ def title_info(request, list_type=None):
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         titleType = request.POST.get('titleType')
-        if ( titleType == '0' ):
+        if ( titleType == '0' or titleType == 'movie' ):
             url = f'{BASE_URL}/movie/{titleID}?api_key={API_KEY}&append_to_response=casts,videos,releases'
             stream_url = f'{BASE_URL}/movie/{titleID}/watch/providers?api_key={API_KEY}'
         else:
@@ -133,7 +133,9 @@ def title_info(request, list_type=None):
 
         stream_response = requests.get(stream_url, headers=headers)
         available_stream_details = stream_response.json()
+
         title_details.update(available_stream_details)
+
         get_title = MovieOrShow.objects.get_or_create(
             title_id=title_details['id'],
             user_id=request.user,
@@ -145,7 +147,7 @@ def title_info(request, list_type=None):
             }
         )
         get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=titleID)
-        if ( titleType == '0'):
+        if ( titleType == '0' or titleType == 'movie'):
             update_title = get_title.update(title=title_details['title'])
             update_title = get_title.update(type=0)
             update_title = get_title.update(date=title_details['release_date'][slice(4)])
@@ -166,7 +168,7 @@ def title_info(request, list_type=None):
         get_title_providers(request, titleType, titleID, get_title, available_stream_details)
        
         get_title.update(status=title_details['status'])
-        if ( titleType == '0' ):
+        if ( titleType == '0' or  titleType == 'movie' ):
             get_all_movie_people(title_details, get_title)
             get_title.update(runtime = title_details['runtime'])
             get_title.update(age_limit = title_details['releases']['countries'][0]['certification'])
@@ -237,7 +239,6 @@ def remove_from_list(request):
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            print(get_title)
             update_title = get_title.update(is_in_favourites=False)
         if list_type == 'favourites':
             get_title = MovieOrShow.objects.filter(

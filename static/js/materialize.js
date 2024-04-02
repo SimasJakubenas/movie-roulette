@@ -12,12 +12,7 @@ $(document).ready(function () {
     })
     carouselControls()
     // Reveals overlay based on the clicked carousels item
-    $('.overlay-trigger').on('click', function () {
-        let titleID = $(this).attr('data-titleID')
-        let titleType = $(this).attr('data-titleType')
-        // Sends ID of the selected title to backend
-        sendTitleInfo(titleID, titleType)
-    });
+    overlayTrigger()
     // Closes the overlay
     $('.close-button').on('click', function () {
         $(this).parent().parent().css('display', 'none')
@@ -132,7 +127,7 @@ function searchFunctionality() {
             error: (error) => {
                 console.log(error);
             }
-        })
+        }).then(() => overlayTrigger());
     })
 }
 
@@ -359,15 +354,22 @@ function sendTitleInfo(titleID, titleType) {
             let openOverlay = function (getTitle) {
                 $('.overlay').css('display', 'unset');
                 let titleInfo = JSON.parse(getTitle)
+                console.log(titleInfo)
                 let genreList = []
                 let castList = []
                 $('.add-to-list').each(function () {
                     $(this).css('background-color', 'unset')
                 })
                 $('.add-to-list').attr('data-titleID', titleInfo['id'])
-                $('#trailer-button').attr(
+                if (titleInfo['videos']['results'] > 0) {
+                    $('#trailer-button').attr(
                     'href', 'https://www.youtube.com/watch?v=' + titleInfo['videos']['results'][0]['key']
-                )
+                    )
+                }
+                else {
+                    $('#trailer-button').attr('href', 'https://www.youtube.com/')
+                }
+                
                 $('#title-description').expander('destroy');
                 $('#cast').expander('destroy');
                 $('#crew-list').expander('destroy')
@@ -379,11 +381,12 @@ function sendTitleInfo(titleID, titleType) {
                     genreList.push(value.name)
                 });
                 $('#genres').html(genreList.join(', '))
-                if (titleType == 0) {
+                if (titleType == 0 || titleType == 'movie' ) {
                     fill_movie_details(titleInfo, castList)
                 } else {
                     fill_tv_details(titleInfo, castList)
                 }
+                console.log(titleInfo)
                 compileStreamList(titleInfo)
                 // changes background color of list icons if title in that list
                 if (titleInfo['is_in_favourites'] === true) {
@@ -405,6 +408,7 @@ function sendTitleInfo(titleID, titleType) {
             console.log(error);
         }
     })
+    console.log('safasd')
 }
 
 /**
