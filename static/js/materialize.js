@@ -285,14 +285,24 @@ function carouselControls() {
 function menuFadeInAndOut() {
     $('body').on('wheel', function (event) {
         if (event.originalEvent.wheelDelta <= 0) {
-            $('.nav-content ul').css('visibility', 'hidden')
+            $('.nav-content ul').css('position', 'absolute')
+            $('.nav-content ul').css('top', '-10vh')
             $('.nav-wrapper').css('background-color', '#000')
+            $('.nav-wrapper').on('mouseenter', function () {
+                $('.nav-content ul').css('position', 'unset')
+                $('.nav-content ul').css('top', '0')
+            })
+            $('nav').on('mouseleave', function () {
+                $('.nav-content ul').css('position', 'absolute')
+                $('.nav-content ul').css('top', '-10vh')
+            })
         } else
             // Menu is made visible on scrolling to top of the page
             // Taken from https://stackoverflow.com/questions/15123081/how-can-i-launch-a-javascript-or-jquery-event-when-i-reach-the-top-of-my-page
             $(window).on('scroll', function () {
                 if ($(this).scrollTop() == 0) {
-                    $('.nav-content ul').css('visibility', 'visible')
+                    $('.nav-content ul').css('position', 'unset')
+                    $('.nav-content ul').css('top', '0')
                     $('.nav-wrapper').css('background-color', 'unset')
                 }
             });

@@ -128,7 +128,7 @@ p {
 .offerings-container::after {
     top: 0;
     right: 0;
-    background-image: linear-gradient(270deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)) 
+    background-image: linear-gradient(270deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 
 .carousel-tag {
@@ -548,7 +548,7 @@ footer i:hover {
 nav {
     background-color: unset;
     height: 15vh;
-    padding-bottom: 5%;
+    margin-bottom: 5%;
     list-style: none;
     z-index: 5;
     position: fixed;
@@ -575,6 +575,7 @@ nav {
     height: 5em;
     background-color: rgba(44, 42, 42, 0.6);
     visibility: visible;
+    transition: ease-in-out 0.5s;
 }
 
 .nav-content ul li {
