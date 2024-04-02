@@ -42,6 +42,18 @@ class SearchFilterValues:
 
 
 def search_genres(request):
+    """
+    Renders genre list on the page
+
+    **Context**
+
+    `search_genre`
+        genre lists from API call
+
+    **Templates**
+
+    'search/genres.html`
+    """
     type = request.GET.get('type')
 
     url_genre = (
@@ -65,6 +77,23 @@ def search_genres(request):
 def search_page(request):
     """
     Loads  search page
+
+    **Context**
+
+    `search_form`
+        Passed data to render search form
+    `user_data`
+        Passes filtered User model data
+    `profile_data`
+        Passes filtered Profile model data
+    `POSTER_PATH`
+        A static url path for IMDB images
+    `search_genre`
+        Genre lists from API call
+
+    **Templates**
+
+    'search/search_page.html`
     """
     search_form = SearchForm(data=request.POST)
     user_data = User.objects.get(pk=request.user.id)
@@ -95,7 +124,27 @@ def search_page(request):
 @login_required
 def search_results(request):
     """
-    Loads  search results
+    Clears  SearchFilterValues class attributes
+    Recieves genre list from the ajax function
+    Edits this list to suit format
+    Amends API call based on user input and recieved data.
+    Tkes the number of pages revieved, randomises it and calls
+    API again (this is done to change the titles that are 
+    displayed for the user)
+    Passes the second API data to template
+
+     **Context**
+
+    `search_result`
+        genre lists from API call
+    `POSTER_PATH`
+        A static url path for IMDB images
+    `type`
+        Type of title (movie or show)
+
+    **Templates**
+
+    'search/genres.html`
     """
     SearchFilterValues.release_year_min = ''
     SearchFilterValues.release_year_max = ''

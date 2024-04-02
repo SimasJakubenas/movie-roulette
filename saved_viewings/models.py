@@ -6,6 +6,9 @@ TYPE = ((0, "Movie"), (1, "TV-Show"))
 
 
 class MovieOrShow(models.Model):
+    """
+    Main entity for storing movie and show instances
+    """
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False
     )
@@ -32,6 +35,9 @@ class MovieOrShow(models.Model):
 
 
 class Genre(models.Model):
+    """
+    Model to store title genres has a bridge table with MovieOrShow entity
+    """
     genre_id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     titles = models.ManyToManyField(
@@ -43,11 +49,18 @@ class Genre(models.Model):
 
 
 class Person(models.Model):
+    """
+    Stores all cast and crew data
+    """
     person_id = models.IntegerField(primary_key=True, unique=True)
     full_name = models.CharField(max_length=200, null=True, blank=True)
 
 
 class Actor(models.Model):
+    """
+    Model to store actors instances. Has a bridge table with
+    MovieOrShow entity
+    """
     actor_id = models.CharField(primary_key=True, unique=True, max_length=50)
     person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     titles = models.ManyToManyField(
@@ -56,6 +69,10 @@ class Actor(models.Model):
 
 
 class Director(models.Model):
+    """
+    Model to store directors instances. Has a bridge table with
+    MovieOrShow entity
+    """
     director_id = models.CharField(
         primary_key=True, unique=True, max_length=50
         )
@@ -66,6 +83,10 @@ class Director(models.Model):
 
 
 class Creator(models.Model):
+    """
+    Model to store creator instances. Has a bridge table with
+    MovieOrShow entity
+    """
     creator_id = models.CharField(primary_key=True, unique=True, max_length=50)
     person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     titles = models.ManyToManyField(
@@ -74,6 +95,10 @@ class Creator(models.Model):
 
 
 class StreamingService(models.Model):
+    """
+    Model to store users streaming services and also titles streaming
+    services. Has a bridge table with MovieOrShow entity
+    """
     provider_id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     logo_path = models.CharField(max_length=200, null=True, blank=True)

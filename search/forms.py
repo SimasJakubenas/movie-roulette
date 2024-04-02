@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 
 class SearchForm(forms.Form):
+    """
+    Form used to gather user input data for altering API call
+    """
     YEAR_CHOICES = (
         ('1970s', '1970s'),
         ('1980s', '1980s'),

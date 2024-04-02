@@ -2,6 +2,10 @@ from django.db import models
 
 
 class About(models.Model):
+    """
+    Modal for about page
+
+    """
     title = models.CharField(max_length=200)
     updated_on = models.DateTimeField(auto_now=True)
     content = models.TextField()
@@ -11,6 +15,9 @@ class About(models.Model):
 
 
 class ContactFormModel(models.Model):
+    """
+    Modal for contact page
+    """
     name = models.CharField(max_length=200)
     email = models.EmailField()
     message = models.TextField()

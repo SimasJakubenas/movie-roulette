@@ -286,6 +286,8 @@ the following ERD depicts relationships between database tables.
 
 ### Database Models
 
+Data base models stayed close to the initial draft. The bridge tables were handled by django. Having said that I had to change the Primary Key for MovieOrShow entity as I overlooked that different users will not be able to save the same title in the database. New primary Key for this entity is generated with UUID. I feel I went into too much detail with this schema as I'm getting most of the dataa from an API and there isn't real need for person, actor, director nor creator tables. How ever I left it in in this version as I had enough struggle with the database as it was.
+
 ## The Skeleton Plane
 
 The following wireframes demonstrate the intended design for the website for both mobile and desktop.

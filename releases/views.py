@@ -108,7 +108,8 @@ def show_releases(request):
     """
     Calls multiple API endpoints to fetch data
     Querys django user model/ profile model for logged in user
-    renders shows page and passes all the data
+    renders shows page, filters the data recieved to exclude
+     titles in don't show page and passes updated data to page
 
     **Context**
 

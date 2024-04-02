@@ -57,6 +57,17 @@ def about_movie_roulette(request):
 def index(request):
     """
     Renders index page
+    
+    **Context**
+
+    `user_data`
+        Data from User model
+    `profile_data`
+        Data from Profile model
+
+    **Templates**
+
+    'about/about.html`
     """
     if request.user.is_authenticated:
         user_data = User.objects.get(pk=request.user.id)
