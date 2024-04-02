@@ -12,4 +12,3 @@ class PostAdmin(SummernoteModelAdmin):
     list_filter = ('type',)
     prepopulated_fields = {'title': ('title',)}
     summernote_fields = ('description',)
-

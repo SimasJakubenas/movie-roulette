@@ -6,7 +6,9 @@ TYPE = ((0, "Movie"), (1, "TV-Show"))
 
 
 class MovieOrShow(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False
+    )
     title_id = models.IntegerField()
     user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="viewings"
@@ -32,7 +34,7 @@ class MovieOrShow(models.Model):
 class Genre(models.Model):
     genre_id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=50, null=True, blank=True)
-    titles =  models.ManyToManyField(
+    titles = models.ManyToManyField(
         MovieOrShow, related_name="genres"
     )
 
@@ -48,7 +50,7 @@ class Person(models.Model):
 class Actor(models.Model):
     actor_id = models.CharField(primary_key=True, unique=True, max_length=50)
     person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
-    titles =  models.ManyToManyField(
+    titles = models.ManyToManyField(
         MovieOrShow, related_name="actors"
     )
 
@@ -56,7 +58,7 @@ class Actor(models.Model):
 class Director(models.Model):
     director_id = models.CharField(primary_key=True, unique=True, max_length=50)
     person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
-    titles =  models.ManyToManyField(
+    titles = models.ManyToManyField(
         MovieOrShow, related_name="directors"
     )
 

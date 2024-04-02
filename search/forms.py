@@ -36,7 +36,7 @@ class SearchForm(forms.Form):
         widget=forms.Select(
             choices=YEAR_CHOICES,
             attrs={'class': 'browser-default m12'}),
-            required=False
+        required=False
     )
     rating = forms.CharField(
         widget=forms.Select(
@@ -47,7 +47,7 @@ class SearchForm(forms.Form):
         widget=forms.Select(
             choices=RUNTIME_CHOICES,
             attrs={'class': 'browser-default m12'}),
-            required=False
+        required=False
     )
     cast = forms.CharField(max_length=100)
 

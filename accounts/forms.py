@@ -16,7 +16,7 @@ class CustomSigninForm(LoginForm):
         })
         self.fields['password'].widget.attrs.update({
             'class': 'col l7 push-l1 s12 form-input',
-            'required' : 'required'
+            'required': 'required'
         })
 
 
@@ -32,7 +32,7 @@ class CustomSignUpForm(SignupForm):
         queryset=Country.objects.all(),
         widget=forms.Select(attrs={
             'autocomplete': 'off',
-            'class': "browser-default"  
+            'class': "browser-default"
         })
     )
     streams = forms.ModelMultipleChoiceField(
@@ -43,7 +43,7 @@ class CustomSignUpForm(SignupForm):
     )
 
     def save(self, *args, **kwargs):
- 
+
         user = super().save(*args, **kwargs)
         new_profile = Profile.objects.create(
             user=user,
@@ -53,11 +53,13 @@ class CustomSignUpForm(SignupForm):
         )
 
         selected_streams = self.cleaned_data.get('streams')
-        get_streams = StreamingService.objects.filter(provider_id__in=selected_streams)
+        get_streams = StreamingService.objects.filter(
+            provider_id__in=selected_streams
+        )
         new_profile.streams.set(get_streams)
 
         return user
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs.update({
@@ -96,12 +98,3 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('first_name', 'last_name', 'streams')
-
-    
-    # class Meta:
-    #     model = User
-    #     fields = ('username',)
-
-    
-    
-

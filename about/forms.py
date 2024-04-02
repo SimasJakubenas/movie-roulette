@@ -8,7 +8,7 @@ class ContactForm(forms.ModelForm):
         fields = ('name', 'email', 'message')
 
     # def save(self, *args, **kwargs):
- 
+
     #     conntact_form = super().save(*args, **kwargs)
     #     form_entry = ContactFormModel.objects.create(
     #         name=self.cleaned_data.get("name"),

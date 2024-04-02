@@ -4,7 +4,13 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from saved_viewings.views import API_KEY, BASE_URL, POSTER_PATH, DISCOVER_MOVIE, DISCOVER_SHOW
+from saved_viewings.views import (
+    API_KEY,
+    BASE_URL,
+    POSTER_PATH,
+    DISCOVER_MOVIE,
+    DISCOVER_SHOW
+)
 from saved_viewings.models import StreamingService, Genre
 from accounts.models import Profile, Country
 from .forms import SearchForm
@@ -14,7 +20,16 @@ class SearchFilterValues:
     """
     Class used to store API filters based of user input from a search page
     """
-    def __init__(self, release_year_min, release_year_max, rating_min, rating_max, runtime_min, runtime_max, cast, cast_list, genre):
+    def __init__(
+        self,
+        release_year_min,
+        release_year_max,
+        rating_min, rating_max,
+        runtime_min, runtime_max,
+        cast,
+        cast_list,
+        genre
+    ):
         self.release_year_min = release_year_min
         self.release_year_max = release_year_max
         self.rating_min = rating_min
@@ -37,7 +52,7 @@ def search_genres(request):
         "accept": "application/json",
     }
     response_genre = requests.get(url_genre, headers=headers)
-    search_genre= response_genre.json()['genres']
+    search_genre = response_genre.json()['genres']
 
     return render(
         request,
@@ -62,7 +77,7 @@ def search_page(request):
         "accept": "application/json",
     }
     response_genre = requests.get(url_genre, headers=headers)
-    search_genre= response_genre.json()['genres']
+    search_genre = response_genre.json()['genres']
 
     return render(
         request,
@@ -95,10 +110,10 @@ def search_results(request):
     genre_list = request.GET.get('jointGenreList')
     updated_genre_list = genre_list.replace(",", '|')
 
-    if len(genre_list) != 0 :
+    if len(genre_list) != 0:
         SearchFilterValues.genre = f'&with_genres={updated_genre_list}'
     else:
-         SearchFilterValues.genre = ''
+        SearchFilterValues.genre = ''
     year = request.GET.get('year')
     search_sorting_year(year)
 
@@ -126,12 +141,12 @@ def search_results(request):
                     f'&query={person}'
                 )
                 response_cast = requests.get(url_cast, headers=headers)
-                search_cast= response_cast.json()['results']
+                search_cast = response_cast.json()['results']
 
                 if search_cast != []:
                     SearchFilterValues.cast_list.append(str(search_cast))
-            joint_ids = ",".join(str(id) for id in SearchFilterValues.cast_list)
-            SearchFilterValues.cast += (str(joint_ids))
+            join_ids = ",".join(str(id) for id in SearchFilterValues.cast_list)
+            SearchFilterValues.cast += (str(join_ids))
         else:
             url_cast = (
                 f'{BASE_URL}/search/person' +
@@ -139,7 +154,7 @@ def search_results(request):
                 f'&query={cast_split}'
             )
             response_cast = requests.get(url_cast, headers=headers)
-            search_cast= response_cast.json()['results'][0]['id']
+            search_cast = response_cast.json()['results'][0]['id']
             SearchFilterValues.cast += str(search_cast)
 
     else:
@@ -155,8 +170,10 @@ def search_results(request):
     url = (
         f'{BASE_URL}/discover/{type}' +
         f'?api_key={API_KEY}' +
-        '&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc' +
-        f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
+        '&include_adult=false&include_video=false&language=en-US' +
+        '&page=1&sort_by=popularity.desc' +
+        f'{SearchFilterValues.release_year_min}' +
+        f'{SearchFilterValues.release_year_max}' +
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
         f'{SearchFilterValues.cast}' +
@@ -166,7 +183,7 @@ def search_results(request):
     )
     response = requests.get(url, headers=headers)
     pages_count = response.json()['total_pages']
-    
+
     if pages_count > 1:
         random_number = random.randint(1, pages_count)
     else:
@@ -175,8 +192,10 @@ def search_results(request):
     url2 = (
         f'{BASE_URL}/discover/{type}' +
         f'?api_key={API_KEY}' +
-        f'&include_adult=false&include_video=false&language=en-US&page={random_number}&sort_by=popularity.desc' +
-        f'{SearchFilterValues.release_year_min}{SearchFilterValues.release_year_max}' +
+        f'&include_adult=false&include_video=false&language=en-US' +
+        f'&page={random_number}&sort_by=popularity.desc' +
+        f'{SearchFilterValues.release_year_min}' +
+        '{SearchFilterValues.release_year_max}' +
         f'{SearchFilterValues.rating_min}{SearchFilterValues.rating_max}' +
         f'{SearchFilterValues.runtime_min}{SearchFilterValues.runtime_max}' +
         f'{SearchFilterValues.cast}' +
@@ -202,23 +221,24 @@ def search_sorting_year(year):
     """
     Changes SearchFilterValues class attributes based on 'year' select element
     """
+    prefix = '&primary_release_date.'
     if year == '1970s':
-        SearchFilterValues.release_year_min = '&primary_release_date.gte=1970-01-01'
-        SearchFilterValues.release_year_max = '&primary_release_date.lte=1979-12-31'
+        SearchFilterValues.release_year_min = f'{prefix}gte=1970-01-01'
+        SearchFilterValues.release_year_max = f'{prefix}lte=1979-12-31'
     if year == '1980s':
-        SearchFilterValues.release_year_min = '&primary_release_date.gte=1980-01-01'
-        SearchFilterValues.release_year_max = '&primary_release_date.lte=1989-12-31'
+        SearchFilterValues.release_year_min = f'{prefix}gte=1980-01-01'
+        SearchFilterValues.release_year_max = f'{prefix}lte=1989-12-31'
     if year == '1990s':
-        SearchFilterValues.release_year_min = '&primary_release_date.gte=1990-01-01'
-        SearchFilterValues.release_year_max = '&primary_release_date.lte=1999-12-31'
+        SearchFilterValues.release_year_min = f'{prefix}gte=1990-01-01'
+        SearchFilterValues.release_year_max = f'{prefix}lte=1999-12-31'
     if year == '2000s':
-        SearchFilterValues.release_year_min = '&primary_release_date.gte=2000-01-01'
-        SearchFilterValues.release_year_max = '&primary_release_date.lte=2009-12-31'
+        SearchFilterValues.release_year_min = f'{prefix}gte=2000-01-01'
+        SearchFilterValues.release_year_max = f'{prefix}lte=2009-12-31'
     if year == '2010s':
-        SearchFilterValues.release_year_min = '&primary_release_date.gte=2010-01-01'
-        SearchFilterValues.release_year_max = '&primary_release_date.lte=2019-12-31'
+        SearchFilterValues.release_year_min = f'{prefix}gte=2010-01-01'
+        SearchFilterValues.release_year_max = f'{prefix}lte=2019-12-31'
     if year == '2020+':
-        SearchFilterValues.release_year_min = '&primary_release_date.gte=2020-01-01'
+        SearchFilterValues.release_year_min = f'{prefix}gte=2020-01-01'
     if year == 'all':
         SearchFilterValues.release_year_min = ''
         SearchFilterValues.release_year_max = ''
@@ -226,7 +246,8 @@ def search_sorting_year(year):
 
 def search_sorting_rating(rating):
     """
-    Changes SearchFilterValues class attributes based on 'rating' select element
+    Changes SearchFilterValues class attributes
+    based on 'rating' select element
     """
     if rating == '*5>':
         SearchFilterValues.rating_min = ''
@@ -250,7 +271,8 @@ def search_sorting_rating(rating):
 
 def search_sorting_runtime(runtime):
     """
-    Changes SearchFilterValues class attributes based on 'runtime' select element
+    Changes SearchFilterValues class attributes
+    based on 'runtime' select element
     """
     if runtime == '60min>':
         SearchFilterValues.runtime_min = ''

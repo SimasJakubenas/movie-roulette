@@ -1,5 +1,5 @@
 from django import forms
-        
+
 
 class RouletteSourceForm(forms.Form):
     SOURCE_CHOICES = (
@@ -17,7 +17,7 @@ class RouletteSourceForm(forms.Form):
         widget=forms.Select(
             choices=SOURCE_CHOICES,
             attrs={'class': 'browser-default col xl6 push-xl3 m10 push-m1'}),
-            required=False
+        required=False
     )
     type = forms.CharField(
         widget=forms.Select(

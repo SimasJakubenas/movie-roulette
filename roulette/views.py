@@ -5,13 +5,24 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from saved_viewings.models import MovieOrShow
-from saved_viewings.views import add_title_instance, clear_title, title_info, POSTER_PATH, BASE_URL, DISCOVER_SHOW, DISCOVER_MOVIE, API_KEY
+from saved_viewings.views import (
+    add_title_instance,
+    clear_title,
+    title_info,
+    POSTER_PATH,
+    BASE_URL,
+    DISCOVER_SHOW,
+    DISCOVER_MOVIE,
+    API_KEY
+)
 from accounts.models import Country, Profile
 from .forms import RouletteSourceForm
 
+
 def tmdb_api_connect(request, type):
     """
-    Connects to API and get movie/show data, then returns the result in json format
+    Connects to API and get movie/show data,
+    then returns the result in json format
     """
     get_profile = Profile.objects.get(user_id=request.user.id)
     get_country = Country.objects.get(name=get_profile.country)
@@ -30,28 +41,44 @@ def tmdb_api_connect(request, type):
         stream_list += (str(stream['provider_id']) + '|')
     page = 1
 
-    ENDPOINT_POPULAR_TITLES = f'include_adult=false{mandatory_filter}&language=en-US&page={page}&sort_by=popularity.desc&watch_region={get_country.country_iso}&with_watch_providers={stream_list[:-1]}'
-    if ( type == 'Movies'):
-        url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+    ENDPOINT_POPULAR_TITLES = (
+        f'include_adult=false{mandatory_filter}&language=en-US&page={page}' +
+        f'&sort_by=popularity.desc&watch_region={get_country.country_iso}' +
+        f'&with_watch_providers={stream_list[:-1]}'
+    )
+    if (type == 'Movies'):
+        url = (
+            f'{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}' +
+            '&{ENDPOINT_POPULAR_TITLES}'
+        )
     else:
-        url = f"{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+        url = (
+            f'{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}' +
+            f'&{ENDPOINT_POPULAR_TITLES}'
+        )
     headers = {
         "accept": "application/json",
     }
     response = requests.get(url, headers=headers)
     pages_count = response.json()['total_pages']
-    
+
     if pages_count > 1:
         random_number = random.randint(1, pages_count)
     else:
         random_number = 1
 
     page = random_number
-    
-    if ( type == 'Movies'):
-        url = f"{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+
+    if (type == 'Movies'):
+        url = (
+            f'{BASE_URL}{DISCOVER_MOVIE}?api_key={API_KEY}' +
+            f'&{ENDPOINT_POPULAR_TITLES}'
+        )
     else:
-        url = f"{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}&{ENDPOINT_POPULAR_TITLES}"
+        url = (
+            f'{BASE_URL}{DISCOVER_SHOW}?api_key={API_KEY}' +
+            f'&{ENDPOINT_POPULAR_TITLES}'
+        )
 
     response = requests.get(url, headers=headers)
     result_initial = response.json()['results']
@@ -59,7 +86,9 @@ def tmdb_api_connect(request, type):
 
     dont_show = []
     dont_show_list = list(
-        MovieOrShow.objects.filter(user_id=request.user.id, is_in_dont_show=True).values()
+        MovieOrShow.objects.filter(
+            user_id=request.user.id, is_in_dont_show=True
+        ).values()
     )
     for title in dont_show_list:
         dont_show.append(title['title_id'])
@@ -90,14 +119,16 @@ def roulette_list(request):
         data from profile model
 
     **Template**
-        
+
     'saved_viewings/roulette_list.html`
     """
     # get_all = MovieOrShow.objects.all()
     # get_all.delete()
     source_form = RouletteSourceForm(data=request.POST)
     in_list = list(
-        MovieOrShow.objects.filter(user_id=request.user.id, is_in_roulette=True).values()
+        MovieOrShow.objects.filter(
+            user_id=request.user.id, is_in_roulette=True
+        ).values()
     )
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
@@ -112,25 +143,35 @@ def roulette_list(request):
             load_all = source_form.cleaned_data["load_all"]
             if (source == 'Random'):
                 result = tmdb_api_connect(request, type)
-            elif (source =='Favourites'):
+            elif (source == 'Favourites'):
                 result = list(
-                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_favourites=True, type=type).values()
-                ) 
-            elif (source =='Watchlist'):
+                    MovieOrShow.objects.filter(
+                        user_id=request.user.id,
+                        is_in_favourites=True,
+                        type=type
+                    ).values()
+                )
+            elif (source == 'Watchlist'):
                 result = list(
-                    MovieOrShow.objects.filter(user_id=request.user.id, is_in_watchlist=True, type=type).values()
-                ) 
+                    MovieOrShow.objects.filter(
+                        user_id=request.user.id,
+                        is_in_watchlist=True,
+                        type=type
+                        ).values()
+                )
             else:
                 result = list(MovieOrShow.objects.filter(
                     user_id=request.user.id, is_in_seen_it=True).values()
-                ) 
+                )
             roulette_load(request, result, source_form, source, type, load_all)
-            
+
     in_list = list(
-        MovieOrShow.objects.filter(user_id=request.user.id, is_in_roulette=True).values()
-    )     
+        MovieOrShow.objects.filter(
+            user_id=request.user.id, is_in_roulette=True
+        ).values()
+    )
     empty_card_count = range(5 - len(in_list))
-    
+
     return render(
         request,
         'saved_viewings/roulette_list.html',
@@ -147,8 +188,9 @@ def roulette_list(request):
 @login_required
 def roulette_load(request, result, source_form, source, type, load_all):
     """
-    Loads MovieOrShow entity with titles if there's less that 5 titles in the roulette
-    Uses source_form boolean field to determine weather to load all roulette items
+    Loads MovieOrShow entity with titles if there's less
+    that 5 titles in the roulette Uses source_form boolean
+    field to determine weather to load all roulette items
     or just one.
 
     **Context**
@@ -157,12 +199,12 @@ def roulette_load(request, result, source_form, source, type, load_all):
         Data from roulettes restriction fields
 
     **Template**
-        
+
     'saved_viewings/roulette_list.html`
     """
     while True:
         if (len(result) > 0):
-            if ( source == 'Random'):
+            if (source == 'Random'):
                 random_number = random.randint(1, len(result)-1)
                 result_pick = result[random_number]
             else:
@@ -175,18 +217,23 @@ def roulette_load(request, result, source_form, source, type, load_all):
             )
             if len(in_list) == 0:
                 add_title_instance(request, result, result_pick, source, type)
-                if load_all == False: return False
+                if load_all is False:
+                    return False
+
             elif len(in_list) < 5:
                 for title in in_list:
                     if result_pick['id'] == title['title_id']:
                         pass
                     else:
-                        add_title_instance(request, result, result_pick, source, type)
-                        if load_all == False: return False
+                        add_title_instance(
+                            request, result, result_pick, source, type
+                        )
+                        if load_all is False:
+                            return False
 
             else:
                 return False
-            
+
         else:
             return False
 
@@ -209,14 +256,16 @@ def roulette_clear(request):
         get_query = MovieOrShow.objects.filter(
             user_id=request.user.id, is_in_roulette=True
         )
-        
+
         get_list = list(get_query.values())
         get_query.update(is_in_roulette=False)
         for list_item in get_list:
-            if (list_item['is_in_favourites'] or
+            if (
+                list_item['is_in_favourites'] or
                 list_item['is_in_watchlist'] or
                 list_item['is_in_seen_it'] or
-                list_item['is_in_dont_show']) == True:
+                list_item['is_in_dont_show']
+            ) is True:
                 pass
             else:
                 get_title = MovieOrShow.objects.filter(
@@ -236,9 +285,12 @@ def clear_one_title(request, title_id):
     Redirects to roulete page
     """
     if request.method == 'POST':
-        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=title_id)
+        get_title = MovieOrShow.objects.filter(
+            user_id=request.user.id, title_id=title_id
+            )
         update_title = get_title.update(is_in_roulette=False)
-        clear_title(request, get_title,title_id)
+        clear_title(request, get_title, title_id)
+
         return HttpResponseRedirect(reverse('roulette_list'))
 
     return HttpResponseRedirect(reverse('roulette_list', args=[title_id]))

@@ -15,9 +15,15 @@ def load_providers(request):
     Loads country specific providers to sign up forms select element
     """
     country_iso = request.GET.get('country')
-    services = StreamingService.objects.filter(countries__country_iso=country_iso)
+    services = StreamingService.objects.filter(
+        countries__country_iso=country_iso
+    )
 
-    return render(request, 'services_list_options.html', {'services': services})
+    return render(
+        request,
+        'services_list_options.html',
+        {'services': services}
+    )
 
 
 @login_required
@@ -67,13 +73,13 @@ def update_profile_pic(request):
     """
     if request.method == "POST":
         profile_pic = ProfileImage(request.POST, request.FILES)
-        
+
         if profile_pic.is_valid():
             profile_pic_url = profile_pic.cleaned_data["profile_pic"]
             update_picture = Profile.objects.get(user_id=request.user.id)
             update_picture.profile_pic = profile_pic_url
             update_picture.save()
-            
+
     profile_pic = ProfileImage()
 
     return HttpResponseRedirect(reverse('profile'))
@@ -103,7 +109,7 @@ def edit_profile(request):
     user_data = User.objects.get(pk=request.user.id)
     profile_data = Profile.objects.get(user_id=request.user.id)
     profile_streams = profile_data.streams.all()
-    
+
     if request.method == "POST":
         form = EditProfileForm(request.POST)
 
@@ -112,13 +118,15 @@ def edit_profile(request):
             user_data.first_name = form.cleaned_data["first_name"]
             user_data.last_name = form.cleaned_data["last_name"]
             selected_streams = form.cleaned_data.get('streams')
-            get_streams = StreamingService.objects.filter(provider_id__in=selected_streams)
+            get_streams = StreamingService.objects.filter(
+                provider_id__in=selected_streams
+            )
             profile_data.streams.set(get_streams)
             user_data.save()
             profile_data.save()
 
             return HttpResponseRedirect(reverse('profile'))
-        
+
         return render(
             request,
             "accounts/edit_profile.html",
@@ -130,7 +138,7 @@ def edit_profile(request):
                 "form": form
             }
         )
-    
+
     form = CustomSignUpForm()
 
     return render(

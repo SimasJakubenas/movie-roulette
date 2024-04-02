@@ -42,7 +42,7 @@ def about_movie_roulette(request):
                 "contact_form": contact_form
             },
         )
-    
+
     else:
         return render(
             request,
@@ -63,13 +63,12 @@ def index(request):
         profile_data = Profile.objects.get(user_id=request.user.id)
 
         return render(
-        request,
-        "about/index.html",
-        {
-            'user_data': user_data,
-            'profile_data': profile_data
-        }
-    )
+            request,
+            "about/index.html",
+            {
+                'user_data': user_data,
+                'profile_data': profile_data
+            }
+        )
 
-    return render( request, "about/index.html")
-    
+    return render(request, "about/index.html")

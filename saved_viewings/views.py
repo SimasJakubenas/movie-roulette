@@ -8,7 +8,14 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from roulette.forms import RouletteSourceForm
-from .models import MovieOrShow, Genre, Person, Actor, Director, Creator, StreamingService
+from .models import (
+    MovieOrShow, Genre,
+    Person,
+    Actor,
+    Director,
+    Creator,
+    StreamingService
+)
 from accounts.models import Country, Profile
 
 
@@ -23,8 +30,10 @@ POSTER_PATH = POSTER_BASE_URL + POSTER_SIZE
 
 def add_title_instance(request, result, result_pick, source, type):
     """
-    If roulette page form source is 'Random': creates a new instance in MovieOrShow entity
-    Otherwise adds a title to roulette from database by changing it's boolean value
+    If roulette page form source is 'Random':
+    creates a new instance in MovieOrShow entity
+    Otherwise adds a title to roulette from database by
+    changing it's boolean value
     """
     if source == 'Random':
         new_entry = MovieOrShow.objects.get_or_create(
@@ -39,19 +48,27 @@ def add_title_instance(request, result, result_pick, source, type):
             }
         )
         type = 'Movies' if type == 0 else 'TV Shows'
-        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=result_pick['id'])
-        if ( type == 'Movies'):
+        get_title = MovieOrShow.objects.filter(
+            user_id=request.user.id, title_id=result_pick['id']
+            )
+        if (type == 'Movies'):
             update_title = get_title.update(title=result_pick['title'])
             update_title = get_title.update(type=0)
-            update_title = get_title.update(date=result_pick['release_date'][slice(4)])
+            update_title = get_title.update(
+                date=result_pick['release_date'][slice(4)]
+            )
         else:
             update_title = get_title.update(title=result_pick['name'])
             update_title = get_title.update(type=1)
-            update_title = get_title.update(date=result_pick['first_air_date'][slice(4)])
-    
+            update_title = get_title.update(
+                date=result_pick['first_air_date'][slice(4)]
+                )
+
     else:
-        get_query = MovieOrShow.objects.filter(user_id=request.user.id, title_id=result_pick['id'])
-        get_query.update(is_in_roulette = True)
+        get_query = MovieOrShow.objects.filter(
+            user_id=request.user.id, title_id=result_pick['id']
+            )
+        get_query.update(is_in_roulette=True)
         for title in result:
             if title['title_id'] == result_pick['id']:
                 result.remove(title)
@@ -66,7 +83,9 @@ def clear_one_listed_title(request, title_id, list_type=None):
     Redirects to mylists page
     """
     if request.method == 'POST':
-        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=title_id)
+        get_title = MovieOrShow.objects.filter(
+            user_id=request.user.id, title_id=title_id
+            )
 
         if list_type == 'favourites':
             update_title = get_title.update(is_in_favourites=False)
@@ -91,16 +110,21 @@ def clear_title(request, get_title, title_id):
     Queries the database for a specific title
     If title is in database and not in any of the lists - deletes the title
     """
-    title_object = list(MovieOrShow.objects.filter(user_id=request.user.id, title_id=title_id).values())
+    title_object = list(MovieOrShow.objects.filter(
+        user_id=request.user.id, title_id=title_id).values()
+        )
 
     if len(title_object) > 0:
-        if (title_object[0]['is_in_roulette'] or 
+        if (
+            title_object[0]['is_in_roulette'] or
             title_object[0]['is_in_favourites'] or
             title_object[0]['is_in_watchlist'] or
             title_object[0]['is_in_seen_it'] or
             title_object[0]['is_in_dont_show'] or
             title_object[0]['is_in_roulette']
-            in title_object) == True:
+            in title_object
+        ) is True:
+
             pass
         else:
             get_title.delete()
@@ -111,20 +135,32 @@ def clear_title(request, get_title, title_id):
 @login_required
 def title_info(request, list_type=None):
     """
-    Receives data from user input and uses that data to call to an API to fetch 
-    detailed information about the title
+    Receives data from user input and uses that data to call
+    to an API to fetch detailed information about the title
     Pulls MovieOrShow instance from database/ creates new instance
-    Appends this data to API response and passes all colective data back to async function
+    Appends this data to API response and passes all colective
+    data back to async function
     """
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         titleType = request.POST.get('titleType')
-        if ( titleType == '0' or titleType == 'movie' ):
-            url = f'{BASE_URL}/movie/{titleID}?api_key={API_KEY}&append_to_response=casts,videos,releases'
-            stream_url = f'{BASE_URL}/movie/{titleID}/watch/providers?api_key={API_KEY}'
+        if (titleType == '0' or titleType == 'movie'):
+            url = (
+                f'{BASE_URL}/movie/{titleID}' +
+                f'?api_key={API_KEY}&append_to_response=casts,videos,releases'
+            )
+            stream_url = (
+                f'{BASE_URL}/movie/{titleID}/watch/providers?api_key={API_KEY}'
+            )
         else:
-            url = f'{BASE_URL}/tv/{titleID}?api_key={API_KEY}&append_to_response=credits,videos,releases'
-            stream_url = f'{BASE_URL}/tv/{titleID}/watch/providers?api_key={API_KEY}'
+            url = (
+                f'{BASE_URL}/tv/{titleID}' +
+                f'?api_key={API_KEY}' +
+                '&append_to_response=credits,videos,releases'
+            )
+            stream_url = (
+                f'{BASE_URL}/tv/{titleID}/watch/providers?api_key={API_KEY}'
+            )
         headers = {
             "accept": "application/json",
         }
@@ -146,18 +182,24 @@ def title_info(request, list_type=None):
                 'backdrop_link': title_details['backdrop_path'],
             }
         )
-        get_title = MovieOrShow.objects.filter(user_id=request.user.id, title_id=titleID)
-        if ( titleType == '0' or titleType == 'movie'):
+        get_title = MovieOrShow.objects.filter(
+            user_id=request.user.id, title_id=titleID
+        )
+        if (titleType == '0' or titleType == 'movie'):
             update_title = get_title.update(title=title_details['title'])
             update_title = get_title.update(type=0)
-            update_title = get_title.update(date=title_details['release_date'][slice(4)])
+            update_title = get_title.update(
+                date=title_details['release_date'][slice(4)]
+            )
         else:
-            update_title = get_title.update(title = title_details['name'])
+            update_title = get_title.update(title=title_details['name'])
             update_title = get_title.update(type=1)
-            update_title = get_title.update(date=title_details['first_air_date'][slice(4)])
-        
+            update_title = get_title.update(
+                date=title_details['first_air_date'][slice(4)]
+            )
+
         for each_genre in title_details['genres']:
-            genre, created  = Genre.objects.get_or_create(
+            genre, created = Genre.objects.get_or_create(
                 genre_id=each_genre['id'],
                 defaults={
                     'name': each_genre['name'],
@@ -165,18 +207,27 @@ def title_info(request, list_type=None):
             )
             get_title[0].genres.add(genre)
 
-        get_title_providers(request, titleType, titleID, get_title, available_stream_details)
-       
+        get_title_providers(
+            request, titleType, titleID, get_title, available_stream_details
+        )
+
         get_title.update(status=title_details['status'])
-        if ( titleType == '0' or  titleType == 'movie' ):
+        if (titleType == '0' or titleType == 'movie'):
             get_all_movie_people(title_details, get_title)
-            get_title.update(runtime = title_details['runtime'])
-            get_title.update(age_limit = title_details['releases']['countries'][0]['certification'])
+            get_title.update(runtime=title_details['runtime'])
+            get_title.update(
+                age_limit=(
+                    title_details['releases']['countries'][0]['certification'])
+            )
         else:
             get_all_tv_people(title_details, get_title)
-            get_title.update(seasons = title_details['last_episode_to_air']['season_number'])
-        
-        get_title = list(MovieOrShow.objects.filter(user_id=request.user.id, title_id=titleID).values())
+            get_title.update(
+                seasons=title_details['last_episode_to_air']['season_number']
+            )
+
+        get_title = list(MovieOrShow.objects.filter(
+            user_id=request.user.id, title_id=titleID).values()
+        )
         del get_title[0]['uuid']
         title_details.update(get_title[0])
 
@@ -200,30 +251,35 @@ def title_info(request, list_type=None):
 def add_to_list(request, list_type=None):
     """
     Receives data from list icon toggle and uses that data to add title
-    to respective list 
+    to respective list
     """
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         list = request.POST.get('list')
         if list == 'roulette':
             get_title = MovieOrShow.objects.filter(
-                user_id=request.user.id, title_id=titleID).update(is_in_roulette=True
+                user_id=request.user.id, title_id=titleID).update(
+                    is_in_roulette=True
             )
         if list == 'favourites':
             get_title = MovieOrShow.objects.filter(
-                user_id=request.user.id, title_id=titleID).update(is_in_favourites=True
+                user_id=request.user.id, title_id=titleID).update(
+                    is_in_favourites=True
             )
         if list == 'watchlist':
             get_title = MovieOrShow.objects.filter(
-                user_id=request.user.id, title_id=titleID).update(is_in_watchlist=True
+                user_id=request.user.id, title_id=titleID).update(
+                    is_in_watchlist=True
             )
         if list == 'seen_it':
             get_title = MovieOrShow.objects.filter(
-                user_id=request.user.id, title_id=titleID).update(is_in_seen_it=True
+                user_id=request.user.id, title_id=titleID).update(
+                    is_in_seen_it=True
             )
         if list == 'dont_show':
             get_title = MovieOrShow.objects.filter(
-                user_id=request.user.id, title_id=titleID).update(is_in_dont_show=True
+                user_id=request.user.id, title_id=titleID).update(
+                    is_in_dont_show=True
             )
 
         return HttpResponse('add to list')
@@ -271,9 +327,10 @@ def remove_from_list(request):
 
 def get_all_movie_people(title_details, get_title):
     """
-    Loops through 'cast' array in the API responce and creates new Person instances
-    Limited to 5 actors per title as It was slowing down loading times significantlt
-    Loops through crew array, checks for 'Director' and creates new Person instances
+    Loops through 'cast' array in the API responce and creates new
+    Person instances Limited to 5 actors per title as It was slowing
+    down loading times significantlt Loops through crew array, checks for
+    'Director' and creates new Person instances
     """
     if len(title_details['casts']['cast']) < 5:
         for each_person in title_details['casts']['cast']:
@@ -287,18 +344,21 @@ def get_all_movie_people(title_details, get_title):
     for each_person in title_details['casts']['crew']:
         if each_person['job'] == 'Director':
             new_person_instance(each_person)
-            director, created  = Director.objects.get_or_create(
+            director, created = Director.objects.get_or_create(
                 director_id=each_person['credit_id'],
-                person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+                person_id=get_object_or_404(
+                    Person.objects.filter(pk=each_person['id'])
+                )
             )
             get_title[0].directors.add(director)
 
 
 def get_all_tv_people(title_details, get_title):
     """
-    Loops through 'cast' array in the API responce and creates new Person instances
-    Limited to 5 actors per title as It was slowing down loading times significantlt
-    Loops through created_by array creates new Person instances
+    Loops through 'cast' array in the API responce and creates new
+    Person instances Limited to 5 actors per title as It was slowing
+    down loading times significantlt Loops through created_by array
+    creates new Person instances
 
     """
     if len(title_details['credits']['cast']) < 5:
@@ -312,31 +372,37 @@ def get_all_tv_people(title_details, get_title):
 
     for each_person in title_details['created_by']:
         new_person_instance(each_person)
-        creator, created  = Creator.objects.get_or_create(
+        creator, created = Creator.objects.get_or_create(
             creator_id=each_person['credit_id'],
-            person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+            person_id=get_object_or_404(
+                Person.objects.filter(pk=each_person['id'])
+            )
         )
         get_title[0].creators.add(creator)
 
 
-def get_title_providers(request, titleType, titleID, get_title, available_stream_details):
+def get_title_providers(
+    request, titleType, titleID, get_title, available_stream_details
+):
     """
     Connects to an API end point for streaming providers
-    Loops through different areas of the response and updates StreamingServices model
+    Loops through different areas of the response and updates
+    StreamingServices model
 
     """
+    result = available_stream_details['results']
     get_profile = Profile.objects.get(user_id=request.user.id)
     get_country = Country.objects.get(name=get_profile.country)
-    if get_country.country_iso in available_stream_details['results']:
-        if 'flatrate' in available_stream_details['results'][get_country.country_iso]:
-            for each_stream in available_stream_details['results'][get_country.country_iso]['flatrate']:
+    if get_country.country_iso in result:
+        if 'flatrate' in result[get_country.country_iso]:
+            for each_stream in result[get_count.country_iso]['flatrate']:
                 stream_instance(each_stream, get_title)
-        if 'rent' in available_stream_details['results'][get_country.country_iso]:
-            for each_stream in available_stream_details['results'][get_country.country_iso]['rent']:
+        if 'rent' in result[get_country.country_iso]:
+            for each_stream in result[get_country.country_iso]['rent']:
                 stream_instance(each_stream, get_title)
 
-        if 'buy' in available_stream_details['results'][get_country.country_iso]:
-            for each_stream in available_stream_details['results'][get_country.country_iso]['buy']:
+        if 'buy' in result[get_country.country_iso]:
+            for each_stream in result[get_country.country_iso]['buy']:
                 stream_instance(each_stream, get_title)
 
 
@@ -344,13 +410,13 @@ def stream_instance(each_stream, get_title):
     """
     Creates a new streaming provider instance in the Person StreamingService
     """
-    stream, created  = StreamingService.objects.get_or_create(
-    provider_id=each_stream['provider_id'],
-    defaults={
-        'name': each_stream['provider_name'],
-        'logo_path': each_stream['logo_path']
-        }
-    )
+    stream, created = StreamingService.objects.get_or_create(
+        provider_id=each_stream['provider_id'],
+        defaults={
+            'name': each_stream['provider_name'],
+            'logo_path': each_stream['logo_path']
+            }
+        )
     get_title[0].streaming_services.add(stream)
 
 
@@ -358,7 +424,7 @@ def new_person_instance(each_person):
     """
     Creates a new attribute in the Person entity
     """
-    person, created  = Person.objects.get_or_create(
+    person, created = Person.objects.get_or_create(
         person_id=each_person['id'],
         defaults={
             'full_name': each_person['name'],
@@ -370,9 +436,11 @@ def new_actor_instance(each_person, get_title):
     """
     Creates a new attribute in the Actor entity
     """
-    actor, created  = Actor.objects.get_or_create(
+    actor, created = Actor.objects.get_or_create(
         actor_id=each_person['credit_id'],
-        person_id=get_object_or_404(Person.objects.filter(pk=each_person['id']))
+        person_id=get_object_or_404(
+            Person.objects.filter(pk=each_person['id'])
+        )
     )
     get_title[0].actors.add(actor)
 
@@ -531,7 +599,7 @@ def load_list_type(request):
 
     if type == 'Movies':
         type = 0
-    
+
     else:
         type = 1
 
