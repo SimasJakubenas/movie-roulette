@@ -912,8 +912,8 @@ input[type='submit'] {
 }
 
 #type-toggle {
-    top: 3vh;
-    right: 5vw;
+    width: max-content;;
+    margin: 2vh 0;
     font-size: 1.2em;
     font-weight: 600;
 }
@@ -974,6 +974,8 @@ input[type='submit'] {
     visibility: visible;
   }
 
+/* Media Queries */
+
 @media only screen and (max-width: 992px) {
     nav {
       position: unset;
@@ -1002,7 +1004,10 @@ input[type='submit'] {
     .big-screen-poster {
         display: none;
     }
-    
+    #type-toggle {
+        scale: 0.7;
+    }
+
     .small-screen-poster {
         display: unset;
     }
