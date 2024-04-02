@@ -460,10 +460,7 @@ def load_list(request, list_type=None):
 
     **Templates**
 
-    'saved_viewings/favourites.html`
-    'saved_viewings/watchlist.html'
-    'saved_viewings/seen_it.html'
-    'saved_viewings/dont_show.html'
+    'saved_viewings/lists_initial.html'
     """
     source_form = RouletteSourceForm(data=request.POST)
     user_data = User.objects.get(pk=request.user.id)
@@ -483,70 +480,6 @@ def load_list(request, list_type=None):
             'in_list': in_list
         }
     )
-
-    if list_type == 'favourites':
-        return render(
-            request,
-            'saved_viewings/favourites.html',
-            {
-                'source_form': source_form,
-                "profile_data": profile_data,
-                "user_data": user_data,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
-
-    if list_type == 'watchlist':
-        in_list = list(MovieOrShow.objects.filter(
-            user_id=request.user.id, is_in_watchlist=True).values()
-        )
-
-        return render(
-            request,
-            'saved_viewings/watchlist.html',
-            {
-                'source_form': source_form,
-                "profile_data": profile_data,
-                "user_data": user_data,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
-
-    if list_type == 'seen_it':
-        in_list = list(MovieOrShow.objects.filter(
-            user_id=request.user.id, is_in_seen_it=True).values()
-        )
-
-        return render(
-            request,
-            'saved_viewings/seen_it.html',
-            {
-                'source_form': source_form,
-                "profile_data": profile_data,
-                "user_data": user_data,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
-
-    if list_type == 'dont_show':
-        in_list = list(MovieOrShow.objects.filter(
-            user_id=request.user.id, is_in_dont_show=True).values()
-            )
-
-        return render(
-            request,
-            'saved_viewings/dont_show.html',
-            {
-                'source_form': source_form,
-                "profile_data": profile_data,
-                "user_data": user_data,
-                'POSTER_PATH': POSTER_PATH,
-                'in_list': in_list
-            }
-        )
 
 
 @login_required
