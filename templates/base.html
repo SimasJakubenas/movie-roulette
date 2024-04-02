@@ -44,12 +44,12 @@
 <body>
     <ul id="dropdown1" class="dropdown-content">
         {% if user.is_authenticated %}
-        <li><a href="{{ movie_releases }}">Movies</a></li>
-        <li><a href="{{ show_releases }}">TV Shows</a></li>
-        <li><a href="{{ roulette_list_url }}">Roulette</a></li>
-        <li><a href="{{ my_lists }}">My Lists</a></li>
-        <li><a href="{{ about_url }}">About</a></li>
-        <li><a href="{{ search_url }}">Search</a></li>
+        <li><a href="{{ movie_releases }}" class="{% if request.path == movie_releases %}menu-active" aria-current="page{% endif %}">Movies</a></li>
+        <li><a href="{{ show_releases }}" class="{% if request.path == show_releases %}menu-active" aria-current="page{% endif %}">TV Shows</a></li>
+        <li><a href="{{ roulette_list_url }}" class="{% if request.path == roulette_list_url %}menu-active" aria-current="page{% endif %}">Roulette</a></li>
+        <li><a href="{{ my_lists }}" class="{% if request.path == my_lists %}menu-active" aria-current="page{% endif %}">My Lists</a></li>
+        <li><a href="{{ about_url }}" class="{% if request.path == about_url %}menu-active" aria-current="page{% endif %}">About</a></li>
+        <li><a href="{{ search_url }}" class="{% if request.path == search_url %}menu-active" aria-current="page{% endif %}">Search</a></li>
         <li class="menu-profile">
             {% if user.is_authenticated %}
             <a href="{{ profile_url }}" aria-label="Link to your profile" class="margin-top">
@@ -75,12 +75,12 @@
             </a>
             {% endif %}
         </li>
-        <li><a href="{{ signout_url }}"><i class="fas fa-power-off log-out"> Sign Out</i></a></li>
+        <li><a href="{{ signout_url }}" class="{% if request.path == signout_url %}menu-active" aria-current="page{% endif %}"><i class="fas fa-power-off log-out"> Sign Out</i></a></li>
         {% else %}
         <li><a href="/">home</a></li>
-        <li><a href="{{ signin_url }}">Sign In</a></li>
-        <li><a href="{{ signup_url }}">Sign Up</a></li>
-        <li><a href="{{ about_url }}">About</a></li>
+        <li><a href="{{ signin_url }}" class="{% if request.path == signin_url %}menu-active" aria-current="page{% endif %}">Sign In</a></li>
+        <li><a href="{{ signup_url }}" class="{% if request.path == signup_url %}menu-active" aria-current="page{% endif %}">Sign Up</a></li>
+        <li><a href="{{ about_url }}" class="{% if request.path == about_url %}menu-active" aria-current="page{% endif %}">About</a></li>
         {% endif %}
     </ul>
     <nav class="nav-extended">
@@ -130,17 +130,17 @@
         <div class="nav-content">
             <ul class="hide-on-med-and-down valign-wrapper">
                 {% if user.is_authenticated %}
-                <li><a href="{{ movie_releases }}">Movies</a></li>
-                <li><a href="{{ show_releases }}">TV Shows</a></li>
-                <li><a href="{{ roulette_list_url }}">Roulette</a></li>
-                <li><a href="{{ my_lists }}">My Lists</a></li>
-                <li><a href="{{ about_url }}">About</a></li>
-                <li><a href="{{ search_url }}">Search</a></li>
+                <li><a href="{{ movie_releases }}" class="{% if request.path == movie_releases %}menu-active" aria-current="page{% endif %}">Movies</a></li>
+                <li><a href="{{ show_releases }}" class="{% if request.path == show_releases %}menu-active" aria-current="page{% endif %}">TV Shows</a></li>
+                <li><a href="{{ roulette_list_url }}" class="{% if request.path == roulette_list_url %}menu-active" aria-current="page{% endif %}">Roulette</a></li>
+                <li><a href="{{ my_lists }}" class="{% if request.path == my_lists %}menu-active" aria-current="page{% endif %}">My Lists</a></li>
+                <li><a href="{{ about_url }}" class="{% if request.path == about_url %}menu-active" aria-current="page{% endif %}">About</a></li>
+                <li><a href="{{ search_url }}" class="{% if request.path == search_url %}menu-active" aria-current="page{% endif %}">Search</a></li>
                 {% else %}
                 <li><a href="/">Home</a></li>
-                <li><a href="{{ signin_url }}">Sign In</a></li>
-                <li><a href="{{ signup_url }}">Sign Up</a></li>
-                <li><a href="{{ about_url }}">About</a></li>
+                <li><a href="{{ signin_url }}" class="{% if request.path == signin_url %}menu-active" aria-current="page{% endif %}">Sign In</a></li>
+                <li><a href="{{ signup_url }}" class="{% if request.path == signup_url %}menu-active" aria-current="page{% endif %}">Sign Up</a></li>
+                <li><a href="{{ about_url }}" class="{% if request.path == about_url %}menu-active" aria-current="page{% endif %}">About</a></li>
                 {% endif %}
             </ul>
         </div>

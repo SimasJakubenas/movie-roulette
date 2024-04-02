@@ -463,6 +463,10 @@ select option {
     align-content: flex-end !important;
 }
 
+.menu-active {
+    color: var(--highlight-blue);
+}
+
 .menu-profile a {
     width: fit-content;
 }
