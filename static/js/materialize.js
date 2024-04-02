@@ -386,8 +386,6 @@ function sendTitleInfo(titleID, titleType) {
                 } else {
                     fill_tv_details(titleInfo, castList)
                 }
-                console.log(titleInfo)
-                compileStreamList(titleInfo)
                 // changes background color of list icons if title in that list
                 if (titleInfo['is_in_favourites'] === true) {
                     $('.add-to-favourites').css('background-color', '#6CE5E8')
@@ -424,12 +422,15 @@ function listIconToggle() {
         if ($(this).attr('data-listed')) {
             $(this).removeAttr('data-listed')
             $(this).css('background-color', 'unset')
-            $('.listed-title img').each(function () {
-                if ($(this).attr('data-titleID') == titleID) {
-                    $(this).css('display', 'none')
-                    $(this).siblings().css('display', 'none')
-                }
-            })
+            if (list !== 'roulette') {
+                
+                $('.listed-title img').each(function () {
+                    if ($(this).attr('data-titleID') == titleID) {
+                        $(this).css('display', 'none')
+                        $(this).siblings().css('display', 'none')
+                    }
+                })
+            }
             $.ajax({
                 url: 'remove/',
                 type: 'POST',
@@ -447,7 +448,9 @@ function listIconToggle() {
             });
         } else {
             $(this).attr('data-listed', 'true')
-            $(this).css('background-color', '#6CE5E8')
+            if (list !== 'roulette') {
+                $(this).css('background-color', '#6CE5E8')
+            }
             $.ajax({
                 url: 'add/',
                 type: 'POST',

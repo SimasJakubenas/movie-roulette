@@ -205,6 +205,10 @@ def add_to_list(request, list_type=None):
     if request.method == 'POST':
         titleID = request.POST.get('titleID')
         list = request.POST.get('list')
+        if list == 'roulette':
+            get_title = MovieOrShow.objects.filter(
+                user_id=request.user.id, title_id=titleID).update(is_in_roulette=True
+            )
         if list == 'favourites':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=titleID).update(is_in_favourites=True
@@ -239,7 +243,7 @@ def remove_from_list(request):
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id
             )
-            update_title = get_title.update(is_in_favourites=False)
+            update_title = get_title.update(is_in_roulette=False)
         if list_type == 'favourites':
             get_title = MovieOrShow.objects.filter(
                 user_id=request.user.id, title_id=title_id

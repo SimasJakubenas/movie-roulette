@@ -19,12 +19,12 @@
             <div class="col xl7 push-xl1 m8 s12">
                 <h3 id="overlay-heading">
                     <span></span>
-                    <form action="{% url 'add_title' %}" method="post" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" value="" class="movie-reel-button relative">
-                            <img src="/static/images/movie-reel.png" alt="Image of movie reel">
-                        </button>
-                    </form>
+                    {% if request.path != '/roulette/' %}
+                    <button type="submit" value="" class="movie-reel-button relative">
+                        <img src="/static/images/movie-reel.png" class="add-to-list add-to-roulette" alt="Image of movie reel"
+                            data-in-list="roulette">
+                    </button>
+                    {% endif %}
                 </h3>
                 <div>
                     <span id="release-year"></span>
@@ -61,20 +61,21 @@
                 <div class="my-lists-overlay row">
                     <span class="col m4 s12">My Lists:</span>
                     <div class="col m8 s12">
-                        <i class="far fa-heart add-to-list add-to-favourites tooltip relative lists" data-in-list="favourites"
-                            {% if list_item.is_in_favourites %} data-listed="true" {% endif %}>
+                        <i class="far fa-heart add-to-list add-to-favourites tooltip relative lists"
+                            data-in-list="favourites" {% if list_item.is_in_favourites %} data-listed="true"
+                            {% endif %}>
                             <span class="tooltiptext">Add to favourites</span>
                         </i>
-                        <i class="fas fa-plus add-to-list add-to-watchlist tooltip relative lists" data-in-list="watchlist"
-                            {% if list_item.is_in_watchlist %} data-listed="true" {% endif %}>
+                        <i class="fas fa-plus add-to-list add-to-watchlist tooltip relative lists"
+                            data-in-list="watchlist" {% if list_item.is_in_watchlist %} data-listed="true" {% endif %}>
                             <span class="tooltiptext">Add to watchlist</span>
                         </i>
                         <i class="fas fa-check add-to-list add-to-seen-it tooltip relative lists" data-in-list="seen_it"
                             {% if list_item.is_in_seen_it %} data-listed="true" {% endif %}>
                             <span class="tooltiptext">Add to "Seen It "list'</span>
                         </i>
-                        <i class="fas fa-times add-to-list add-to-dont-show tooltip relative lists" data-in-list="dont_show"
-                            {% if list_item.is_in_dont_show %} data-listed="true" {% endif %}>
+                        <i class="fas fa-times add-to-list add-to-dont-show tooltip relative lists"
+                            data-in-list="dont_show" {% if list_item.is_in_dont_show %} data-listed="true" {% endif %}>
                             <span class="tooltiptext">Add to "Don't Show" list</span>
                         </i>
                     </div>
