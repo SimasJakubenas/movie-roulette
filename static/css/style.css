@@ -354,6 +354,7 @@ input[type='submit'] {
 
 img.overlay-trigger {
     width: -webkit-fill-available;
+    cursor: pointer;
 }
 
 .overlay, .contact-overlay {
@@ -542,7 +543,8 @@ footer i:hover {
     max-height: max-content;
     position: absolute;
     top: -30%;
-    padding-left: 2%
+    padding-left: 2%;
+    opacity: 0.8;
 }
 
 nav {

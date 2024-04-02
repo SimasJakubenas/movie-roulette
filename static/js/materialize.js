@@ -295,6 +295,7 @@ function menuFadeInAndOut() {
             $('nav').on('mouseleave', function () {
                 $('.nav-content ul').css('position', 'absolute')
                 $('.nav-content ul').css('top', '-10vh')
+                $('.nav-wrapper').css('background-color', '#000')
             })
         } else
             // Menu is made visible on scrolling to top of the page
