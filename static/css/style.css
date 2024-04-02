@@ -664,7 +664,7 @@ nav ul li:hover, nav ul li:focus {
 }
 
 #dropdown1 li:hover, #dropdown1 li:focus {
-    border-bottom: 0.15 var(--highlight-blue) solid;
+    border-bottom: 0.15em var(--highlight-blue) solid;
 }
 
 .log-out {

@@ -395,7 +395,7 @@ def get_title_providers(
     get_country = Country.objects.get(name=get_profile.country)
     if get_country.country_iso in result:
         if 'flatrate' in result[get_country.country_iso]:
-            for each_stream in result[get_count.country_iso]['flatrate']:
+            for each_stream in result[get_country.country_iso]['flatrate']:
                 stream_instance(each_stream, get_title)
         if 'rent' in result[get_country.country_iso]:
             for each_stream in result[get_country.country_iso]['rent']:

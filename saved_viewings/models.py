@@ -56,7 +56,9 @@ class Actor(models.Model):
 
 
 class Director(models.Model):
-    director_id = models.CharField(primary_key=True, unique=True, max_length=50)
+    director_id = models.CharField(
+        primary_key=True, unique=True, max_length=50
+        )
     person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     titles = models.ManyToManyField(
         MovieOrShow, related_name="directors"
@@ -66,19 +68,18 @@ class Director(models.Model):
 class Creator(models.Model):
     creator_id = models.CharField(primary_key=True, unique=True, max_length=50)
     person_id = models.ForeignKey(Person, on_delete=models.CASCADE)
-    titles =  models.ManyToManyField(
+    titles = models.ManyToManyField(
         MovieOrShow, related_name="creators"
     )
 
-    
+
 class StreamingService(models.Model):
     provider_id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     logo_path = models.CharField(max_length=200, null=True, blank=True)
-    of_title =  models.ManyToManyField(
+    of_title = models.ManyToManyField(
         MovieOrShow, related_name="streaming_services"
     )
 
     def __str__(self):
         return self.name
-    
