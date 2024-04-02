@@ -1,20 +1,44 @@
 # Testing and Validation
 
-## Contents
+## Python Validation
 
-[Code Validation](#code-validation)
+Each individual pythoon file created or edited by me has been passed through the [CI Python Linter](https://pep8ci.herokuapp.com/).
 
-[User Story Testing](#user-story-testing)
+| App/folder | Python file | Result |
+| --- | --- | --- |
+| movie-roulette | settings.py | Four errors |
+| | urls.py | PASS | 
+| About | urls.py | PASS |
+| | admin.py | PASS | 
+| | models.py | PASS |
+| | forms.py | PASS |
+| | views.py | PASS |
+| Accounts | urls.py | PASS | 
+| | views.py | PASS | 
+| Releases | urls.py | PASS |
+| | views.py | PASS |
+| Roulette | urls.py | PASS | |
+| | forms.py | PASS |
+| | views.py | PASS |
+| Saved_viewings | urls.py | PASS |
+| | admin.py | PASS | 
+| | models.py | PASS |
+| | forms.py | PASS |
+| | views.py | PASS |
+| Search | urls.py | PASS | 
+| | forms.py | PASS |
+| | views.py | PASS |
 
-[Form validation Testing](#form-validation-testing)
+Validation issues in settings file
+![Settigs validation issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/f0215e61-b1fe-4ebb-b37f-937a3c0dba18)
 
-[Accessibility Testing](#accessibility-testing)
+## CSS validation
 
-[Lighthouse](#lighthouse)
+No errors
+![CSS validation](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/906f3ef8-e2ce-44c5-8b1b-a42368b1397c)
 
-[Responsive Testing](#responsive-testing)
+## Javascript validation
 
-[Compatibility Testing](#compatibility-testing)
-
-## Code Validation
+No issues
+![image](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/bee6e36e-3faa-413e-950b-bea3c1421870)
 
