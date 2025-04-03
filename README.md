@@ -331,7 +331,7 @@ Accessed through menu.
 
 ![Wireframes for a Sign Up Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/583514a9-d674-47d6-ad86-07b55e05a0d3)
 
-<details>
+</details>
 
 <details>
 <summary>
@@ -377,8 +377,6 @@ Roulette Page
 Can be accessed via the menu.
 
 ![Wireframes for a Roulette Page](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/eb63da99-8621-4a38-8606-9753c4ff3789)
-
-</details>
 
 </details>
 
@@ -551,7 +549,7 @@ Open Issues
 
 ![Iteration II open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/eeaf4543-ddea-415a-9a52-8983ef2e71c5)
 
-<details>
+</details>
 
 ### Iteration III
 
@@ -562,7 +560,7 @@ Closed Issues
 
 ![Iteration III closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/8ddf23f1-3a77-45b8-b781-2120c9720d4a)
 
-<details>
+</details>
 
 <details>
 <summary>
@@ -571,7 +569,7 @@ Open Issues
 
 ![Iteration III open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/735e1029-f0c8-4c0a-a19c-00ef5c23c92f)
 
-<details>
+</details>
 
 ### Iteration IV
 
@@ -582,7 +580,7 @@ Closed Issues
 
 ![Iteration IV closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/c1c121de-9780-445a-b30f-e30bffe1b073)
 
-<details>
+</details>
 
 <details>
 <summary>
@@ -591,7 +589,7 @@ Open Issues
 
 ![Iteration IV open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/86718e8f-98c8-47b7-ba28-05f3ec29cdeb)
 
-<details>
+</details>
 
 ### Iteration V
 
@@ -602,7 +600,7 @@ Closed Issues
 
 ![Iteration V closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/ce3a3ea5-a571-4af9-a612-5ecdd9519063)
 
-<details>
+</details>
 
 <details>
 <summary>
@@ -611,7 +609,7 @@ Open Issues
 
 ![Iteration V open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/89704025-31d3-4e6d-899c-02af1b4d7a35)
 
-<details>
+</details>
 
 #### MoSCoW Prioritisation
 
