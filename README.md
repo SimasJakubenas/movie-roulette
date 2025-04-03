@@ -520,7 +520,7 @@ Closed Issues
 
 ![Iteration I closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/5da266c0-ef80-4412-b1e4-b2c015b66a07)
 
-<details>
+</details>
 
 <details>
 <summary>
@@ -529,7 +529,7 @@ Open Issues
 
 ![Iteration I open issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/ea3e325f-565a-4425-800c-4928e1dc5e37)
 
-<details>
+</details>
 
 ### Iteration II
 
@@ -540,7 +540,7 @@ Closed Issues
 
 ![Iteration II closed issues](https://github.com/SimasJakubenas/movie-roulette/assets/138577499/90104c9b-be6f-4ef6-9104-9573cc47577f)
 
-<details>
+</details>
 
 <details>
 <summary>
